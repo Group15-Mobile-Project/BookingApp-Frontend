@@ -92,7 +92,7 @@ export const getHomesByHomeIdAction = (homeId: number) => async (dispatch: Dispa
 }
 export const getHomesBySearchQueryAction = (city: string, startDay: string, closeDay: string, capacity: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
-        const res = await axios.get(HOST_URL + `/api/homes/search?city=${city}&startDay=${startDay}&closeDay=${closeDay}&capacity=${capacity}`);
+        const res = await axios.get(HOST_URL + `/api/homes/search?city=${city.toLowerCase()}&startDay=${startDay}&closeDay=${closeDay}&capacity=${capacity}`);
         const data = await res.data
         console.log(data)
         dispatch({

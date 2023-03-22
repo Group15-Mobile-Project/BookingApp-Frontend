@@ -10,7 +10,7 @@ import HomeReducer from './Reducers/HomeReducer';
 import HostReducer from './Reducers/HostReducer';
 import UserReducer from './Reducers/UserReducer';
 
-export const HOST_URL= "http://192.168.0.104:8080";
+export const HOST_URL= "http://192.168.0.105:8080";
 // export const HOST_URL= "http://10.0.2.2:8080";
 const initialState= {};
 

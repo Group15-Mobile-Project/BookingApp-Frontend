@@ -24,6 +24,7 @@
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-native": "0.71.4",
+    "react-native-calendars": "^1.1294.0",
     "react-native-image-picker": "^5.3.1",
     "react-native-pager-view": "^6.1.4",
     "react-native-reanimated": "^3.0.2",
@@ -35,7 +36,8 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "tailwind-rn": "^4.2.0"
+    "tailwind-rn": "^4.2.0",
+    "xdate": "^0.8.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

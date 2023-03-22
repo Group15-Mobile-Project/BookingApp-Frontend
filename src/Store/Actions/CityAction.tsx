@@ -90,3 +90,18 @@ export const getCitiesBySearchQueryAction= (query: string) => async (dispatch: D
         });
     }
 }
+
+export const clearCitiesAction = () =>  (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+      
+        dispatch({
+            type: "clear_cities"
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "home_error",
+            payload: err
+        });
+    }
+}

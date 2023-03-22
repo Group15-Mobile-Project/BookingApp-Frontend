@@ -40,7 +40,13 @@ export default (state: declaredStateCity = initialState, action: ACTION) => {
                 ...state,
                 cities: action.payload,
                 citySuccess: true
-            }             
+            }    
+        case "clear_cities":
+            return {
+                ...state,
+                cities: [],
+                citySuccess: true
+            }          
         case "city_error":
             return {
                 ...state,
