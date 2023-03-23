@@ -18,6 +18,7 @@ import SearchCalendar from '../Component/SearchCalendar';
 import { Modal } from 'react-native';
 import { Button } from '@rneui/base';
 import { getHomesBySearchQueryAction } from '../Store/Actions/HomeAction';
+import { Alert } from 'react-native';
 
 const HomeSearchScreen = () => {
     const [query, setQuery] = useState<string>("");
@@ -74,7 +75,11 @@ const HomeSearchScreen = () => {
         dispatch(clearCitiesAction() as any)
     }
     const searchSubmit = () => {
-        navigation.navigate("SearchResultScreen", {citySearch, checkIn, checkOut, capacity})
+        if(citySearch && checkIn && checkOut && capacity) {
+            navigation.navigate("SearchResultScreen", {citySearch, checkIn, checkOut, capacity})
+        } else {
+            Alert.alert("please fill all information required");
+        }   
     }
 
   return (

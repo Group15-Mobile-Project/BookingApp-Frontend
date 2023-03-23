@@ -1,4 +1,4 @@
-import { FlatList, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { FlatList, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, useWindowDimensions, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHomesBySearchQueryAction } from '../Store/Actions/HomeAction';
 import HomeCardMain from '../Component/HomeCardMain';
 import { HOME } from '../Model';
+import Entypo from 'react-native-vector-icons/Entypo'
 
 type SearchResultRouteProp = RouteProp<RootStackParamList, "SearchResultScreen">
 
@@ -22,6 +23,7 @@ const SearchResultScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
     const {params} = useRoute<SearchResultRouteProp>()
     const {capacity, checkIn, checkOut, citySearch} = params;
+    const windownWith = useWindowDimensions().width;
 
     const loadHomesBySearchQuery = useCallback(async () => {
         setIsRefreshing(true);
@@ -37,8 +39,11 @@ const SearchResultScreen = () => {
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: HOME}) => (
         <HomeCardMain item={item}></HomeCardMain>
     )
+    const navigateToMapHome = () => {
+        navigation.navigate("MapHomes")
+    }
   return (
-    <SafeAreaView style={tw('flex-1 bg-white')}>
+    <SafeAreaView style={tw('flex-1 bg-white relative')}>
         <FlatList
             refreshing={isRefreshing}
             onRefresh={loadHomesBySearchQuery}
@@ -48,6 +53,9 @@ const SearchResultScreen = () => {
             showsVerticalScrollIndicator={false}
         >
         </FlatList>
+        <TouchableOpacity onPress={navigateToMapHome}  style={[tw('mx-2 absolute bottom-4 bg-white p-2 rounded-full'), {zIndex: 10, left: windownWith/2 - 30}]}>
+            <Entypo name="map" size={28} color="black" />
+        </TouchableOpacity>
     </SafeAreaView>
   )
 }

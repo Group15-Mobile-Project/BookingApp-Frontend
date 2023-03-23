@@ -29,6 +29,11 @@
 			"bottom": 0
 		}
 	},
+	"bottom-4": {
+		"style": {
+			"bottom": 16
+		}
+	},
 	"left-0": {
 		"style": {
 			"left": 0
@@ -287,6 +292,14 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(63 63 70 / var(--tw-bg-opacity))"
+		}
+	},
+	"p-2": {
+		"style": {
+			"paddingTop": 8,
+			"paddingRight": 8,
+			"paddingBottom": 8,
+			"paddingLeft": 8
 		}
 	},
 	"px-2": {

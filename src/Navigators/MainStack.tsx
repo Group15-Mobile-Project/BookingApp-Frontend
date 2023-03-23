@@ -8,6 +8,7 @@ import RoleScreen from '../Screens/RoleScreen';
 import MainHomes from '../Screens/MainHomes';
 import HomeSearchScreen from '../Screens/HomeSearchScreen';
 import SearchResultScreen from '../Screens/SearchResultScreen';
+import MapHomes from '../Screens/MapHomes';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -21,7 +22,8 @@ export type RootStackParamList = {
       checkIn: string,
       checkOut: string,
       capacity: number
-    }
+    },
+    MapHomes: undefined
    };
 const stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -35,6 +37,7 @@ const MainStack = () => {
         <stack.Screen component={MainHomes} options={{headerShown: false}} name="MainHomes"></stack.Screen>
         <stack.Screen component={HomeSearchScreen}  options={{headerShown: false}} name="HomeSearchScreen"></stack.Screen>
         <stack.Screen component={SearchResultScreen}  options={{headerShown: false}} name="SearchResultScreen"></stack.Screen>
+        <stack.Screen component={MapHomes} options={{title: "Back"}} name="MapHomes"></stack.Screen>
     </stack.Navigator>
   )
 }

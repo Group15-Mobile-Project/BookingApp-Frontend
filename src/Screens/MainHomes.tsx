@@ -15,6 +15,7 @@ import { getHomesAction, getHomesByCategoryAction } from '../Store/Actions/HomeA
 import { getCategoriesAction } from '../Store/Actions/CategoryAction';
 import HomeCategoryCard from '../Component/HomeCategoryCard';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useWindowDimensions } from 'react-native';
 
 
 
@@ -22,13 +23,13 @@ const MainHomes = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
     const [categoryIndex, setCategoryIndex] = useState<number>(1);
-    const [query, setQuery] = useState<string>("");
     const tw = useTailwind()
     const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
     const {homes, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
     const {category, categories, categorySuccess, categoryError} = useSelector((state: RootState) => state.CATEGORIES)
     const dispatch = useDispatch()
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()   
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const windownWith = useWindowDimensions().width;
     const handleGetHomes = useCallback(async () => {
         setIsRefreshing(true)
         await dispatch(getHomesByCategoryAction(categoryIndex) as any)
@@ -60,10 +61,14 @@ const MainHomes = () => {
         navigation.navigate("HomeSearchScreen")
     }
 
+    const navigateToMapHome = () => {
+        navigation.navigate("MapHomes")
+    }
+
   return (
 //    <KeyboardAvoidingView style={tw('flex-1')}>
 //     <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>
-        <SafeAreaView style={tw('flex-1 bg-white')}> 
+        <SafeAreaView style={tw('flex-1 bg-white relative')}> 
             <View style={[tw('relative px-2 mt-2')]}>
                 <Button onPress={navigateToSearchScreen}  buttonStyle={tw('rounded-full py-2 text-lg pl-12 bg-gray-100 text-black')} title="Search" titleStyle={tw('text-black')}></Button>
                 <TouchableOpacity  style={tw('mx-2 absolute top-2 left-2')}>
@@ -91,7 +96,9 @@ const MainHomes = () => {
                 showsVerticalScrollIndicator={false}
                 >
             </FlatList>
-           
+            <TouchableOpacity onPress={navigateToMapHome}  style={[tw('mx-2 absolute bottom-4 bg-white p-2 rounded-full'), {zIndex: 10, left: windownWith/2 - 30}]}>
+                <Entypo name="map" size={28} color="black" />
+            </TouchableOpacity>
         </SafeAreaView>
 //     </TouchableWithoutFeedback>
 //    </KeyboardAvoidingView>

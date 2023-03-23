@@ -186,3 +186,30 @@ export interface declaredStateHost {
     hostError: boolean,
     message: string | null
 }
+
+export interface HOMEREVIEW {
+    id: number,
+    content: string,
+    rating: number,
+    home: HOME,
+    bookingId: number,
+    user: USER,
+    createDate: string,
+    updateDate: string
+}
+
+export interface HOMEREVIEWFORM {
+    content: string,
+    rating: number,
+    homeId: number,
+    bookingId: number,
+    userId: number
+}
+
+export interface declaredStateHomeReview {
+    review: HOMEREVIEW | {},
+    reviews: HOMEREVIEW[],
+    reviewSuccess: boolean,
+    reviewError: boolean,
+    message: string | null
+}
