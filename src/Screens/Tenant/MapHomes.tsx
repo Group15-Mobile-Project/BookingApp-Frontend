@@ -2,15 +2,15 @@ import { Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, Text, Touch
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RootState } from '../Store/store';
-import { RootStackParamList } from '../Navigators/MainStack';
+import { RootState } from '../../Store/store';
+import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker, PROVIDER_GOOGLE }  from 'react-native-maps';
-import CustomeMapMarker from '../Component/CustomeMapMarker';
-import { HOME } from '../Model';
-import MapHomeCard from '../Component/MapHomeCard';
+import CustomeMapMarker from '../../Component/CustomeMapMarker';
+import { HOME } from '../../Model';
+import MapHomeCard from '../../Component/MapHomeCard';
 import { FlatList } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 

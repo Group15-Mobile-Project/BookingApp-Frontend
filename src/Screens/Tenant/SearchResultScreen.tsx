@@ -2,14 +2,14 @@ import { FlatList, Keyboard, KeyboardAvoidingView, ListRenderItem, StyleSheet, T
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { RootState } from '../Store/store';
-import { RootStackParamList } from '../Navigators/MainStack';
+import { RootState } from '../../Store/store';
+import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHomesBySearchQueryAction } from '../Store/Actions/HomeAction';
-import HomeCardMain from '../Component/HomeCardMain';
-import { HOME } from '../Model';
+import { getHomesBySearchQueryAction } from '../../Store/Actions/HomeAction';
+import HomeCardMain from '../../Component/HomeCardMain';
+import { HOME } from '../../Model';
 import Entypo from 'react-native-vector-icons/Entypo'
 
 type SearchResultRouteProp = RouteProp<RootStackParamList, "SearchResultScreen">

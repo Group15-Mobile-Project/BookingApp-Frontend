@@ -1,4 +1,4 @@
-import { FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ListRenderItem, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { HOME } from '../Model'
 import { useTailwind } from 'tailwind-rn/dist'
@@ -6,6 +6,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
 import { HOST_URL } from '../Store/store';
 import HomeCardDots from './HomeCardDots';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../Navigators/MainStack';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -19,7 +22,9 @@ const HomeCardMain = ({item}: {item: HOME}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [like, setLike] = useState<boolean>(false)  
   const tw = useTailwind()
-  const windownWith = useWindowDimensions().width - 40
+  const windownWith = useWindowDimensions().width - 40;
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 
   const handleRenderItem: ListRenderItem<any> = ({item}) => (
     <Image source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 400, resizeMode: 'cover'}]}></Image>       
@@ -37,7 +42,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
   }
 
   return (
-    <View style={tw('relative w-full my-2 px-4 items-center justify-center')}>
+    <Pressable onPress={() => navigation.navigate("DetailHomeScreen", {homeId: item.id})} style={tw('relative w-full my-2 px-4 items-center justify-center')}>
       <TouchableOpacity onPress={likeHome} style={[tw('absolute top-2 right-8'), {zIndex: 10}]}>
         {!like ? (
           <Entypo name="heart-outlined" size={28} color="white" />
@@ -73,7 +78,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
           {/* {item.rating && <Text>{item.rating}</Text>} */}
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

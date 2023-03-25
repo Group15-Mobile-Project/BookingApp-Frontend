@@ -4,16 +4,16 @@ import { useTailwind } from 'tailwind-rn/dist'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
-import {  ResetUser, updateToHostAction } from '../Store/Actions/UserAction';
-import { RootState } from '../Store/store';
+import {  ResetUser, updateToHostAction } from '../../Store/Actions/UserAction';
+import { RootState } from '../../Store/store';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../Navigators/MainStack';
-import { CATEGORY, HOME } from '../Model';
-import HomeCardMain from '../Component/HomeCardMain';
-import { getHomesAction, getHomesByCategoryAction } from '../Store/Actions/HomeAction';
-import { getCategoriesAction } from '../Store/Actions/CategoryAction';
-import HomeCategoryCard from '../Component/HomeCategoryCard';
+import { RootStackParamList } from '../../Navigators/MainStack';
+import { CATEGORY, HOME } from '../../Model';
+import HomeCardMain from '../../Component/HomeCardMain';
+import { getHomesAction, getHomesByCategoryAction } from '../../Store/Actions/HomeAction';
+import { getCategoriesAction } from '../../Store/Actions/CategoryAction';
+import HomeCategoryCard from '../../Component/HomeCategoryCard';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
 

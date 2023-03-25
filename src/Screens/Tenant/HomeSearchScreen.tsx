@@ -6,18 +6,18 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCitiesAction, getCitiesBySearchQueryAction } from '../Store/Actions/CityAction';
-import { CITY } from '../Model';
+import { clearCitiesAction, getCitiesBySearchQueryAction } from '../../Store/Actions/CityAction';
+import { CITY } from '../../Model';
 import { FlatList } from 'react-native';
-import { RootState } from '../Store/store';
-import { RootStackParamList } from '../Navigators/MainStack';
+import { RootState } from '../../Store/store';
+import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import IncreaseDecreaseNumber from '../Component/IncreaseDecreaseNumber';
-import SearchCalendar from '../Component/SearchCalendar';
+import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
+import SearchCalendar from '../../Component/SearchCalendar';
 import { Modal } from 'react-native';
 import { Button } from '@rneui/base';
-import { getHomesBySearchQueryAction } from '../Store/Actions/HomeAction';
+import { getHomesBySearchQueryAction } from '../../Store/Actions/HomeAction';
 import { Alert } from 'react-native';
 
 const HomeSearchScreen = () => {
@@ -96,7 +96,7 @@ const HomeSearchScreen = () => {
         </View>
         {showPlace && (
             <View style={[tw('w-full')]}>
-                 <View style={[tw('relative w-full my-2')]}>
+                <View style={[tw('relative w-full my-2')]}>
                     <TextInput style={tw('rounded-full border border-gray-400 py-2 text-lg pl-12 bg-white text-black')} placeholder='search cities' value={query} onChangeText={(text: string) =>setQuery(text)}></TextInput>
                     <TouchableOpacity  style={tw('mx-2 absolute top-2 left-0')}>
                         <Entypo name="magnifying-glass" size={28} color="black" />

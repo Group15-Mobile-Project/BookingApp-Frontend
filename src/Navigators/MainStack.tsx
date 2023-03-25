@@ -5,10 +5,12 @@ import LoginScreen from '../Screens/LoginScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import ChangePassword from '../Screens/ChangePassword';
 import RoleScreen from '../Screens/RoleScreen';
-import MainHomes from '../Screens/MainHomes';
-import HomeSearchScreen from '../Screens/HomeSearchScreen';
-import SearchResultScreen from '../Screens/SearchResultScreen';
-import MapHomes from '../Screens/MapHomes';
+import MainHomes from '../Screens/Tenant/MainHomes';
+import HomeSearchScreen from '../Screens/Tenant/HomeSearchScreen';
+import SearchResultScreen from '../Screens/Tenant/SearchResultScreen';
+import MapHomes from '../Screens/Tenant/MapHomes';
+import DetailHomeScreen from '../Screens/Tenant/DetailHomeScreen';
+import HomeReviewList from '../Screens/Tenant/HomeReviewList';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -23,9 +25,15 @@ export type RootStackParamList = {
       checkOut: string,
       capacity: number
     },
-    MapHomes: undefined
+    MapHomes: undefined,
+    DetailHomeScreen: {
+      homeId: number
+    },
+    HomeReviewList: {
+      homeId: number
+    }
    };
-const stack = createNativeStackNavigator<RootStackParamList>()
+const stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
@@ -38,6 +46,8 @@ const MainStack = () => {
         <stack.Screen component={HomeSearchScreen}  options={{headerShown: false}} name="HomeSearchScreen"></stack.Screen>
         <stack.Screen component={SearchResultScreen}  options={{headerShown: false}} name="SearchResultScreen"></stack.Screen>
         <stack.Screen component={MapHomes} options={{title: "Back"}} name="MapHomes"></stack.Screen>
+        <stack.Screen component={DetailHomeScreen} options={{headerShown: false}} name="DetailHomeScreen"></stack.Screen>
+        <stack.Screen component={HomeReviewList} options={{title: "back"}} name="HomeReviewList"></stack.Screen>
     </stack.Navigator>
   )
 }

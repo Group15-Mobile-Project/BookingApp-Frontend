@@ -41,6 +41,7 @@ const LoginScreen = () => {
     
 
     const submitFunction = async () => {
+        console.log("login")
         if(username && username.length > 0 && password && password.length > 0) {
            await  dispatch(login({username, password}) as any)
             console.log(username + " : " + password)

@@ -3,14 +3,17 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
+import BookDateReducer from './Reducers/BookDateReducer';
 import CategoryReducer from './Reducers/CategoryReducer';
 import CityReducer from './Reducers/CityReducer';
 import CountryReducer from './Reducers/CountryReducer';
 import HomeReducer from './Reducers/HomeReducer';
+import HomeReviewReducer from './Reducers/HomeReviewReducer';
 import HostReducer from './Reducers/HostReducer';
 import UserReducer from './Reducers/UserReducer';
+import WishlistReducer from './Reducers/WishlistReducer';
 
-export const HOST_URL= "http://192.168.0.105:8080";
+export const HOST_URL= "http://100.76.188.137:8080";
 // export const HOST_URL= "http://10.0.2.2:8080";
 const initialState= {};
 
@@ -20,8 +23,10 @@ const rootReducer = combineReducers({
     HOSTS: HostReducer,
     CITIES: CityReducer,
     COUNTRIES: CountryReducer,
-    CATEGORIES: CategoryReducer
-   
+    CATEGORIES: CategoryReducer,
+    HOMEREVIEWS: HomeReviewReducer,
+    WISHLISTS: WishlistReducer,
+    BOOKDATES: BookDateReducer
 });
 
 const middleware = [thunk];

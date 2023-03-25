@@ -213,3 +213,31 @@ export interface declaredStateHomeReview {
     reviewError: boolean,
     message: string | null
 }
+
+export interface WISHLIST {
+    id: number,
+    user: USER,
+    homeResponse: HOME
+}
+
+export interface declaredStateWishlist {
+    wishlist: WISHLIST | {},
+    wishlists: WISHLIST[],
+    wishlistSuccess: boolean,
+    wishlistError: boolean,
+    message: string | null
+}
+
+export interface BOOKDATE {
+    id: number,
+    homeId: number,
+    date: string
+}
+
+export interface declaredStateBookDate {
+    bookdate: BOOKDATE | {},
+    bookdates: BOOKDATE[] | [],
+    bookdateSuccess: boolean,
+    bookdateError: boolean,
+    message: string | null
+}
