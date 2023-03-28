@@ -79,6 +79,21 @@ export interface DISCOUNT {
     homeId: number
 }
 
+export interface DISCOUNTFORM {
+    openDate: string,
+    closeDate: string,
+    discountRate: number,
+    homeId: number
+}
+
+export interface DeclaredStateDiscount {
+    discount: DISCOUNT | {},
+    discounts: DISCOUNT[] | [],
+    discountSuccess: boolean,
+    discountError: boolean,
+    message: string | null
+}
+
 export interface HOME {
     id: number,
     openBooking: string,
@@ -240,4 +255,78 @@ export interface declaredStateBookDate {
     bookdateSuccess: boolean,
     bookdateError: boolean,
     message: string | null
+}
+
+export interface BOOKING {
+    id: number,
+    bookingCode: string,
+    guests: number,
+    days: number,
+    totalPrice: number,
+    checkInDate: string,
+    checkOutDate: string,
+    discountRate: number | null,
+    home: HOME,
+    tenant: USER,
+    createDate: string,
+    updateDate: string,
+    priceAfterDiscount: number,
+    status: string,
+    paid: boolean
+}
+
+export interface BOOKINGFORM {
+    guests: number,
+    days: number,
+    totalPrice: number,
+    checkInDate: string,
+    checkOutDate: string,
+    homeId: number,
+    priceAfterDiscount: number
+}
+
+export interface declaredStateBooking {
+    booking: BOOKING | {},
+    bookings: BOOKING[] | [],
+    bookingSuccess: boolean,
+    bookingError: boolean,
+    message: string | null,
+    countDiscount: CountDiscount | null
+}
+
+export interface TENANTREVIEW {
+    id: number,
+    content: string,
+    rating: number,
+    tenant: USER,
+    host: HOST,
+    home: HOME,
+    bookingId: number,
+    createDate: string,
+    updateDate: string
+}
+
+export interface TenantReviewForm {
+    content: string,
+    rating: number,
+    tenantId: number,
+    homeId: number,
+    bookingId: number,
+}
+
+export interface declaredStateTenantReview {
+    tenantReview: TENANTREVIEW | {},
+    tenantReviews: TENANTREVIEW[] | [],
+    tenantReviewSuccess: boolean,
+    tenantReviewError: boolean,
+    message: string | null
+}
+
+export interface CountDiscount {
+    discountPrice: number,
+    priceAfterDiscount: number,
+    totalPrice: number,
+    homeId: number,
+    checkIn: string,
+    checkOut: string
 }

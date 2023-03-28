@@ -11,6 +11,7 @@ import SearchResultScreen from '../Screens/Tenant/SearchResultScreen';
 import MapHomes from '../Screens/Tenant/MapHomes';
 import DetailHomeScreen from '../Screens/Tenant/DetailHomeScreen';
 import HomeReviewList from '../Screens/Tenant/HomeReviewList';
+import BookingScreen from '../Screens/Tenant/BookingScreen';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -31,6 +32,11 @@ export type RootStackParamList = {
     },
     HomeReviewList: {
       homeId: number
+    },
+    BookingScreen: {
+      homeId: number,
+      checkIn: string,
+      checkOut: string
     }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
@@ -48,6 +54,7 @@ const MainStack = () => {
         <stack.Screen component={MapHomes} options={{title: "Back"}} name="MapHomes"></stack.Screen>
         <stack.Screen component={DetailHomeScreen} options={{headerShown: false}} name="DetailHomeScreen"></stack.Screen>
         <stack.Screen component={HomeReviewList} options={{title: "back"}} name="HomeReviewList"></stack.Screen>
+        <stack.Screen component={BookingScreen} options={{title: "confirm"}} name="BookingScreen"></stack.Screen>
     </stack.Navigator>
   )
 }

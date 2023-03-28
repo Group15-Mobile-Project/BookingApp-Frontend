@@ -39,6 +39,7 @@ const DetailHomeScreen = () => {
     const [isBookingDiscount, setIsBookingDiscount] = useState<boolean>(false);
     const [closeDate, setCloseDate] = useState<Date | null>(null);
     const [activeIndex, setActiveIndex] = useState<number>(0);
+    const [guests, setGuests] = useState<number>(2);
     const [like, setLike] = useState<boolean>(false);
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [checkin, setCheckin] = useState<string | null>(null);
@@ -140,6 +141,12 @@ const DetailHomeScreen = () => {
 
     const OpenModalCalendar = () => {
         setIsVisible(true)
+    }
+
+    const navigateToBookingScreen = () => {
+        if(checkin && checkout) {
+            navigation.navigate("BookingScreen", {homeId: homeId, checkIn: checkin, checkOut: checkout});
+        }
     }
 
   return (
@@ -261,6 +268,17 @@ const DetailHomeScreen = () => {
                 </View>
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
+            <View style={tw('w-full my-2 px-4')}>
+                <View style={tw('w-full flex-row items-center justify-between ')}>
+                    <View style={tw('items-start justify-start w-full flex-1')}> 
+                        <Text style={tw('text-2xl font-bold text-black')}>number of guests</Text>
+                    </View>
+                    <TouchableOpacity onPress={OpenModalCalendar} style={tw('')}>
+                        <AntDesign name="right" size={28} color="black" /> 
+                    </TouchableOpacity>
+                </View>
+                <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
+            </View>
             <View style={tw('w-full my-2 px-4')}>   
                 <Text style={tw('text-2xl font-bold text-black')}>House Rules</Text>
                 <Text style={tw('text-lg mt-4')}> check in after 12:00</Text>
@@ -304,7 +322,7 @@ const DetailHomeScreen = () => {
                     )}
                 </>
             )}
-            <Button   title="Reserve" buttonStyle={tw('w-20 h-12 rounded-lg bg-zinc-700')} titleStyle={tw('text-white font-bold')} ></Button>
+            <Button onPress={navigateToBookingScreen}  title="Reserve" buttonStyle={tw('w-20 h-12 rounded-lg bg-zinc-700')} titleStyle={tw('text-white font-bold')} ></Button>
         </View>
     </View>
   )
