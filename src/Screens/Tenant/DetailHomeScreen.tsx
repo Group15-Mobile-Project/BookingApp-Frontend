@@ -24,6 +24,7 @@ import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
 import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
 import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 import { Button } from '@rneui/base';
+import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 
 type DetailHomeProp = RouteProp<RootStackParamList, "DetailHomeScreen">;
 const imageDefault =[
@@ -44,6 +45,7 @@ const DetailHomeScreen = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [checkin, setCheckin] = useState<string | null>(null);
     const [checkout, setCheckout] = useState<string | null>(null); 
+    const [capacity, setCapacity] = useState<number>(2);
     const tw = useTailwind()
     const windownWith = useWindowDimensions().width;
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
@@ -144,8 +146,8 @@ const DetailHomeScreen = () => {
     }
 
     const navigateToBookingScreen = () => {
-        if(checkin && checkout) {
-            navigation.navigate("BookingScreen", {homeId: homeId, checkIn: checkin, checkOut: checkout});
+        if(checkin && checkout && capacity) {
+            navigation.navigate("BookingScreen", {homeId: homeId, checkIn: checkin, checkOut: checkout, capacity: capacity});
         }
     }
 
@@ -271,11 +273,9 @@ const DetailHomeScreen = () => {
             <View style={tw('w-full my-2 px-4')}>
                 <View style={tw('w-full flex-row items-center justify-between ')}>
                     <View style={tw('items-start justify-start w-full flex-1')}> 
-                        <Text style={tw('text-2xl font-bold text-black')}>number of guests</Text>
+                        <Text style={tw('text-2xl font-bold text-black')}>Guests</Text>
                     </View>
-                    <TouchableOpacity onPress={OpenModalCalendar} style={tw('')}>
-                        <AntDesign name="right" size={28} color="black" /> 
-                    </TouchableOpacity>
+                    <IncreaseDecreaseNumber currentNum={capacity} setCurrentNum={setCapacity}></IncreaseDecreaseNumber>
                 </View>
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>

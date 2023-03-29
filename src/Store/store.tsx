@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
 import BookDateReducer from './Reducers/BookDateReducer';
+import BookingReducer from './Reducers/BookingReducer';
 import CategoryReducer from './Reducers/CategoryReducer';
 import CityReducer from './Reducers/CityReducer';
 import CountryReducer from './Reducers/CountryReducer';
@@ -14,7 +15,7 @@ import HostReducer from './Reducers/HostReducer';
 import UserReducer from './Reducers/UserReducer';
 import WishlistReducer from './Reducers/WishlistReducer';
 
-export const HOST_URL= "http://192.168.0.102:8080";
+export const HOST_URL= "http://192.168.0.104:8080";
 // export const HOST_URL= "http://10.0.2.2:8080";
 const initialState= {};
 
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     HOMEREVIEWS: HomeReviewReducer,
     WISHLISTS: WishlistReducer,
     BOOKDATES: BookDateReducer,
-    DISCOUNTS: DiscountReducer
+    DISCOUNTS: DiscountReducer,
+    BOOKINGS: BookingReducer
 });
 
 const middleware = [thunk];

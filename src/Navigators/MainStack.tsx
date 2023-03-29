@@ -36,7 +36,8 @@ export type RootStackParamList = {
     BookingScreen: {
       homeId: number,
       checkIn: string,
-      checkOut: string
+      checkOut: string,
+      capacity: number
     }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();

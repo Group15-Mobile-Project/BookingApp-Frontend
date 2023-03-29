@@ -1,4 +1,4 @@
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootState } from '../../Store/store';
@@ -10,8 +10,13 @@ import { getHomesByHomeIdAction } from '../../Store/Actions/HomeAction';
 import { ListRenderItem } from 'react-native';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist'
-import Entypo from 'react-native-vector-icons/Entypo';
 import { getCountDiscountAction } from '../../Store/Actions/BookingAction';
+import BookingHomeCard from '../../Component/BookingHomeCard';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
+import BookingGuestModal from '../../Component/BookingGuestModal';
+import { Button } from '@rneui/base';
 
 type DetailHomeProp = RouteProp<RootStackParamList, "BookingScreen">;
 const imageDefault =[
@@ -22,15 +27,21 @@ const imageDefault =[
 
 
 const BookingScreen = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [isGuestVisible, setIsGuestVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [checkin, setCheckin] = useState<string | null>(null);
+    const [checkout, setCheckout] = useState<string | null>(null);
+    const [guests, setGuests] = useState<number>(2);
     const [isBookingDiscount, setIsBookingDiscount] = useState<boolean>(false);
     const tw = useTailwind()
     const windownWith = useWindowDimensions().width;
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
     const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS)
+    const {booking, bookings, bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS)
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
     const {params} = useRoute<DetailHomeProp>();
-    const {homeId, checkIn, checkOut}= params;
+    const {homeId, checkIn, checkOut, capacity}= params;
     const dispatch = useDispatch()
     const currentDate = new Date();
 
@@ -41,14 +52,76 @@ const BookingScreen = () => {
     }, [homeId, dispatch])
 
     useEffect(() => {
-        setIsLoading(true)
+        setIsLoading(true);
+       if(checkIn && checkOut && capacity) {
+        setCheckin(checkIn);
+        setCheckout(checkOut);
+        setGuests(capacity);
+       }
         loadCountDiscount().then(() => setIsLoading(false))
     }, [homeId, checkIn, checkOut, dispatch])
 
+    const OpenModalCalendar = () => {
+        setIsVisible(true)
+    }
+    const OpenModalGuestNumber = ()  => {
+        setIsGuestVisible(true)
+    }
+
   return (
-    <View>
-      <Text>BookingScreen</Text>
-    </View>
+    <ScrollView style={tw('flex-1 relative')}>
+        {home && <BookingHomeCard item={home}></BookingHomeCard>}
+        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+        <View style={tw('w-full py-2 px-4')}>
+            <Text style={tw('text-2xl font-bold text-black my-2')}>Your Trip</Text>
+            <View style={tw('flex-row items-center justify-between px-2 my-2')}>
+                <View>
+                    <Text style={tw('text-lg font-bold text-black')}>Dates</Text>
+                    <Text style={tw('text-lg')}>{checkin && new Date(checkin).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {checkout && new Date(checkout).toLocaleString('en-us',{ day: 'numeric', month:'short'})} </Text>
+                </View>
+                <TouchableOpacity onPress={OpenModalCalendar} style={tw('')}>
+                    <AntDesign name="edit" size={28} color="gray" /> 
+                </TouchableOpacity>
+            </View>
+            <View style={tw('flex-row items-center justify-between px-2 my-2')}>
+                <View>
+                    <Text style={tw('text-lg font-bold text-black')}>Guest</Text>
+                    <Text style={tw('text-lg')}>{guests}</Text>
+                </View>
+                <TouchableOpacity onPress={OpenModalGuestNumber} style={tw('')}>
+                    <AntDesign name="edit" size={28} color="gray" /> 
+                </TouchableOpacity>
+            </View>
+        </View>
+        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+        <View style={tw('w-full py-2 px-4')}>
+            <Text style={tw('text-2xl font-bold text-black my-2')}>Price Details</Text>
+            <View style={tw('flex-row items-center justify-between px-2 my-2')}>
+                <Text style={tw('text-lg')}>£{home?.price} * {countDiscount?.days} nights</Text>                  
+                <Text style={tw('text-lg')}>£{countDiscount?.totalPrice}</Text>  
+            </View>
+            <View style={tw('flex-row items-center justify-between px-2 my-2')}>
+                <Text style={tw('text-lg')}>Discount</Text>                  
+                <Text style={tw('text-lg')}>£{countDiscount?.discountPrice}</Text>  
+            </View>
+            <View style={[tw('w-full bg-gray-300'), {height: 1}]}></View>
+            <View style={tw('flex-row items-center justify-between px-2 my-2')}>
+                <Text style={tw('text-lg')}>Total</Text>                  
+                <Text style={tw('text-lg')}>£{countDiscount?.priceAfterDiscount}</Text>  
+            </View>
+        </View>
+        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+        <View style={tw('w-full flex-row items-center justify-center px-8 my-2')}>
+            <AntDesign name="calendar" size={24} color="#FF5A5F" />                 
+            <Text style={tw('text-lg font-bold text-black ml-6')}>Your reservation won't be confirmed until the host accepts your request within 48 hours</Text>  
+        </View>
+        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+        <Button   title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+        {home && (
+            <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout}></HomeDetailCalendar>
+        )}
+        <BookingGuestModal isVisble={isGuestVisible} setIsVisible={setIsGuestVisible} guests={guests} setGuests={setGuests}></BookingGuestModal>
+    </ScrollView>
   )
 }
 
