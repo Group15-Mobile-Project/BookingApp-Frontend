@@ -6,17 +6,24 @@ import { Button } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
 import {  ResetUser, updateToHostAction } from '../Store/Actions/UserAction';
 import { RootState } from '../Store/store';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../Navigators/MainStack';
+import { HomesStackParamList } from '../Navigators/HomesStack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { TenantBottomTabProps } from '../Navigators/TenantStack';
+
+type RoleScreenNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "RoleScreen">,
+BottomTabNavigationProp<TenantBottomTabProps>>;
 
 const RoleScreen = () => {
     const tw = useTailwind()
     const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    const navigation = useNavigation<RoleScreenNavigationProp>()
     const tenantNavigation = () => {
-        navigation.navigate("MainHomes")
+        navigation.navigate('TenantStack')
     } 
     const hostNavigation = async () => {
         if(authUser.roles.includes("HOST")) {

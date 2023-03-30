@@ -28,7 +28,7 @@ const LoginScreen = () => {
         }
         if(userSuccess && authUser?.roles?.includes("USER") ) {
            
-            navigation.navigate("RoleScreen")
+            navigation.navigate('RoleScreen')
             dispatch(ResetUser() as any)
         }
         if(userError ) {

@@ -5,14 +5,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootState } from '../../Store/store';
 import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHomesBySearchQueryAction } from '../../Store/Actions/HomeAction';
 import HomeCardMain from '../../Component/HomeCardMain';
 import { HOME } from '../../Model';
 import Entypo from 'react-native-vector-icons/Entypo'
+import { HomesStackParamList } from '../../Navigators/HomesStack';
 
-type SearchResultRouteProp = RouteProp<RootStackParamList, "SearchResultScreen">
+
+type SearchResultNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<HomesStackParamList, "SearchResultScreen">,
+NativeStackNavigationProp<RootStackParamList>>;
+
+type SearchResultRouteProp = RouteProp<HomesStackParamList, "SearchResultScreen">
 
 const SearchResultScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,7 +26,7 @@ const SearchResultScreen = () => {
     const tw = useTailwind()
     const dispatch = useDispatch()
     const {homes, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    const navigation = useNavigation<SearchResultNavigationProp>(); 
     const {params} = useRoute<SearchResultRouteProp>()
     const {capacity, checkIn, checkOut, citySearch} = params;
     const windownWith = useWindowDimensions().width;
@@ -40,7 +46,7 @@ const SearchResultScreen = () => {
         <HomeCardMain item={item}></HomeCardMain>
     )
     const navigateToMapHome = () => {
-        navigation.navigate("MapHomes")
+        navigation.navigate('MapHomes')
     }
   return (
     <SafeAreaView style={tw('flex-1 bg-white relative')}>

@@ -21,7 +21,7 @@ const BookingHomeCard = ({item}: {item: HOME}) => {
     const [like, setLike] = useState<boolean>(false)  
     const tw = useTailwind()
     const windownWith = useWindowDimensions().width - 40;
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    // const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
     const likeHome = async () => {
       setLike(!like)

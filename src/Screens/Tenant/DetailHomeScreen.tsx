@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootState } from '../../Store/store';
 import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHomesByHomeIdAction } from '../../Store/Actions/HomeAction';
 import { ListRenderItem } from 'react-native';
@@ -25,8 +25,15 @@ import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
 import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 import { Button } from '@rneui/base';
 import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
+import { HomesStackParamList } from '../../Navigators/HomesStack';
+
+
+type MainHomeNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "DetailHomeScreen">,
+NativeStackNavigationProp<HomesStackParamList>>;
 
 type DetailHomeProp = RouteProp<RootStackParamList, "DetailHomeScreen">;
+
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
     "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
@@ -50,7 +57,7 @@ const DetailHomeScreen = () => {
     const windownWith = useWindowDimensions().width;
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
     const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS)
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    const navigation = useNavigation<MainHomeNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();
     const {homeId}= params;
     const dispatch = useDispatch()
@@ -286,17 +293,16 @@ const DetailHomeScreen = () => {
                 <Text style={tw('text-lg mt-2')}>{home.capacity} guest maximum</Text>        
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
-            <View style={tw('w-full my-2 px-4')}>   
+            <View style={tw('w-full my-2 mb-4  px-4')}>   
                 <Text style={tw('text-2xl font-bold text-black')}>Cancellation polication</Text>
                 <Text style={tw('text-lg mt-4')}>Free of charge for cancellation before 14 days when the reservation starts</Text>
-                <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
         </>}
             { home && (
                 <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout}></HomeDetailCalendar>
             )}
         </ScrollView>
-        <View style={[tw('bg-white flex-row items-center justify-between absolute w-full bottom-0 px-2 py-2'), {zIndex: 10}, styles.shadow]}>  
+        <View style={[tw('bg-white flex-row items-center justify-between  w-full  px-2 py-2'), {zIndex: 10}, styles.shadow]}>  
             {checkin && checkout ? (
                 <View>
                     {isBookingDiscount ? (

@@ -1,14 +1,17 @@
 import { FlatList, Image, ListRenderItem, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useRef, useState } from 'react'
-import { HOME } from '../Model'
+import React, { useEffect, useRef, useState } from 'react'
+import { HOME, WISHLIST } from '../Model'
 import { useTailwind } from 'tailwind-rn/dist'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
-import { HOST_URL } from '../Store/store';
+import { HOST_URL, RootState } from '../Store/store';
 import HomeCardDots from './HomeCardDots';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../Navigators/MainStack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
+import { HomesStackParamList } from '../Navigators/HomesStack';
+import { useDispatch, useSelector } from 'react-redux';
+import { addWishlistAction, deleteWishlistAction } from '../Store/Actions/WishlistAction';
 
 
 
@@ -18,13 +21,21 @@ const imageDefault =[
   "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
 ]
 
+type MainHomeNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<HomesStackParamList, "MainHomes">,
+NativeStackNavigationProp<RootStackParamList>
+>;
+
 const HomeCardMain = ({item}: {item: HOME}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0)
-  const [like, setLike] = useState<boolean>(false)  
+  const [like, setLike] = useState<boolean>(false);
+  const [wishli, setWishli] = useState<WISHLIST  | null>(null);
   const tw = useTailwind()
   const windownWith = useWindowDimensions().width - 40;
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+  const navigation = useNavigation<MainHomeNavigationProp>();
+  const {wishlist, wishlists, wishlistSuccess, wishlistError} = useSelector((state: RootState) => state.WISHLISTS);
+  const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS);
+  const dispatch = useDispatch();
 
   const handleRenderItem: ListRenderItem<any> = ({item}) => (
     <Image source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 400, resizeMode: 'cover'}]}></Image>       
@@ -35,14 +46,37 @@ const HomeCardMain = ({item}: {item: HOME}) => {
         if(viewableItems.length > 0) {
             setActiveIndex(viewableItems[0].index)
         }
-})
+  })
+
+  useEffect(() => {
+    if(wishlists) {
+      const wish = wishlists.find((wi: WISHLIST) => wi.homeResponse.id == item.id);
+      if(wish) {
+        setLike(true);
+        setWishli(wish);
+      } else {
+        setLike(false);
+      }
+    }
+  }, [wishlists, item, authUser])
 
   const likeHome = async () => {
-    setLike(!like)
+    if(!like || !wishli) {
+      console.log("like")
+      setLike(!like);
+      dispatch(addWishlistAction(item.id, authUser.id) as any);
+      
+    }
+    if(like && wishli) {
+      console.log("unlike")
+      setLike(!like);
+      dispatch(deleteWishlistAction(wishli.id) as any);
+      
+    }
   }
 
   return (
-    <Pressable onPress={() => navigation.navigate("DetailHomeScreen", {homeId: item.id})} style={tw('relative w-full my-2 px-4 items-center justify-center')}>
+    <Pressable onPress={() => navigation.navigate('DetailHomeScreen', {homeId: item.id})} style={tw('relative w-full my-2 px-4 items-center justify-center')}>
       <TouchableOpacity onPress={likeHome} style={[tw('absolute top-2 right-8'), {zIndex: 10}]}>
         {!like ? (
           <Entypo name="heart-outlined" size={28} color="white" />

@@ -12,13 +12,18 @@ import { FlatList } from 'react-native';
 import { RootState } from '../../Store/store';
 import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
 import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 import SearchCalendar from '../../Component/SearchCalendar';
 import { Modal } from 'react-native';
 import { Button } from '@rneui/base';
 import { getHomesBySearchQueryAction } from '../../Store/Actions/HomeAction';
 import { Alert } from 'react-native';
+import { HomesStackParamList } from '../../Navigators/HomesStack';
+
+export type MainHomeNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "HomeSearchScreen">,
+NativeStackNavigationProp<HomesStackParamList>>;
 
 const HomeSearchScreen = () => {
     const [query, setQuery] = useState<string>("");
@@ -33,7 +38,8 @@ const HomeSearchScreen = () => {
     const tw = useTailwind()
     const dispatch = useDispatch()
     const {cities, city, citySuccess, cityError} = useSelector((state: RootState) => state.CITIES);
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    // const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    const navigation = useNavigation<MainHomeNavigationProp>();
 
     const loadCitiesByQuery = useCallback(async () => {
         if(query) {
@@ -76,7 +82,7 @@ const HomeSearchScreen = () => {
     }
     const searchSubmit = () => {
         if(citySearch && checkIn && checkOut && capacity) {
-            navigation.navigate("SearchResultScreen", {citySearch, checkIn, checkOut, capacity})
+            navigation.navigate('SearchResultScreen', {citySearch, checkIn, checkOut, capacity})
         } else {
             Alert.alert("please fill all information required");
         }   

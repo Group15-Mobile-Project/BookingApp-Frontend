@@ -12,21 +12,17 @@ import MapHomes from '../Screens/Tenant/MapHomes';
 import DetailHomeScreen from '../Screens/Tenant/DetailHomeScreen';
 import HomeReviewList from '../Screens/Tenant/HomeReviewList';
 import BookingScreen from '../Screens/Tenant/BookingScreen';
+import TenantStack from './TenantStack';
+import MapWishlists from '../Screens/Tenant/MapWishlists';
 
 export type RootStackParamList = {
     Login: undefined,
     SignUp: undefined,
     ChangePassword: undefined,
     RoleScreen: undefined,
-    MainHomes: undefined,
     HomeSearchScreen: undefined,
-    SearchResultScreen: {
-      citySearch: string,
-      checkIn: string,
-      checkOut: string,
-      capacity: number
-    },
     MapHomes: undefined,
+    MapWishlists: undefined,
     DetailHomeScreen: {
       homeId: number
     },
@@ -38,7 +34,8 @@ export type RootStackParamList = {
       checkIn: string,
       checkOut: string,
       capacity: number
-    }
+    },
+    TenantStack: undefined
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -49,13 +46,13 @@ const MainStack = () => {
         <stack.Screen component={SignUpScreen} options={{headerShown: false}} name="SignUp"></stack.Screen>
         <stack.Screen component={ChangePassword} options={{headerShown: false}} name="ChangePassword"></stack.Screen>
         <stack.Screen component={RoleScreen} options={{headerShown: false}} name="RoleScreen"></stack.Screen>
-        <stack.Screen component={MainHomes} options={{headerShown: false}} name="MainHomes"></stack.Screen>
         <stack.Screen component={HomeSearchScreen}  options={{headerShown: false}} name="HomeSearchScreen"></stack.Screen>
-        <stack.Screen component={SearchResultScreen}  options={{headerShown: false}} name="SearchResultScreen"></stack.Screen>
         <stack.Screen component={MapHomes} options={{title: "Back"}} name="MapHomes"></stack.Screen>
+        <stack.Screen component={MapWishlists} options={{title: "Back"}} name="MapWishlists"></stack.Screen>
         <stack.Screen component={DetailHomeScreen} options={{headerShown: false}} name="DetailHomeScreen"></stack.Screen>
         <stack.Screen component={HomeReviewList} options={{title: "back"}} name="HomeReviewList"></stack.Screen>
         <stack.Screen component={BookingScreen} options={{title: "confirm"}} name="BookingScreen"></stack.Screen>
+        <stack.Screen component={TenantStack} options={{headerShown: false}} name="TenantStack"></stack.Screen>
     </stack.Navigator>
   )
 }

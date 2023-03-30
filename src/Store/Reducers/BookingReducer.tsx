@@ -1,4 +1,4 @@
-import { ACTION, declaredStateBooking} from "../../Model"
+import { ACTION, BOOKING, declaredStateBooking} from "../../Model"
 
 let initialState = {
     booking: {},
@@ -22,8 +22,23 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
             return {
                 ...state,
                 booking: action.payload,
+                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
                 bookingSuccess: true
             }  
+        case "accept_booking":
+            return {
+                ...state,
+                booking: action.payload,
+                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
+                bookingSuccess: true
+            } 
+        case "unaccept_booking":
+            return {
+                ...state,
+                booking: action.payload,
+                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
+                bookingSuccess: true
+            } 
         case "get_old_bookings_by_tenant":
             return {
                 ...state,

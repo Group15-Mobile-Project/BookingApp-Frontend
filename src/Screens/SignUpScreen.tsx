@@ -25,6 +25,7 @@ const SignUpScreen = () => {
     const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+
     useEffect(() => {
         if(userSuccess || userError) {
             dispatch(ResetUser() as any)

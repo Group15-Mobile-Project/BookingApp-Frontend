@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import MapView, { Marker, PROVIDER_GOOGLE }  from 'react-native-maps';
 import CustomeMapMarker from '../Component/CustomeMapMarker';
-import { HOME } from '../Model';
+import { HOME, WISHLIST } from '../Model';
 
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -17,28 +17,28 @@ const imageDefault =[
     "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
   ]
 
-const MapHomeCard = ({home}: {home: HOME}) => {
+const MapWishlistCard = ({item}: {item: WISHLIST}) => {
     const windownWith = useWindowDimensions().width
     const tw = useTailwind()
     const dispatch = useDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
     const goToPostPage = () => {
-        navigation.navigate("DetailHomeScreen", {homeId: home.id})
+        navigation.navigate("DetailHomeScreen", {homeId: item.homeResponse.id})
       }
   return (
     <Pressable onPress={goToPostPage}  style={[tw('flex flex-row items-center justify-between rounded-lg bg-white mx-2'), {width: windownWith - 20}]}>
         <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-lg'), {width: 150, height: 120, resizeMode: 'cover'}]}></Image>
         <View style={tw(' flex-1 items-start justify-start px-4')}>
-            <Text style={tw('text-lg font-bold text-gray-400')}>{home.bedrooms} bedrooms - {home.beds} beds</Text>
+            <Text style={tw('text-lg font-bold text-gray-400')}>{item.homeResponse.bedrooms} bedrooms - {item.homeResponse.beds} beds</Text>
             <View style={{maxWidth: "80%"}}>
-                <Text style={tw('text-lg text-black')}>{home.title}</Text>
+                <Text style={tw('text-lg text-black')}>{item.homeResponse.title}</Text>
             </View>
-            <Text style={tw('text-lg font-bold text-black')}>£{home.price}/ night</Text>
+            <Text style={tw('text-lg font-bold text-black')}>£{item.homeResponse.price}/ night</Text>
         </View>
   </Pressable>
   )
 }
 
-export default MapHomeCard
+export default MapWishlistCard
 
 const styles = StyleSheet.create({})

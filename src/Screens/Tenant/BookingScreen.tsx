@@ -1,24 +1,30 @@
-import { ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootState } from '../../Store/store';
 import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHomesByHomeIdAction } from '../../Store/Actions/HomeAction';
 import { ListRenderItem } from 'react-native';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist'
-import { getCountDiscountAction } from '../../Store/Actions/BookingAction';
+import { createBookingAction, getCountDiscountAction } from '../../Store/Actions/BookingAction';
 import BookingHomeCard from '../../Component/BookingHomeCard';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
 import BookingGuestModal from '../../Component/BookingGuestModal';
 import { Button } from '@rneui/base';
+import { HomesStackParamList } from '../../Navigators/HomesStack';
+
+type BookingNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "BookingScreen">,
+NativeStackNavigationProp<HomesStackParamList>>;
 
 type DetailHomeProp = RouteProp<RootStackParamList, "BookingScreen">;
+
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
     "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
@@ -39,7 +45,7 @@ const BookingScreen = () => {
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
     const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS)
     const {booking, bookings, bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS)
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    const navigation = useNavigation<BookingNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();
     const {homeId, checkIn, checkOut, capacity}= params;
     const dispatch = useDispatch()
@@ -66,6 +72,26 @@ const BookingScreen = () => {
     }
     const OpenModalGuestNumber = ()  => {
         setIsGuestVisible(true)
+    }
+
+    const createBookingFunction = async () => {
+        if(guests > home.capacity) {
+            Alert.alert("number of guest must be less than or equal to " + home.capacity)
+        }
+        if(guests <= home.capacity && checkin && checkout && countDiscount && countDiscount.homeId == home.id) {
+            const {days, priceAfterDiscount, totalPrice} = countDiscount;
+            const bookingForm = {
+                guests: guests,
+                days: days,
+                priceAfterDiscount: priceAfterDiscount,
+                homeId: home.id,
+                checkInDate: checkin,
+                checkOutDate: checkout,
+                totalPrice: totalPrice
+            }
+            await dispatch(createBookingAction(bookingForm) as any);
+            navigation.navigate("DetailHomeScreen", {homeId: home.id});
+        }
     }
 
   return (
@@ -98,16 +124,16 @@ const BookingScreen = () => {
             <Text style={tw('text-2xl font-bold text-black my-2')}>Price Details</Text>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
                 <Text style={tw('text-lg')}>£{home?.price} * {countDiscount?.days} nights</Text>                  
-                <Text style={tw('text-lg')}>£{countDiscount?.totalPrice}</Text>  
+                <Text style={tw('text-lg')}>£{Math.round(countDiscount?.totalPrice).toFixed(2)}</Text>  
             </View>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
                 <Text style={tw('text-lg')}>Discount</Text>                  
-                <Text style={tw('text-lg')}>£{countDiscount?.discountPrice}</Text>  
+                <Text style={tw('text-lg')}>- £{Math.round(countDiscount?.discountPrice / 100 * 100).toFixed(2)}</Text>  
             </View>
             <View style={[tw('w-full bg-gray-300'), {height: 1}]}></View>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
                 <Text style={tw('text-lg')}>Total</Text>                  
-                <Text style={tw('text-lg')}>£{countDiscount?.priceAfterDiscount}</Text>  
+                <Text style={tw('text-lg')}>£{Math.round(countDiscount?.priceAfterDiscount).toFixed(2)}</Text>  
             </View>
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
@@ -116,7 +142,7 @@ const BookingScreen = () => {
             <Text style={tw('text-lg font-bold text-black ml-6')}>Your reservation won't be confirmed until the host accepts your request within 48 hours</Text>  
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
-        <Button   title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+        <Button onPress={createBookingFunction}  title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
         {home && (
             <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout}></HomeDetailCalendar>
         )}

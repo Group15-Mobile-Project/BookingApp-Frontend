@@ -67,7 +67,11 @@ export const addWishlistAction= (homeId: number, userId: number) => async (dispa
                 payload: "token not found"
             });
         }
-        const res = await axios.post(HOST_URL + "/api/wishlists/home/" + homeId + "/user/" + userId, {
+        console.log("homeId: " + homeId);
+        console.log("userId: " + userId);
+        console.log("token: " + token);
+        console.log(HOST_URL + "/api/wishlists/home/" + homeId + "/user/" + userId)
+        const res = await axios.post(HOST_URL + "/api/wishlists/home/" + homeId + "/user/" + userId, {}, {
             headers: {
                 Authorization: token 
             }

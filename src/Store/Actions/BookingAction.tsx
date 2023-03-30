@@ -61,3 +61,61 @@ export const getCountDiscountAction= (homeId: number, checkin: string, checkout:
         });
     }
 }
+
+export const acceptBookingAction= (bookingId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.put(HOST_URL + "/api/bookings/acceptbooking/" + bookingId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "accept_booking",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+
+export const unacceptBookingAction= (bookingId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.put(HOST_URL + "/api/bookings/unacceptbooking/" + bookingId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "accept_booking",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}

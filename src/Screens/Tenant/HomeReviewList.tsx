@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { useDispatch, useSelector } from 'react-redux'
 import { HOST_URL, RootState } from '../../Store/store'
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
+import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../Navigators/MainStack'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -12,6 +12,7 @@ import { getHomesByHomeIdAction } from '../../Store/Actions/HomeAction'
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { HOMEREVIEW } from '../../Model'
+import { HomesStackParamList } from '../../Navigators/HomesStack'
 
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -19,6 +20,9 @@ const imageDefault =[
     "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
   ]
 type DetailHomeProp = RouteProp<RootStackParamList, "HomeReviewList">;
+type DetailHomeNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "HomeReviewList">,
+NativeStackNavigationProp<HomesStackParamList>>;
 
 const HomeReviewList = () => {
     const [query, setQuery] = useState<string>("");
@@ -28,7 +32,7 @@ const HomeReviewList = () => {
     const windownWith = useWindowDimensions().width;
     const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS);
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES);
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>() 
+    const navigation = useNavigation<DetailHomeNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();
     const {homeId}= params;
     const dispatch = useDispatch();
