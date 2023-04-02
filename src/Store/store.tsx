@@ -12,6 +12,8 @@ import DiscountReducer from './Reducers/DiscountReducer';
 import HomeReducer from './Reducers/HomeReducer';
 import HomeReviewReducer from './Reducers/HomeReviewReducer';
 import HostReducer from './Reducers/HostReducer';
+import NotificationReducer from './Reducers/NotificationReducer';
+import TenantReviewReducer from './Reducers/TenantReviewReducer';
 import UserReducer from './Reducers/UserReducer';
 import WishlistReducer from './Reducers/WishlistReducer';
 
@@ -30,7 +32,9 @@ const rootReducer = combineReducers({
     WISHLISTS: WishlistReducer,
     BOOKDATES: BookDateReducer,
     DISCOUNTS: DiscountReducer,
-    BOOKINGS: BookingReducer
+    BOOKINGS: BookingReducer,
+    TENANTREVIEWS: TenantReviewReducer,
+    NOTIFICATIONS: NotificationReducer
 });
 
 const middleware = [thunk];

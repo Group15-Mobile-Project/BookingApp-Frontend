@@ -26,17 +26,12 @@ const LoginScreen = () => {
             console.log(authUser?.roles)
             dispatch(ResetUser() as any)
         }
-        if(userSuccess && authUser?.roles?.includes("USER") ) {
-           
-            navigation.navigate('RoleScreen')
-            dispatch(ResetUser() as any)
-        }
         if(userError ) {
             Alert.alert("login failed")       
             dispatch(ResetUser() as any)
         }
         
-    }, [userSuccess, userError, message, dispatch])
+    }, [userSuccess, userError, message, dispatch, authUser])
 
     
 
@@ -50,6 +45,11 @@ const LoginScreen = () => {
            if(authUser && authUser.role == "ADMIN") {
             // navigation.navigate("AdminHome")
            }
+           if(authUser && authUser?.roles?.includes("USER") ) {
+           
+            navigation.navigate('RoleScreen')
+            dispatch(ResetUser() as any)
+        }
           
         } else {
             Alert.alert("please fill all required information")

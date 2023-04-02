@@ -18,6 +18,7 @@ import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
 import BookingGuestModal from '../../Component/BookingGuestModal';
 import { Button } from '@rneui/base';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
+import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 
 type BookingNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "BookingScreen">,
@@ -43,8 +44,9 @@ const BookingScreen = () => {
     const tw = useTailwind()
     const windownWith = useWindowDimensions().width;
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
-    const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS)
-    const {booking, bookings, bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS)
+    const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS);
+    const {booking, bookings, bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS);
+    const {bookdates, bookdateSuccess, bookdateError} = useSelector((state: RootState) => state.BOOKDATES);
     const navigation = useNavigation<BookingNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();
     const {homeId, checkIn, checkOut, capacity}= params;
@@ -52,20 +54,45 @@ const BookingScreen = () => {
     const currentDate = new Date();
 
     const loadCountDiscount = useCallback(async () => {
-        if(homeId && checkIn && checkOut) {
+        if(homeId && checkIn && checkOut && capacity) {
             await dispatch(getCountDiscountAction(homeId, checkIn, checkOut) as any)
+        }
+    }, [homeId, dispatch, checkIn, checkOut, capacity, guests, checkin, checkout])
+
+    const loadChangeCountDiscount = useCallback(async () => {
+        if(homeId && checkin && checkout && guests) {
+            await dispatch(getCountDiscountAction(homeId, checkin, checkout) as any)
+        }
+    }, [homeId, dispatch, guests, checkin, checkout])
+
+    const loadBookdatesByHome = useCallback(async () => {
+        if(homeId) {
+            await dispatch(getBookdatesByHomeAndCurrentTimeAction(homeId) as any)
         }
     }, [homeId, dispatch])
 
     useEffect(() => {
+        loadBookdatesByHome();
+    }, [homeId])
+
+    useEffect(() => {
         setIsLoading(true);
-       if(checkIn && checkOut && capacity) {
-        setCheckin(checkIn);
-        setCheckout(checkOut);
-        setGuests(capacity);
-       }
+        if(checkIn && checkOut && capacity) {
+            setCheckin(checkIn);
+            setCheckout(checkOut);
+            setGuests(capacity);
+        };
+        console.log("count discount");
         loadCountDiscount().then(() => setIsLoading(false))
-    }, [homeId, checkIn, checkOut, dispatch])
+        
+    }, [homeId, checkIn, checkOut, dispatch, capacity])
+
+    useEffect(() => {
+        setIsLoading(true);
+        console.log("checkin: " + checkin);
+        console.log("checkout: " + checkout);
+        loadChangeCountDiscount().then(() => setIsLoading(false))
+    }, [checkin, checkout, guests])
 
     const OpenModalCalendar = () => {
         setIsVisible(true)
@@ -96,7 +123,7 @@ const BookingScreen = () => {
 
   return (
     <ScrollView style={tw('flex-1 relative')}>
-        {home && <BookingHomeCard item={home}></BookingHomeCard>}
+        {home && <BookingHomeCard item={home} showPrice={true}></BookingHomeCard>}
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full py-2 px-4')}>
             <Text style={tw('text-2xl font-bold text-black my-2')}>Your Trip</Text>
@@ -144,7 +171,7 @@ const BookingScreen = () => {
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <Button onPress={createBookingFunction}  title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
         {home && (
-            <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout}></HomeDetailCalendar>
+            <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout} homeId={homeId}></HomeDetailCalendar>
         )}
         <BookingGuestModal isVisble={isGuestVisible} setIsVisible={setIsGuestVisible} guests={guests} setGuests={setGuests}></BookingGuestModal>
     </ScrollView>

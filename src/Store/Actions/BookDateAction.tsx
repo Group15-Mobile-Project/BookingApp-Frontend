@@ -18,8 +18,8 @@ export const getBookdatesByHomeAction= (homeId: number) => async (dispatch: Disp
                 Authorization: token 
             }
         });
-        const data = await res.data
-        console.log(data)
+        const data = await res.data;
+        console.log(data);
         dispatch({
             type: "get_all_bookdates_by_home",
             payload: data
@@ -105,11 +105,26 @@ export const getBookdatesByHomeAndCurrentTimeAction= (homeId: number) => async (
                 Authorization: token 
             }
         });
+        console.log("get bookdates");
         const data = await res.data
         console.log(data)
         dispatch({
             type: "get_all_bookdates_by_home_follow_currentTime",
             payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "bookdate_error",
+            payload: err
+        });
+    }
+}
+
+export const clearBookdates= () => (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        dispatch({
+            type: "clear_bookdates"
         })
     } catch (err) {
         console.log(err);

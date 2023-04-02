@@ -125,21 +125,26 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
  
  
   export const getUserByIdAction = (userId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
-     try {
-     
-      const res = await fetch(HOST_URL + `/api/users/id/${userId}`)
-      const data = await res.json()
-      console.log(data)
+     try { 
+        const token : string | null = await AsyncStorage.getItem("token");  
+        const res = await axios.get(HOST_URL + "/api/users/id/" + userId, {
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        const data = await res.data
+        console.log(data)
  
-      dispatch({
-          type: "get_active_user_by_id",
+        dispatch({
+          type: "get_user_by_id",
           payload: data
-      })
+        })
      } catch (err) {
-      dispatch({
-          type: "USER_ERROR",
-          payload: err
-      })
+        console.log(err);
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
      }
   
   }

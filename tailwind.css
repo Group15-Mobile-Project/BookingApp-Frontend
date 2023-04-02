@@ -158,6 +158,10 @@
   height: 2rem
 }
 
+.w-1\/2 {
+  width: 50%
+}
+
 .w-10 {
   width: 2.5rem
 }
@@ -218,6 +222,23 @@
   border-width: 1px
 }
 
+.border-2 {
+  border-width: 2px
+}
+
+.border-b-4 {
+  border-bottom-width: 4px
+}
+
+.border-b-2 {
+  border-bottom-width: 2px
+}
+
+.border-gray-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity))
+}
+
 .border-gray-400 {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity))
@@ -228,9 +249,19 @@
   border-color: rgb(63 63 70 / var(--tw-border-opacity))
 }
 
+.border-gray-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity))
+}
+
 .bg-\[\#FF5A5F\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 90 95 / var(--tw-bg-opacity))
+}
+
+.bg-amber-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 158 11 / var(--tw-bg-opacity))
 }
 
 .bg-black {
@@ -261,6 +292,11 @@
 .bg-gray-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity))
+}
+
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity))
 }
 
 .bg-white {
@@ -321,6 +357,14 @@
 
 .pr-4 {
   padding-right: 1rem
+}
+
+.pb-4 {
+  padding-bottom: 1rem
+}
+
+.text-center {
+  text-align: center
 }
 
 .text-2xl {

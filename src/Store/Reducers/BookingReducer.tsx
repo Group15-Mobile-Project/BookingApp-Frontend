@@ -87,7 +87,7 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
                 bookings: action.payload,
                 bookingSuccess: true
             }
-        case "get_bookings_by_id":
+        case "get_booking_by_id":
             return {
                 ...state,
                 booking: action.payload,

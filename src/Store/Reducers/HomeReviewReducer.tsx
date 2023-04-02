@@ -30,6 +30,12 @@ export default (state: declaredStateHomeReview = initialState, action: ACTION) =
                 reviews: action.payload,
                 reviewSuccess: true
             } 
+        case "get_all_reviews_by_host":
+            return {
+                ...state,
+                reviews: action.payload,
+                reviewSuccess: true
+            } 
         case "get_all_reviews_by_home_and_querySearch":
             return {
                 ...state,

@@ -56,7 +56,7 @@ const HomeReviewList = () => {
         loadHome().then(() => loadHomeReviewsByHome()).then(() => setIsLoading(false));
     }, [homeId, dispatch])
 
-    const handleCityItem: ListRenderItem<any> = ({item}: {item: HOMEREVIEW}) => (
+    const handleReviewItem: ListRenderItem<any> = ({item}: {item: HOMEREVIEW}) => (
         <View style={[tw(' py-2 px-2 mx-2 w-full')]}>
             <View style={tw('flex-row items-center justify-start')}>
                 <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>      
@@ -108,7 +108,7 @@ const HomeReviewList = () => {
                      onRefresh={loadHomeReviewsByHome}
                      data={reviews}
                      keyExtractor={(item: any) => item.id}
-                     renderItem={handleCityItem}
+                     renderItem={handleReviewItem}
                      showsVerticalScrollIndicator={false}
                      style={tw('mt-4 w-full')}
                      >

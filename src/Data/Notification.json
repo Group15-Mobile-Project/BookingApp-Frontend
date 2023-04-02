@@ -1,0 +1,166 @@
+[
+    {
+        "id": 12,
+        "status": "PENDING_BOOKING",
+        "dateCreated": "2023-04-01",
+        "dateUpdated": "2023-04-01",
+        "tenant": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2@gmail.com",
+            "roles": [
+                "USER",
+                "HOST"
+            ],
+            "hasHost": true,
+            "hostId": 2,
+            "imgUrls": "lkjalsdkjflk.png",
+            "rating": 3.0,
+            "reviewNums": 1
+        },
+        "host": {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "username": "quan",
+                "email": "quan@gmail.com",
+                "roles": [
+                    "USER",
+                    "HOST"
+                ],
+                "hasHost": true,
+                "hostId": 1,
+                "imgUrls": "lkjalsdkjflk.png",
+                "rating": null,
+                "reviewNums": 0
+            }
+        },
+        "homeId": 1,
+        "bookingId": 8,
+        "bookingCode": "e70fbe90-71a1-474c-b294-015f81f16b5c",
+        "read": false
+    },
+    {
+        "id": 10,
+        "status": "PENDING_BOOKING",
+        "dateCreated": "2023-03-30",
+        "dateUpdated": "2023-03-30",
+        "tenant": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2@gmail.com",
+            "roles": [
+                "USER",
+                "HOST"
+            ],
+            "hasHost": true,
+            "hostId": 2,
+            "imgUrls": "lkjalsdkjflk.png",
+            "rating": 3.0,
+            "reviewNums": 1
+        },
+        "host": {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "username": "quan",
+                "email": "quan@gmail.com",
+                "roles": [
+                    "USER",
+                    "HOST"
+                ],
+                "hasHost": true,
+                "hostId": 1,
+                "imgUrls": "lkjalsdkjflk.png",
+                "rating": null,
+                "reviewNums": 0
+            }
+        },
+        "homeId": 1,
+        "bookingId": 7,
+        "bookingCode": "a63fc69b-8e4f-4c03-87bc-cf728353234c",
+        "read": false
+    },
+    {
+        "id": 9,
+        "status": "HOME_REVIEW",
+        "dateCreated": "2023-03-23",
+        "dateUpdated": "2023-03-23",
+        "tenant": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2@gmail.com",
+            "roles": [
+                "USER",
+                "HOST"
+            ],
+            "hasHost": true,
+            "hostId": 2,
+            "imgUrls": "lkjalsdkjflk.png",
+            "rating": 3.0,
+            "reviewNums": 1
+        },
+        "host": {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "username": "quan",
+                "email": "quan@gmail.com",
+                "roles": [
+                    "USER",
+                    "HOST"
+                ],
+                "hasHost": true,
+                "hostId": 1,
+                "imgUrls": "lkjalsdkjflk.png",
+                "rating": null,
+                "reviewNums": 0
+            }
+        },
+        "homeId": 1,
+        "bookingId": null,
+        "bookingCode": null,
+        "read": false
+    },
+    {
+        "id": 8,
+        "status": "PENDING_BOOKING",
+        "dateCreated": "2023-03-16",
+        "dateUpdated": "2023-03-16",
+        "tenant": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2@gmail.com",
+            "roles": [
+                "USER",
+                "HOST"
+            ],
+            "hasHost": true,
+            "hostId": 2,
+            "imgUrls": "lkjalsdkjflk.png",
+            "rating": 3.0,
+            "reviewNums": 1
+        },
+        "host": {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "username": "quan",
+                "email": "quan@gmail.com",
+                "roles": [
+                    "USER",
+                    "HOST"
+                ],
+                "hasHost": true,
+                "hostId": 1,
+                "imgUrls": "lkjalsdkjflk.png",
+                "rating": null,
+                "reviewNums": 0
+            }
+        },
+        "homeId": 1,
+        "bookingId": 6,
+        "bookingCode": "330f9b27-e1a8-43cb-a9cb-843e2526c60e",
+        "read": false
+    }
+]

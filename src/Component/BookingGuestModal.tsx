@@ -14,7 +14,7 @@ import { getBookdatesByHomeAndCurrentTimeAction } from '../Store/Actions/BookDat
 import IncreaseDecreaseNumber from './IncreaseDecreaseNumber';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-interface HomeDetailCalendarProp {
+interface BookingGuestModalProp {
     isVisble: boolean, 
     setIsVisible: React.Dispatch<React.SetStateAction<boolean>>, 
     guests: number,
@@ -22,7 +22,7 @@ interface HomeDetailCalendarProp {
 }
 const currentDay = new Date().toLocaleDateString('en-CA');
 
-const BookingGuestModal = ({isVisble, setIsVisible, guests, setGuests}: HomeDetailCalendarProp) => {
+const BookingGuestModal = ({isVisble, setIsVisible, guests, setGuests}: BookingGuestModalProp) => {
     const windownHeigh = useWindowDimensions().height;
     const tw = useTailwind();
     const dispatch = useDispatch();

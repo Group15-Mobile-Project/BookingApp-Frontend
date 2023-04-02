@@ -330,3 +330,24 @@ export interface CountDiscount {
     checkIn: string,
     checkOut: string
 }
+
+export interface NOTIFICATION {
+    id: number,
+    status: string,
+    dateCreated: string,
+    dateUpdated: string,
+    tenant: USER,
+    host: HOST,
+    homeId: number,
+    bookingId: number | null,
+    bookingCode: string |null,
+    read: boolean
+}
+
+export interface declaredStateNotification {
+    notification: NOTIFICATION | {},
+    notifications: NOTIFICATION[] | [],
+    notificationSuccess: boolean,
+    notificationError: boolean,
+    message: string | null
+}

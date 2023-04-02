@@ -36,6 +36,12 @@ export default (state: declaredStateBookDate = initialState, action: ACTION) => 
                 bookdates: action.payload,
                 bookdateSuccess: true
             }   
+        case "clear_bookdates":
+            return {
+                ...state,
+                bookdates: [],
+                bookdateSuccess: true
+            }
         case "bookdate_error":
             return {
                 ...state,

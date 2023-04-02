@@ -10,7 +10,7 @@ import Modal from "react-native-modal";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { BOOKDATE, HOME } from '../Model';
 import { RootState } from '../Store/store';
-import { getBookdatesByHomeAndCurrentTimeAction } from '../Store/Actions/BookDateAction';
+import { clearBookdates, getBookdatesByHomeAndCurrentTimeAction } from '../Store/Actions/BookDateAction';
 
 interface HomeDetailCalendarProp {
     isVisble: boolean, 
@@ -19,13 +19,14 @@ interface HomeDetailCalendarProp {
     checkout: string | null, 
     setCheckout: React.Dispatch<React.SetStateAction<string | null>>, 
     checkin: string | null, 
-    setCheckin: React.Dispatch<React.SetStateAction<string | null>> 
+    setCheckin: React.Dispatch<React.SetStateAction<string | null>>,
+    homeId: number
 }
 const currentDay = new Date().toLocaleDateString('en-CA');
 
 
 
-const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, setCheckin, setCheckout}: HomeDetailCalendarProp) => {
+const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, setCheckin, setCheckout, homeId}: HomeDetailCalendarProp) => {
     const [isStart, setIsStart] = useState<boolean>(false);
     const [isEnd, setIsEnd] = useState<boolean>(false);
     const [isBetween, setIsBetween] = useState<boolean>(false);
@@ -34,6 +35,18 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
     const dispatch = useDispatch();
     const [markedDays, setMarkedDays] = useState<any>({});
     const {bookdates, bookdateSuccess, bookdateError} = useSelector((state: RootState) => state.BOOKDATES);
+
+    const loadBookdatesByHome = useCallback(async () => {
+        if(homeId) {
+            await dispatch(getBookdatesByHomeAndCurrentTimeAction(homeId) as any)
+        }
+    }, [homeId, dispatch])
+
+    useEffect(() => {
+        setMarkedDays({});
+        dispatch(clearBookdates() as any);
+        loadBookdatesByHome();
+    }, [homeId])
 
     useEffect(() => {
         bookdates.forEach((bo : BOOKDATE) => {

@@ -1,6 +1,6 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { HOME, HOMEREVIEW } from '../../Model'
+import { HOME, HOMEREVIEW, WISHLIST } from '../../Model'
 import { useTailwind } from 'tailwind-rn/dist'
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -22,10 +22,11 @@ import HomeDetailMap from '../../Component/HomeDetailMap';
 import { getReviewsByHomeAction } from '../../Store/Actions/HomeReviewAction';
 import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
 import HomeDetailCalendar from '../../Component/HomeDetailCalendar';
-import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
+import { clearBookdates, getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 import { Button } from '@rneui/base';
 import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
+import { addWishlistAction, deleteWishlistAction, getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
 
 
 type MainHomeNavigationProp = CompositeNavigationProp<
@@ -49,14 +50,18 @@ const DetailHomeScreen = () => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [guests, setGuests] = useState<number>(2);
     const [like, setLike] = useState<boolean>(false);
+    const [wishli, setWishli] = useState<WISHLIST  | null>(null);
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [checkin, setCheckin] = useState<string | null>(null);
     const [checkout, setCheckout] = useState<string | null>(null); 
     const [capacity, setCapacity] = useState<number>(2);
     const tw = useTailwind()
     const windownWith = useWindowDimensions().width;
-    const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
-    const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS)
+    const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES);
+    const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS);
+    const {wishlist, wishlists, wishlistSuccess, wishlistError} = useSelector((state: RootState) => state.WISHLISTS);
+    const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS);
+    const {bookdates, bookdateSuccess, bookdateError} = useSelector((state: RootState) => state.BOOKDATES);
     const navigation = useNavigation<MainHomeNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();
     const {homeId}= params;
@@ -80,6 +85,12 @@ const DetailHomeScreen = () => {
             await dispatch(getBookdatesByHomeAndCurrentTimeAction(homeId) as any)
         }
     }, [homeId, dispatch])
+    const loadWishlist = useCallback(async () => {
+        if(!wishlists) {
+            console.log("get wishlists");
+            await dispatch(getWishlistByAuthUserAction() as any);
+        }
+    }, [authUser, dispatch])
 
     const checkBookingDiscount = useCallback(() => {
         if(checkin && checkout && home?.discount) {
@@ -115,12 +126,25 @@ const DetailHomeScreen = () => {
 
     useEffect(() =>{
         setIsLoading(true);
-        loadHome().then(() => loadHomeReviewsByHome()).then(() => loadBookdatesByHome()).then(() => setIsLoading(false));
+        dispatch(clearBookdates() as any);
+        loadHome().then(() => loadWishlist()).then(() => loadHomeReviewsByHome()).then(() => loadBookdatesByHome()).then(() => setIsLoading(false));
         if(home) {
             setOpenDate(new Date(home?.openBooking));
             setCloseDate(new Date(home?.closeBooking));
         }
-    }, [homeId, dispatch])
+    }, [homeId, dispatch, authUser])
+
+    useEffect(() => {
+        if(wishlists && homeId) {
+          const wish = wishlists.find((wi: WISHLIST) => wi.homeResponse.id == homeId);
+          if(wish) {
+            setLike(true);
+            setWishli(wish);
+          } else {
+            setLike(false);
+          }
+        }
+      }, [wishlists, homeId, authUser])
 
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: HOME}) => (
         <Image source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw(' mb-2'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>       
@@ -137,19 +161,31 @@ const DetailHomeScreen = () => {
         }
     })
     const likeHome = async () => {
-        setLike(!like)
-      }
+        if(!like || !wishli) {
+            console.log("like")
+            setLike(!like);
+            dispatch(addWishlistAction(homeId, authUser.id) as any);
+            
+          }
+          if(like && wishli) {
+            console.log("unlike")
+            setLike(!like);
+            dispatch(deleteWishlistAction(wishli.id) as any);
+            
+        }
+    }
 
     const navigateToHostScreen = async () => {
-
+        navigation.navigate("UserProfileScreen", {userId: home?.owner?.user?.id});
     }
 
     const navigateToReviewsScreen = () => {
-        navigation.navigate("HomeReviewList", {homeId: homeId})
+        navigation.navigate("HomeReviewList", {homeId: homeId});
     }
 
-    const OpenModalCalendar = () => {
-        setIsVisible(true)
+    const OpenModalCalendar = async () => {
+        await loadBookdatesByHome();
+        setIsVisible(true);
     }
 
     const navigateToBookingScreen = () => {
@@ -299,7 +335,7 @@ const DetailHomeScreen = () => {
             </View>
         </>}
             { home && (
-                <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout}></HomeDetailCalendar>
+                <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout} homeId={homeId}></HomeDetailCalendar>
             )}
         </ScrollView>
         <View style={[tw('bg-white flex-row items-center justify-between  w-full  px-2 py-2'), {zIndex: 10}, styles.shadow]}>  

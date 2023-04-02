@@ -39,27 +39,27 @@ const MainHomes = () => {
     const windownWith = useWindowDimensions().width;
 
     const handleGetHomes = useCallback(async () => {
-        setIsRefreshing(true)
-        await dispatch(getHomesByCategoryAction(categoryIndex) as any)
-        setIsRefreshing(false)
-    }, [authUser, dispatch, categoryIndex])
+        setIsRefreshing(true);
+        await dispatch(getHomesByCategoryAction(categoryIndex) as any);
+        setIsRefreshing(false);
+    }, [ dispatch, categoryIndex]);
 
     const handleGetCategories = useCallback(async () => {
-        setIsRefreshing(true)
-        await dispatch(getCategoriesAction() as any)
-        setIsRefreshing(false)
-    }, [authUser, dispatch])
+        setIsRefreshing(true);
+        await dispatch(getCategoriesAction() as any);
+        setIsRefreshing(false);
+    }, [ dispatch]);
 
     const loadWishlist = useCallback(async () => {
-        setIsRefreshing(true)
-        await dispatch(getWishlistByAuthUserAction() as any)
-        setIsRefreshing(false)
-      }, [authUser, dispatch])
+        setIsRefreshing(true);
+        await dispatch(getWishlistByAuthUserAction() as any);
+        setIsRefreshing(false);
+    }, [authUser, dispatch])
 
     useEffect(() => {
         // setIsLoading(true)
         // handleGetCategories().then(() => setIsLoading(false))
-        handleGetCategories()
+        handleGetCategories();
     }, [dispatch])
     
     useEffect(() => {
