@@ -58,6 +58,7 @@ const WishListScreen = () => {
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white relative')}> 
+      <Text style={tw('text-3xl font-bold text-black my-4 ml-4')}>Your Wishlists</Text>
       <View style={tw('')}>
         <FlatList
           refreshing={isRefreshing}

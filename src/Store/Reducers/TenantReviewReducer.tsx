@@ -24,7 +24,7 @@ export default (state: declaredStateTenantReview = initialState, action: ACTION)
                 tenantReview: action.payload,
                 tenantReviewSuccess: true
             }  
-        case "get_tenantReview_by_authHost_and_tenant":
+        case "get_tenantReview_by_Host_and_tenant":
             return {
                 ...state,
                 tenantReview: action.payload,

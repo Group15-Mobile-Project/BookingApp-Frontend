@@ -73,7 +73,7 @@ export const getReviewByIdAction= (reviewId: number) => async (dispatch: Dispatc
         });
     }
 }
-export const getReviewByHomeAndUserAction= (homeId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const getReviewByHomeAndUserAction= (homeId: number, userId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");
         if(!token) {
@@ -82,7 +82,7 @@ export const getReviewByHomeAndUserAction= (homeId: number) => async (dispatch: 
                 payload: "token not found"
             });
         }
-        const res = await axios.get(HOST_URL + "/api/homeReviews/authUser/home/" + homeId, {
+        const res = await axios.get(HOST_URL + "/api/homeReviews/home/" + homeId + "/user/" + userId, {
             headers: {
                 Authorization: token 
             }

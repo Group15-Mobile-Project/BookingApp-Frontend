@@ -6,6 +6,8 @@ import thunk from 'redux-thunk';
 import BookDateReducer from './Reducers/BookDateReducer';
 import BookingReducer from './Reducers/BookingReducer';
 import CategoryReducer from './Reducers/CategoryReducer';
+import ChatMessageReducer from './Reducers/ChatMessageReducer';
+import ChatReducer from './Reducers/ChatReducer';
 import CityReducer from './Reducers/CityReducer';
 import CountryReducer from './Reducers/CountryReducer';
 import DiscountReducer from './Reducers/DiscountReducer';
@@ -34,7 +36,9 @@ const rootReducer = combineReducers({
     DISCOUNTS: DiscountReducer,
     BOOKINGS: BookingReducer,
     TENANTREVIEWS: TenantReviewReducer,
-    NOTIFICATIONS: NotificationReducer
+    NOTIFICATIONS: NotificationReducer,
+    CHATS: ChatReducer,
+    CHATMESSAGES: ChatMessageReducer
 });
 
 const middleware = [thunk];

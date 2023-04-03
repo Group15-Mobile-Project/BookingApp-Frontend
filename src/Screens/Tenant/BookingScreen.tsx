@@ -45,7 +45,7 @@ const BookingScreen = () => {
     const windownWith = useWindowDimensions().width;
     const {home, homeSuccess, homeError} = useSelector((state: RootState) => state.HOMES)
     const {reviews, reviewSuccess, reviewError} = useSelector((state: RootState) => state.HOMEREVIEWS);
-    const {booking, bookings, bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS);
+    const {booking,  bookingSuccess, bookingError, countDiscount} = useSelector((state: RootState) => state.BOOKINGS);
     const {bookdates, bookdateSuccess, bookdateError} = useSelector((state: RootState) => state.BOOKDATES);
     const navigation = useNavigation<BookingNavigationProp>() 
     const {params} = useRoute<DetailHomeProp>();

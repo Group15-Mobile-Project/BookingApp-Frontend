@@ -51,12 +51,6 @@ const ChangePassword = () => {
       <TextInput secureTextEntry={true} value={newPassword}  placeholder="New Password" onChangeText={(text: string) => setNewPassword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
       <TextInput secureTextEntry={true} value={confirmPassword}  placeholder="Confirm new Password" onChangeText={(text: string) => setConfirmPasword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
       <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Change Password' onPress={submitFunction}></Button>
-      <View style={tw('flex flex-row')}>
-        <Text style={tw('text-base text-gray-400 mr-4')}>Don't have an account?</Text>
-        <TouchableOpacity activeOpacity={0.2} onPress={navigateToSignUp}>
-            <Text style={tw('text-base text-zinc-700 mr-4')}>Sign in</Text>
-            </TouchableOpacity>
-        </View>    
     </SafeAreaView>
     </TouchableWithoutFeedback>
    </KeyboardAvoidingView>

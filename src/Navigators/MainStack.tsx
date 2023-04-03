@@ -16,6 +16,8 @@ import TenantStack from './TenantStack';
 import MapWishlists from '../Screens/Tenant/MapWishlists';
 import UserProfileScreen from '../Screens/Tenant/UserProfileScreen';
 import ConfirmedBookingScreen from '../Screens/Tenant/ConfirmedBookingScreen';
+import BookingsListScreen from '../Screens/Tenant/BookingsListScreen';
+import ConversationScreen from '../Screens/Tenant/ConversationScreen';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -43,7 +45,12 @@ export type RootStackParamList = {
     UserProfileScreen: {
       userId: number
     },
-    TenantStack: undefined
+    TenantStack: undefined,
+    BookingsListScreen: undefined,
+    ConversationScreen: {
+      chatId?: number,
+      receiverId?: number
+    }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,7 +59,7 @@ const MainStack = () => {
     <stack.Navigator >
         <stack.Screen component={LoginScreen} options={{headerShown: false}} name="Login"></stack.Screen>
         <stack.Screen component={SignUpScreen} options={{headerShown: false}} name="SignUp"></stack.Screen>
-        <stack.Screen component={ChangePassword} options={{headerShown: false}} name="ChangePassword"></stack.Screen>
+        <stack.Screen component={ChangePassword} options={{title: "back"}} name="ChangePassword"></stack.Screen>
         <stack.Screen component={RoleScreen} options={{headerShown: false}} name="RoleScreen"></stack.Screen>
         <stack.Screen component={HomeSearchScreen}  options={{headerShown: false}} name="HomeSearchScreen"></stack.Screen>
         <stack.Screen component={MapHomes} options={{title: "Back"}} name="MapHomes"></stack.Screen>
@@ -62,6 +69,8 @@ const MainStack = () => {
         <stack.Screen component={BookingScreen} options={{title: "confirm"}} name="BookingScreen"></stack.Screen>
         <stack.Screen component={ConfirmedBookingScreen} name="ConfirmedBookingScreen"></stack.Screen>
         <stack.Screen component={UserProfileScreen}   options={{title: "Back"}} name="UserProfileScreen"></stack.Screen>
+        <stack.Screen component={BookingsListScreen}   options={{title: "List of Bookings"}} name="BookingsListScreen"></stack.Screen>
+        <stack.Screen component={ConversationScreen}  name="ConversationScreen"></stack.Screen>
         <stack.Screen component={TenantStack} options={{headerShown: false}} name="TenantStack"></stack.Screen>
     </stack.Navigator>
   )

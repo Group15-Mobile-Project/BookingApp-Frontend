@@ -5,7 +5,6 @@ import { useTailwind } from 'tailwind-rn/dist'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
 import { HOST_URL } from '../Store/store';
-
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../Navigators/MainStack';
 import { useNavigation } from '@react-navigation/native';
@@ -27,7 +26,7 @@ const HomeDetailReviewCard = ({item}: {item: HOMEREVIEW}) => {
       <View style={tw('flex-row items-center justify-start')}>
         <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>      
         <View style={tw(' items-start justify-start')}>
-          <Text style={tw(' text-lg text-black font-bold')}>{item.user.username}</Text>
+          <Text style={tw(' text-lg text-black font-bold')}>{item?.user?.username}</Text>
           <Text style={tw(' text-base')}>{diffDate <= 1 ? " day ago": diffDate > 30 ? Math.floor(diffDate / 30) + " months ago" :  Math.round(diffDate) + " days ago" }</Text>
         </View>
       </View>

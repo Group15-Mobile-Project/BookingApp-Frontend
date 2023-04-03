@@ -44,6 +44,12 @@ const ProfileScreen = () => {
     const navigateToUserProfileScreen = () => {
         navigation.navigate('UserProfileScreen', {userId: authUser?.id});
     };
+    const navigateToBookingsListScreen = () => {
+      navigation.navigate('BookingsListScreen');
+    }
+    const navigateToChangePasswordScreen = () => {
+      navigation.navigate('ChangePassword');
+    }
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
@@ -74,7 +80,7 @@ const ProfileScreen = () => {
         <View style={tw('flex-row items-center justify-start pb-4 border-b-2 border-gray-200')}>
             <AntDesign name="calendar" size={32} color="black" />
             <Text style={tw('text-lg text-black ml-2 flex-1')}>Bookings</Text>
-            <TouchableOpacity style={tw('')}>
+            <TouchableOpacity onPress={navigateToBookingsListScreen} style={tw('')}>
                 <AntDesign name="right" size={28} color="black" /> 
             </TouchableOpacity>
         </View>
@@ -83,7 +89,7 @@ const ProfileScreen = () => {
         <View style={tw('flex-row items-center justify-start pb-4 border-b-2 border-gray-200')}>
             <Ionicons name="shield-outline" size={32} color="black" />
             <Text style={tw('text-lg text-black ml-2 flex-1')}>Change Password</Text>
-            <TouchableOpacity style={tw('')}>
+            <TouchableOpacity onPress={navigateToChangePasswordScreen} style={tw('')}>
                 <AntDesign name="right" size={28} color="black" /> 
             </TouchableOpacity>
         </View>

@@ -287,7 +287,8 @@ export interface BOOKINGFORM {
 
 export interface declaredStateBooking {
     booking: BOOKING | {},
-    bookings: BOOKING[] | [],
+    upcomingbookings: BOOKING[] | [],
+    oldbookings: BOOKING[] | [],
     bookingSuccess: boolean,
     bookingError: boolean,
     message: string | null,
@@ -349,5 +350,45 @@ export interface declaredStateNotification {
     notifications: NOTIFICATION[] | [],
     notificationSuccess: boolean,
     notificationError: boolean,
+    message: string | null
+}
+export interface PARTICIPANT {
+    id: number,
+    chatId: number,
+    user: USER,
+    read: boolean
+}
+export interface CHATMESSAGE {
+    id: number,
+    content: string,
+    chatId: number,
+    participant: PARTICIPANT,
+    dateCreated: string,
+    dateUpdated: string
+}
+export interface MESSAGEFORM {
+    chatId: number,
+    content: string
+}
+export interface CHAT {
+    id: number,
+    lastMessage: CHATMESSAGE | null,
+    participants: PARTICIPANT[],
+    dateCreated: string,
+    dateUpdated: string
+}
+interface declaredStateChat {
+    chats: CHAT[] |[],
+    chat: CHAT | {},
+    chatError: boolean,
+    chatSuccess: boolean,
+    message: string | null
+}
+
+interface declaredStateChatMessage {
+    chatMessage: CHATMESSAGE | {},
+    chatMessages: CHATMESSAGE[] | [],
+    chatMessageSuccess: boolean,
+    chatMessageError: boolean,
     message: string | null
 }

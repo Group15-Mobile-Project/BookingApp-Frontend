@@ -48,13 +48,13 @@ const NotificationsScreen = () => {
   return (
     <View style={tw('bg-white flex-1 px-2')}>
         <FlatList
-                refreshing={isRefreshing}
-                onRefresh={loadNotifications}
-                data={notifications}
-                keyExtractor={(item: any) => item.id}
-                renderItem={handleRenderItem}
-                showsVerticalScrollIndicator={false}
-                >
+            refreshing={isRefreshing}
+            onRefresh={loadNotifications}
+            data={notifications}
+            keyExtractor={(item: any) => item.id}
+            renderItem={handleRenderItem}
+            showsVerticalScrollIndicator={false}
+        >
         </FlatList>
     </View>
   )

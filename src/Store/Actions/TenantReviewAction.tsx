@@ -51,7 +51,7 @@ export const getTenantReviewById= (tenantReviewId: number) => async (dispatch: D
     }
 }
 
-export const getTenantReviewByAuthHostAndTenant= (tenantId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const getTenantReviewByHostAndTenant= ( hostId: number, tenantId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");
         if(!token) {
@@ -60,15 +60,16 @@ export const getTenantReviewByAuthHostAndTenant= (tenantId: number) => async (di
                 payload: "token not found"
             });
         }
-        const res = await axios.get(HOST_URL + "/api/tenantReviews/authHost/tenant/" + tenantId, {
+        const res = await axios.get(HOST_URL + "/api/tenantReviews/tenant/" + tenantId + "/host/" + hostId, {
             headers: {
                 Authorization: token 
             }
         });
+        console.log("tenant review from host");
         const data = await res.data
         console.log(data)
         dispatch({
-            type: "get_tenantReview_by_authHost_and_tenant",
+            type: "get_tenantReview_by_Host_and_tenant",
             payload: data
         })
     } catch (err) {

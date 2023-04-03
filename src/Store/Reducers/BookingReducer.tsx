@@ -2,7 +2,8 @@ import { ACTION, BOOKING, declaredStateBooking} from "../../Model"
 
 let initialState = {
     booking: {},
-    bookings: [],
+    oldbookings: [],
+    upcomingbookings: [],
     bookingSuccess: false,
     bookingError: false,
     message:  null,
@@ -15,76 +16,76 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
             return {
                 ...state,
                 booking: action.payload,
-                bookings: [...state.bookings, action.payload],
+                upcomingbookings: [...state.upcomingbookings, action.payload],
                 bookingSuccess: true
             } 
         case "update_booking":
             return {
                 ...state,
                 booking: action.payload,
-                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
+                upcomingbookings: state.upcomingbookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
                 bookingSuccess: true
             }  
         case "accept_booking":
             return {
                 ...state,
                 booking: action.payload,
-                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
+                upcomingbookings: state.upcomingbookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
                 bookingSuccess: true
             } 
         case "unaccept_booking":
             return {
                 ...state,
                 booking: action.payload,
-                bookings: state.bookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
+                upcomingbookings: state.upcomingbookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
                 bookingSuccess: true
             } 
         case "get_old_bookings_by_tenant":
             return {
                 ...state,
-                bookings: action.payload,
+                oldbookings: action.payload,
                 bookingSuccess: true
             } 
         case "get_upcoming_bookings_by_tenant":
             return {
                 ...state,
-                bookings: action.payload,
+                upcomingbookings: action.payload,
                 bookingSuccess: true
             } 
         case "get_old_bookings_by_home":
             return {
                 ...state,
-                bookings: action.payload,
+                oldbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_upcoming_bookings_by_home":
             return {
                 ...state,
-                bookings: action.payload,
+                upcomingbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_old_bookings_by_host":
             return {
                 ...state,
-                bookings: action.payload,
+                oldbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_upcoming_bookings_by_host":
             return {
                 ...state,
-                bookings: action.payload,
+                upcomingbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_old_bookings_for_admin":
             return {
                 ...state,
-                bookings: action.payload,
+                oldbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_upcoming_bookings_for_admin":
             return {
                 ...state,
-                bookings: action.payload,
+                upcomingbookings: action.payload,
                 bookingSuccess: true
             }
         case "get_booking_by_id":

@@ -148,3 +148,59 @@ export const getBookingByIdAction= (bookingId: number) => async (dispatch: Dispa
         });
     }
 }
+export const getUpcomingBookingByTenantAction= (tenantId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/upcomingBookings/tenant/" + tenantId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_upcoming_bookings_by_tenant",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+export const getOldBookingByTenantAction= (tenantId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/oldBookings/tenant/" + tenantId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_old_bookings_by_tenant",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}

@@ -59,7 +59,7 @@ const TenantStack = () => {
                 options={{
                 headerShown: false,
                 tabBarIcon: ({color}) => (
-                    <Feather name="message-square" size={28} color={color} />
+                    <Ionicons name="chatbox-outline" size={28} color={color} />
                     )
                 }} 
                 name="InBoxScreen" 
