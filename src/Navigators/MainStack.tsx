@@ -18,6 +18,9 @@ import UserProfileScreen from '../Screens/Tenant/UserProfileScreen';
 import ConfirmedBookingScreen from '../Screens/Tenant/ConfirmedBookingScreen';
 import BookingsListScreen from '../Screens/Tenant/BookingsListScreen';
 import ConversationScreen from '../Screens/Tenant/ConversationScreen';
+import HostStack from './HostStack';
+import HostDetailBookingScreen from '../Screens/Host/HostDetailBookingScreen';
+import HostDetailedHome from '../Screens/Host/HostDetailedHome';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -50,6 +53,13 @@ export type RootStackParamList = {
     ConversationScreen: {
       chatId?: number,
       receiverId?: number
+    },
+    HostStack: undefined,
+    HostDetailBookingScreen: {
+      bookingId: number
+    },
+    HostDetailedHome: {
+      homeId: number
     }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
@@ -72,6 +82,9 @@ const MainStack = () => {
         <stack.Screen component={BookingsListScreen}   options={{title: "List of Bookings"}} name="BookingsListScreen"></stack.Screen>
         <stack.Screen component={ConversationScreen}  name="ConversationScreen"></stack.Screen>
         <stack.Screen component={TenantStack} options={{headerShown: false}} name="TenantStack"></stack.Screen>
+        <stack.Screen component={HostStack} options={{headerShown: false}} name="HostStack"></stack.Screen>
+        <stack.Screen component={HostDetailBookingScreen} name="HostDetailBookingScreen"></stack.Screen>
+        <stack.Screen component={HostDetailedHome} options={{headerShown: false}} name="HostDetailedHome"></stack.Screen>
     </stack.Navigator>
   )
 }

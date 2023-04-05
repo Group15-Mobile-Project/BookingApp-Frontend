@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Dispatch } from "react";
+import { Alert } from "react-native";
 import { ACTION, BOOKINGFORM, CategoryPost, DISCOUNTFORM, HOMEREVIEWFORM } from "../../Model";
 import { HOST_URL } from "../store";
 
@@ -24,6 +25,7 @@ export const createBookingAction= (form: BOOKINGFORM) => async (dispatch: Dispat
             type: "create_booking",
             payload: data
         })
+        Alert.alert("request to book successfully");
     } catch (err) {
         console.log(err);
         dispatch({
@@ -71,7 +73,7 @@ export const acceptBookingAction= (bookingId: number) => async (dispatch: Dispat
                 payload: "token not found"
             });
         }
-        const res = await axios.put(HOST_URL + "/api/bookings/acceptbooking/" + bookingId,  {
+        const res = await axios.put(HOST_URL + "/api/bookings/acceptbooking/" + bookingId, {},  {
             headers: {
                 Authorization: token 
             }
@@ -81,6 +83,34 @@ export const acceptBookingAction= (bookingId: number) => async (dispatch: Dispat
         dispatch({
             type: "accept_booking",
             payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+export const cancelBookingAction= (bookingId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        await axios.delete(HOST_URL + "/api/bookings/booking/" + bookingId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+       
+        console.log("delete booking")
+        dispatch({
+            type: "cancel_booking",
+            payload: bookingId
         })
     } catch (err) {
         console.log(err);
@@ -100,7 +130,7 @@ export const unacceptBookingAction= (bookingId: number) => async (dispatch: Disp
                 payload: "token not found"
             });
         }
-        const res = await axios.put(HOST_URL + "/api/bookings/unacceptbooking/" + bookingId,  {
+        const res = await axios.put(HOST_URL + "/api/bookings/unacceptbooking/" + bookingId, {}, {
             headers: {
                 Authorization: token 
             }
@@ -195,6 +225,77 @@ export const getOldBookingByTenantAction= (tenantId: number) => async (dispatch:
         dispatch({
             type: "get_old_bookings_by_tenant",
             payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+export const getUpcomingBookingByHostAction= (hostId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/upcomingBookings/host/" + hostId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_upcoming_bookings_by_host",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+export const getOldBookingByHostAction= (hostId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/oldBookings/host/" + hostId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_old_bookings_by_host",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+
+export const clearBooking= () =>(dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+       
+        dispatch({
+            type: "clear_booking"
         })
     } catch (err) {
         console.log(err);

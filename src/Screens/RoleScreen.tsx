@@ -28,17 +28,18 @@ const RoleScreen = () => {
     const hostNavigation = async () => {
         if(authUser.roles.includes("HOST")) {
             console.log("has host");
+            navigation.navigate('HostStack');
         } else {
             console.log("update to host");
             await dispatch(updateToHostAction() as any)
+            navigation.navigate('HostStack');
         }
-        // navigation.navigate("hostScreen")
     }
 
 
   return (
     <SafeAreaView style={tw('flex-1 items-center justify-center px-4')}>
-        <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Tenant' onPress={tenantNavigation}></Button>
+        <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Tenant' onPress={tenantNavigation}></   Button>
         <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mt-6')} size='lg' title='Host' onPress={hostNavigation}></Button>
     </SafeAreaView>
   )

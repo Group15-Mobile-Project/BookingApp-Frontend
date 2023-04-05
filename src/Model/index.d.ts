@@ -246,7 +246,8 @@ export interface declaredStateWishlist {
 export interface BOOKDATE {
     id: number,
     homeId: number,
-    date: string
+    date: string,
+    bookingId: number
 }
 
 export interface declaredStateBookDate {

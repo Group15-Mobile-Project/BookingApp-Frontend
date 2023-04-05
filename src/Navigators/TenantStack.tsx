@@ -28,12 +28,12 @@ const TenantStack = () => {
 
   return (
         <tab.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-          tabBarInactiveTintColor: '#c7c9c9',
-          tabBarActiveTintColor: '#FF5A5F'
-        }}
-        initialRouteName='HomesStack'
+            screenOptions={{
+                tabBarShowLabel: false,
+                tabBarInactiveTintColor: '#c7c9c9',
+                tabBarActiveTintColor: '#FF5A5F'
+            }}
+            initialRouteName='HomesStack'
         >
             <tab.Screen 
                 options={{

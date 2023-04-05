@@ -38,7 +38,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
   const dispatch = useDispatch();
 
   const handleRenderItem: ListRenderItem<any> = ({item}) => (
-    <Image source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 400, resizeMode: 'cover'}]}></Image>       
+    <Image source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>       
 )
 
   const onViewableItemsChanged = useRef(({viewableItems, changed}: {viewableItems: any, changed: any}) => {

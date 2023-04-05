@@ -28,7 +28,7 @@ export default (state: declaredStateNotification = initialState, action: ACTION)
             return {
                 ...state,
                 notification: action.payload,
-                notifications: state.notifications.map((noti: NOTIFICATION) => noti.id == action.payload.id),
+                notifications: state.notifications.filter((noti: NOTIFICATION) => noti.id == action.payload.id),
                 notificationSuccess: true
             }
         case "notification_error":

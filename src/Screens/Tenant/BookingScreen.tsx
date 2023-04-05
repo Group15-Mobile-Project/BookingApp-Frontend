@@ -116,8 +116,8 @@ const BookingScreen = () => {
                 checkOutDate: checkout,
                 totalPrice: totalPrice
             }
-            await dispatch(createBookingAction(bookingForm) as any);
-            navigation.navigate("DetailHomeScreen", {homeId: home.id});
+            await dispatch(createBookingAction(bookingForm) as any);   
+            navigation.navigate('BookingsListScreen');  
         }
     }
 

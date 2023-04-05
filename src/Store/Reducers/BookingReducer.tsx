@@ -33,6 +33,12 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
                 upcomingbookings: state.upcomingbookings.map((bo: BOOKING) => bo.id == action.payload.id ? action.payload : bo),
                 bookingSuccess: true
             } 
+        case "cancel_booking":
+            return {
+                ...state,
+                upcomingbookings: state.upcomingbookings.filter((bo: BOOKING) => bo.id != action.payload),
+                bookingSuccess: true
+            } 
         case "unaccept_booking":
             return {
                 ...state,
@@ -98,6 +104,12 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
             return {
                 ...state,
                 countDiscount: action.payload,
+                bookingSuccess: true
+            }
+        case "clear_booking":
+            return {
+                ...state,
+                booking: {},
                 bookingSuccess: true
             }
         case "booking_error":

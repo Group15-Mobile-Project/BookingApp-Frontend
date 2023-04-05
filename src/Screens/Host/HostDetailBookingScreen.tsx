@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTailwind } from 'tailwind-rn/dist'
-import { cancelBookingAction, clearBooking, createBookingAction, getBookingByIdAction, getCountDiscountAction } from '../../Store/Actions/BookingAction';
+import { acceptBookingAction, clearBooking, createBookingAction, getBookingByIdAction, getCountDiscountAction, unacceptBookingAction } from '../../Store/Actions/BookingAction';
 import BookingHomeCard from '../../Component/BookingHomeCard';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,18 +25,19 @@ import { addTenantReview, getTenantReviewByHostAndTenant } from '../../Store/Act
 import ConfirmBookingTenantReviewCard from '../../Component/ConfirmBookingTenantReviewCard';
 
 type BookingNavigationProp = CompositeNavigationProp<
-NativeStackNavigationProp<RootStackParamList, "ConfirmedBookingScreen">,
+NativeStackNavigationProp<RootStackParamList, "HostDetailBookingScreen">,
 NativeStackNavigationProp<HomesStackParamList>>;
 
-type DetailHomeProp = RouteProp<RootStackParamList, "ConfirmedBookingScreen">;
+type DetailHomeProp = RouteProp<RootStackParamList, "HostDetailBookingScreen">;
 
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
     "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
     "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
+  ]
 
-const ConfirmedBookingScreen = () => {
+
+const HostDetailBookingScreen = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [rating, setRating] = useState<number>(5);
@@ -66,24 +67,24 @@ const ConfirmedBookingScreen = () => {
         if(bookingId) {
             await dispatch(getBookingByIdAction(bookingId) as any)
         }
-    }, [bookingId, dispatch])
+    }, [bookingId, dispatch, bookingId])
 
     const loadHomeReviewByHomeAndUser = useCallback(async () => {
         if(booking) {
             console.log("load home review");
             await dispatch(getReviewByHomeAndUserAction(booking?.home?.id, booking?.tenant?.id) as any);
         }
-    }, [booking, dispatch])
+    }, [booking, dispatch, bookingId])
     const loadTenantReviewByTenantAndHost = useCallback(async () => {
         if(booking) {
             console.log("load tenant review");
             await dispatch(getTenantReviewByHostAndTenant(booking?.home?.owner?.id, booking?.tenant?.id) as any);
         }
-    }, [booking, dispatch])
+    }, [booking, dispatch, bookingId])
     useLayoutEffect(() => {
         if( bookingId) {
             navigation.setOptions({
-                title: "Your Booking"
+                title: "Guest's Booking"
             })
         }
     }, [bookingId])
@@ -103,7 +104,7 @@ const ConfirmedBookingScreen = () => {
             let duration = (checkin.getTime() - currentDate.getTime()) / 1000 / 60 / 60 / 24;
             setTimeLeft(duration);
         }
-    }, [booking])
+    }, [booking, bookingId])
 
 
     const OpenModalCalendar = () => {
@@ -150,15 +151,21 @@ const ConfirmedBookingScreen = () => {
             Alert.alert("please type your description")
         }       
     }
-    const cancelBookingFunction = async () => {
-        await dispatch(cancelBookingAction(booking?.id) as any);
-        navigation.goBack();
+
+    const acceptBookingFunction = async () => {
+        if(booking) {
+            await dispatch(acceptBookingAction(booking?.id) as any);
+        }
+    }
+    const rejectBookingFunction = async () => {
+        if(booking) {
+            await dispatch(unacceptBookingAction(booking?.id) as any);
+        }
     }
    
   return (
     <ScrollView style={tw('flex-1 relative')}>
         {booking && <BookingHomeCard item={booking?.home}showPrice={false} onPress={() => navigation.navigate("DetailHomeScreen", {homeId: booking?.home?.id})}></BookingHomeCard>}
-        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         {booking?.status == "PENDING" && (
             <View style={[tw('w-full bg-green-600 px-6 py-4 items-center justify-center')]}>
                 <Text style={tw('text-white text-lg font-bold')}>Booking is Pending</Text>
@@ -168,14 +175,12 @@ const ConfirmedBookingScreen = () => {
             <View style={[tw('w-full bg-green-600 px-6 py-4 items-center justify-center')]}>
                 <Text style={tw('text-white text-lg font-bold')}>Booking is Accepted</Text>
             </View>
-            
         )}
         {booking?.status == "UNACCEPTED" && (
             <View style={[tw('w-full bg-red-600 px-6 py-4 items-center justify-center')]}>
                 <Text style={tw('text-white text-lg font-bold')}>Booking is Rejected</Text>
             </View>
-        )}
-        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+        )}   
         <View style={tw('w-full px-4 my-2 flex-row items-center justify-start')}>
             <TouchableOpacity onPress={navigateToUserProfileScreen} >
                 <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw(' mb-2 rounded-full'), {width: 80, height: 80, resizeMode: 'cover'}]}></Image>
@@ -222,15 +227,14 @@ const ConfirmedBookingScreen = () => {
                 <Text style={tw('text-lg')}>£{Math.round(booking?.priceAfterDiscount).toFixed(2)}</Text>  
             </View>
         </View>
-        {booking?.status != "UNACCEPTED"  && (
+        {booking?.status == "PENDING"  && (
             <>
                 <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
-                {timeLeft > 14 ? (
-                    <Button onPress={cancelBookingFunction}  title="Cancel Booking" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
-                ): (
-                    <Text style={tw('text-lg px-4 my-4 font-bold text-black')}>Cannot cancel your booking after 14 days when your booking starts</Text>  
-                )}    
-            </>
+                <View>
+                    <Button onPress={acceptBookingFunction}  title="Accept Booking" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+                    <Button onPress={rejectBookingFunction} title="Reject Booking" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+                </View>                     
+             </>
         )}
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full py-2 px-4')}>
@@ -312,6 +316,6 @@ const ConfirmedBookingScreen = () => {
   )
 }
 
-export default ConfirmedBookingScreen
+export default HostDetailBookingScreen
 
 const styles = StyleSheet.create({})

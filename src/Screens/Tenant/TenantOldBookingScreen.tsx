@@ -18,7 +18,7 @@ import { BOOKING, NOTIFICATION } from '../../Model';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { BookingsListNavigationProp } from './BookingsListScreen';
-import BookingCard from './BookingCard';
+import BookingCard from '../../Component/BookingCard';
 import { getOldBookingByTenantAction, getUpcomingBookingByTenantAction } from '../../Store/Actions/BookingAction';
 
 const TenantOldBookingScreen = () => {
@@ -60,7 +60,7 @@ const TenantOldBookingScreen = () => {
         <FlatList
             refreshing={isRefreshing}
             onRefresh={loadOldBookingsByTenants}
-            data={oldbookings}
+            data={oldbookings.sort((a: BOOKING, b: BOOKING) => (new Date(a.checkInDate).getTime()) - (new Date(b.checkInDate).getTime()))}
             keyExtractor={(item: any) => item.id}
             renderItem={handleRenderItem}
             showsVerticalScrollIndicator={false}

@@ -111,7 +111,7 @@ const ConversationScreen = () => {
 
     useEffect(() => {
         if(chat) {
-          setReceiver(chat?.participants[0]?.user?.id == authUser.id ? chat.participants[1].user : chat.participants[0].user)
+          setReceiver(chat?.participants[0].user?.id == authUser.id ? chat.participants[1].user : chat.participants[0].user)
         }
       }, [chat, chatId, dispatch])
     
