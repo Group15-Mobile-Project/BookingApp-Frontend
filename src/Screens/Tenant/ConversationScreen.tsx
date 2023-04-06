@@ -103,17 +103,20 @@ const ConversationScreen = () => {
         setIsLoading(true);
         console.log("authuser : " + authUser?.id)
         loadChat().then(() => loadChatMessages()).then(() => setIsLoading(false));
+        if(chat && chat.participants) {
+            setReceiver(chat?.participants[0].user?.id == authUser.id ? chat.participants[1].user : chat.participants[0].user)
+          }
     }, [authUser, dispatch, chatId, receiverId])
 
     useEffect(() => {
         scrollRef?.current?.scrollToEnd()
     }, [chatMessages])
 
-    useEffect(() => {
-        if(chat) {
-          setReceiver(chat?.participants[0].user?.id == authUser.id ? chat.participants[1].user : chat.participants[0].user)
-        }
-      }, [chat, chatId, dispatch])
+    // useEffect(() => {
+    //     if(chat) {
+    //       setReceiver(chat?.participants[0].user?.id == authUser.id ? chat.participants[1].user : chat.participants[0].user)
+    //     }
+    // }, [chat, chatId, dispatch])
     
   
 

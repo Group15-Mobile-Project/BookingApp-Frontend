@@ -13,6 +13,7 @@ export const createDiscountAction= (form: DISCOUNTFORM) => async (dispatch: Disp
                 payload: "token not found"
             });
         }
+        console.log(token);
         const res = await axios.post(HOST_URL + "/api/discount/", form, {
             headers: {
                 Authorization: token 
@@ -41,6 +42,7 @@ export const updateDiscountAction= (discountId: number ,form: DISCOUNTFORM) => a
                 payload: "token not found"
             });
         }
+        console.log(token);
         const res = await axios.put(HOST_URL + "/api/discount/id/" + discountId, form, {
             headers: {
                 Authorization: token 

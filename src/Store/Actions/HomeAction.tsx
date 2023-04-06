@@ -188,12 +188,12 @@ export const updateHomeAction = (homeId: number, home: HomeUpdate) => async (dis
         if(home.capacity) {
             urlQuery += "capacity=" + home.capacity + "&";
         }
-        if(home.imgUrls) {
+        if(home.imgUrls && home.imgUrls.length > 0) {
             for(let i = 0; i < home.imgUrls.length; i++) {
                 urlQuery += "imgUrls=" + home.imgUrls[i] + "&";
             }
         }
-        const res = await axios.put(HOST_URL + "/api/homes/home/" + homeId + "?" + urlQuery, {
+        const res = await axios.put(HOST_URL + "/api/homes/home/" + homeId + "?" + urlQuery, {}, {
             headers: {
                 Authorization: token 
             }

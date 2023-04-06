@@ -187,13 +187,18 @@ const ConfirmedBookingScreen = () => {
             <Text style={tw('text-2xl font-bold text-black my-2')}>Your Booking</Text>
             <Text style={tw('text-base font-bold text-gray-400 my-2')}>{booking?.bookingCode}</Text>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
-                <View>
+                <View style={tw('flex-1')}>
                     <Text style={tw('text-lg font-bold text-black')}>Dates</Text>
                     <Text style={tw('text-lg')}>{booking?.checkInDate && new Date(booking?.checkInDate ).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {booking?.checkOutDate && new Date(booking?.checkOutDate).toLocaleString('en-us',{ day: 'numeric', month:'short'})} </Text>
                 </View>
                 <TouchableOpacity onPress={OpenModalCalendar} style={tw('')}>
                     <AntDesign name="calendar" size={28} color="gray" /> 
                 </TouchableOpacity>
+                {(new Date(booking?.checkInDate).getTime() - currentDate.getTime()) / 1000 / 60 / 60 / 24 > 14 && (
+                    <TouchableOpacity onPress={() => navigation.navigate("UpdateBookingScreen", {bookingId: bookingId, homeId: booking?.home?.id})} style={tw('ml-6')}>
+                        <AntDesign name="edit" size={28} color="gray" /> 
+                    </TouchableOpacity>
+                )}
             </View>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
                 <View>
@@ -204,6 +209,7 @@ const ConfirmedBookingScreen = () => {
                     <Ionicons name="people" size={28} color="gray" /> 
                 </TouchableOpacity>
             </View>
+            <Text style={tw('text-lg  my-4 font-bold text-black')}>You are able to change your booking before 14 days when your booking starts</Text> 
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full py-2 px-4')}>

@@ -49,6 +49,9 @@ export interface CHANGEPASSWORD {
 export interface ImageData {
     image: string
 }
+export interface ImagesData {
+    images: string[]
+}
 
 export interface COUNTRY {
     id: number,
@@ -124,7 +127,7 @@ export interface declaredStateHome  {
     message: string | null
 }
 
-export interface HomePost {
+export interface HomePost { 
     openBooking: string,
     closeBooking: string,
     title: string,
@@ -284,6 +287,12 @@ export interface BOOKINGFORM {
     checkOutDate: string,
     homeId: number,
     priceAfterDiscount: number
+}
+export interface BOOKINGUPDATE {
+    days: number,
+    totalPrice: number,
+    checkInDate: string,
+    checkOutDate: string
 }
 
 export interface declaredStateBooking {

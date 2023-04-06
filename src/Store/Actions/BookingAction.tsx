@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { Dispatch } from "react";
 import { Alert } from "react-native";
-import { ACTION, BOOKINGFORM, CategoryPost, DISCOUNTFORM, HOMEREVIEWFORM } from "../../Model";
+import { ACTION, BOOKINGFORM, BOOKINGUPDATE, CategoryPost, DISCOUNTFORM, HOMEREVIEWFORM } from "../../Model";
 import { HOST_URL } from "../store";
 
 export const createBookingAction= (form: BOOKINGFORM) => async (dispatch: Dispatch<ACTION>, getState: any) => {
@@ -92,6 +92,7 @@ export const acceptBookingAction= (bookingId: number) => async (dispatch: Dispat
         });
     }
 }
+
 export const cancelBookingAction= (bookingId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");
@@ -138,7 +139,7 @@ export const unacceptBookingAction= (bookingId: number) => async (dispatch: Disp
         const data = await res.data
         console.log(data)
         dispatch({
-            type: "accept_booking",
+            type: "unaccept_booking",
             payload: data
         })
     } catch (err) {
@@ -149,7 +150,43 @@ export const unacceptBookingAction= (bookingId: number) => async (dispatch: Disp
         });
     }
 }
+export const updateBookingAction= (bookingId: number, form: BOOKINGUPDATE) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        console.log(token);
+        let urlQuery: string = "";
+        urlQuery += "checkInDate=" + form.checkInDate + "&";
+        urlQuery += "checkOutDate=" + form.checkOutDate + "&";
+        urlQuery += "totalPrice=" + form.totalPrice + "&";
+        urlQuery += "days=" + form.days + "&";
 
+        console.log(HOST_URL + `/api/bookings/booking/${bookingId}?checkInDate=${form.checkInDate}&checkOutDate=${form.checkOutDate}&days=${form.days}&totalPrice=${form.totalPrice}`);
+
+        const res = await axios.put(HOST_URL + `/api/bookings/booking/${bookingId}?checkInDate=${form.checkInDate}&checkOutDate=${form.checkOutDate}&days=${form.days}&totalPrice=${form.totalPrice}`, {},  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "update_booking",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
 export const getBookingByIdAction= (bookingId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");

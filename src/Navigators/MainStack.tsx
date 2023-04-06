@@ -21,6 +21,10 @@ import ConversationScreen from '../Screens/Tenant/ConversationScreen';
 import HostStack from './HostStack';
 import HostDetailBookingScreen from '../Screens/Host/HostDetailBookingScreen';
 import HostDetailedHome from '../Screens/Host/HostDetailedHome';
+import UpdateHomeScreen from '../Screens/Host/UpdateHomeScreen';
+import CreateHomeScreen from '../Screens/Host/CreateHomeScreen';
+import DiscountForm from '../Screens/Host/DiscountForm';
+import UpdateBookingScreen from '../Screens/Tenant/UpdateBookingScreen';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -60,6 +64,18 @@ export type RootStackParamList = {
     },
     HostDetailedHome: {
       homeId: number
+    },
+    UpdateHomeScreen: {
+      homeId: number
+    },
+    CreateHomeScreen: undefined,
+    DiscountForm: {
+      homeId: number,
+      discountId?: number
+    },
+    UpdateBookingScreen: {
+      bookingId: number,
+      homeId: number
     }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
@@ -85,6 +101,10 @@ const MainStack = () => {
         <stack.Screen component={HostStack} options={{headerShown: false}} name="HostStack"></stack.Screen>
         <stack.Screen component={HostDetailBookingScreen} name="HostDetailBookingScreen"></stack.Screen>
         <stack.Screen component={HostDetailedHome} options={{headerShown: false}} name="HostDetailedHome"></stack.Screen>
+        <stack.Screen component={UpdateHomeScreen} options={{title: "Update Home"}} name="UpdateHomeScreen"></stack.Screen>
+        <stack.Screen component={CreateHomeScreen} options={{title: "New Home"}} name="CreateHomeScreen"></stack.Screen>
+        <stack.Screen component={DiscountForm} options={{title: "Discount Form"}} name="DiscountForm"></stack.Screen>
+        <stack.Screen component={UpdateBookingScreen} options={{title: "Update booking"}} name="UpdateBookingScreen"></stack.Screen>
     </stack.Navigator>
   )
 }

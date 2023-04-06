@@ -68,7 +68,7 @@ const HostHomeListingScreen = () => {
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white  relative')}> 
-        <TouchableOpacity style={[tw('flex-row items-center px-4 py-2 justify-start w-full mb-2 bg-white mt-4'), styles.shadow]}>
+        <TouchableOpacity onPress={() => navigation.navigate("CreateHomeScreen")} style={[tw('flex-row items-center px-4 py-2 justify-start w-full mb-2 bg-white mt-4'), styles.shadow]}>
             <MaterialCommunityIcons name="home-plus-outline" size={34} color="gray" /> 
             <View style={tw('flex-1')}>
                 <Text style={tw('text-lg ml-4 font-bold text-black')}>Add new home</Text>

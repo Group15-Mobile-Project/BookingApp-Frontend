@@ -69,7 +69,7 @@ const SignUpScreen = () => {
             }
         })
         const data: ImageData = await res.data;
-        console.log(data)
+        console.log(res.data)
         setImageurl(data.image)
     }
 
@@ -90,7 +90,7 @@ const SignUpScreen = () => {
     }
 
     const navigateToLogin = () => {
-        navigation.navigate("ChangePassword")
+        navigation.navigate("Login");
     }
 
   return (

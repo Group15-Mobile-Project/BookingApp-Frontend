@@ -27,6 +27,7 @@ import { FlatList } from 'react-native';
 import { getReviewsByHomeAction } from '../../Store/Actions/HomeReviewAction';
 import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
 import HomeCardDots from '../../Component/HomeCardDots';
+import HostHomeDetailedCalendar from '../../Component/HostHomeDetailedCalendar';
 
 export type HostDetailedHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "HostDetailedHome">,
@@ -113,7 +114,7 @@ const HostDetailedHome = () => {
                 setIsBetween(false);
             }
         }
-    }, [home])
+    }, [home, homeId])
 
     useEffect(() =>{
         setIsLoading(true);
@@ -187,6 +188,9 @@ const HostDetailedHome = () => {
                 <TouchableOpacity onPress={() => navigation.goBack()} style={[tw('absolute top-2 left-8 bg-white p-2 rounded-full'), {zIndex: 10}]}>
                     <AntDesign name="arrowleft" size={28} color="black" />            
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("UpdateHomeScreen", {homeId: home?.id})} style={[tw('absolute top-2 right-8 bg-white p-2 rounded-full'), {zIndex: 10}]}>
+                    <AntDesign name="edit" size={28} color="black" />            
+                </TouchableOpacity>
             </View>
             <View style={tw('w-full my-2 pl-4 pr-4')}>
                 <Text style={tw('text-2xl font-bold text-black')}>{home.title}</Text>
@@ -200,20 +204,6 @@ const HostDetailedHome = () => {
                 )}
                 <Text style={tw('text-lg ml-2')}>{home?.city?.name},</Text>
                 <Text style={tw('text-lg ml-2')}>{home?.country?.name}</Text>
-                </View>
-                <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
-            </View>
-            <View style={tw('w-full my-2 pl-4 pr-4')}>
-                <View style={tw('flex-row items-center justify-between w-full mb-4')}>
-                    <Text style={tw('text-2xl font-bold text-black flex-1 mr-2')}>The property hosted by {home?.owner?.user?.username}</Text>
-                    <Pressable onPress={navigateToHostScreen}>
-                        <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full'), {width: 60, height: 60, resizeMode: 'cover'}]}></Image> 
-                    </Pressable>
-                </View>
-                <View style={tw('flex-row items-center justify-start mb-2')}>
-                <Text style={tw('text-lg ml-2')}>{home?.capacity} guest -</Text>
-                <Text style={tw('text-lg ml-2')}>{home?.bedrooms} {home?.bedrooms > 1 ? "bedrooms" : "bedroom"} -</Text>
-                <Text style={tw('text-lg ml-2')}>{home?.beds} {home?.beds > 1 ? "beds" : "bed"} </Text>
                 </View>
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
@@ -274,18 +264,51 @@ const HostDetailedHome = () => {
             </View>
             <View style={tw('w-full my-2 px-4')}>
                 <View style={tw('w-full flex-row items-center justify-between ')}>
-                    <View style={tw('items-start justify-start w-full flex-1')}> 
-                        <Text style={tw('text-2xl font-bold text-black')}>Guests</Text>
-                    </View>
-                    
+                    <Text style={tw('text-2xl font-bold text-black')}>Guests number</Text>      
+                    <Text style={tw('text-2xl font-bold text-black mr-4')}>{home?.capacity}</Text>
                 </View>
+                <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
+            </View>
+            <View style={tw('w-full my-2 mb-4  px-4')}>   
+                <Text style={tw('text-2xl font-bold text-black mb-4')}>Price</Text>
+                <View style={tw('flex-row items-center justify-between w-full mb-4')}> 
+                    <Text style={tw('text-lg')}>1 night</Text>
+                    <Text style={tw('mr-4 text-black font-bold text-lg')}>£{Math.round(home.price * 100 / 100).toFixed(2)}</Text>
+                </View>
+                {home?.discount && (
+                    <>
+                        <View style={tw('flex-row items-start justify-between w-full mb-4')}> 
+                            <View>
+                                <Text style={tw('text-lg')}>discount</Text>
+                                <Text style={tw('text-base')}>({new Date(home?.discount?.openDate).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {new Date(home?.discount?.closeDate).toLocaleString('en-us',{ day: 'numeric', month:'short', year: "numeric"})})</Text>
+                            </View>
+                            <Text style={tw('mr-4 text-black font-bold text-lg')}>{home?.discount?.discountRate}% </Text>
+                        </View>
+                        <View style={tw('flex-row items-center justify-between w-full mb-4')}> 
+                            <Text style={tw('text-lg')}>Price after Discount</Text>
+                            <Text style={tw('mr-4 text-black font-bold text-lg')}>£{Math.round(home.price * (100 - home?.discount?.discountRate) / 100).toFixed(2)} </Text>
+                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate("DiscountForm", {homeId: homeId, discountId: home?.discount?.id})} style={[tw('border border-gray-300 p-2 my-2 rounded-full flex-row items-center justify-center'), {width: 200}]}>
+                            <Entypo name="edit" size={32} color="black" />            
+                            <Text style={tw('text-lg font-bold text-black ml-4')}>update discount</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
+                {!home?.discount && (
+                    <>
+                        <TouchableOpacity onPress={() => navigation.navigate("DiscountForm", {homeId: homeId})} style={[tw('border border-gray-300 p-2 my-2 rounded-full flex-row items-center justify-center'), {width: 200}]}>
+                            <Entypo name="add-to-list" size={32} color="black" />            
+                            <Text style={tw('text-lg font-bold text-black ml-4')}>add discount</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
             <View style={tw('w-full my-2 px-4')}>   
                 <Text style={tw('text-2xl font-bold text-black')}>House Rules</Text>
                 <Text style={tw('text-lg mt-4')}> check in after 12:00</Text>
                 <Text style={tw('text-lg mt-2')}> check out before 12:00</Text>           
-                <Text style={tw('text-lg mt-2')}>{home.capacity} guest maximum</Text>        
+                <Text style={tw('text-lg mt-2 ml-2')}>{home.capacity} guest maximum</Text>        
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
             <View style={tw('w-full my-2 mb-4  px-4')}>   
@@ -293,38 +316,10 @@ const HostDetailedHome = () => {
                 <Text style={tw('text-lg mt-4')}>Free of charge for cancellation before 14 days when the reservation starts</Text>
             </View>
         </>}
-            {/* { home && (
-                <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout} homeId={homeId}></HomeDetailCalendar>
-            )} */}
-        </ScrollView>
-        {/* <View style={[tw('bg-white flex-row items-center justify-between  w-full  px-2 py-2'), {zIndex: 10}, styles.shadow]}>  
-            {checkin && checkout ? (
-                <View>
-                    {isBookingDiscount ? (
-                        <View>
-                            <Text style={[tw('ml-4 text-gray-400 font-bold text-lg'), {textDecorationLine: 'line-through'}]}>£{home.price}</Text>
-                            <Text style={tw('ml-4 text-black font-bold text-lg')}>£{Math.round(home.price - (home?.discount?.discountRate * home.price / 100))} night</Text>
-                        </View>
-                    ):(
-                        <Text style={tw('ml-4 text-black font-bold text-lg')}>£{home.price} night</Text>
-                    )}
-                    <Text style={[tw('ml-4 text-gray-400 font-bold text-base') ]}> {checkin && new Date(checkin).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {checkout && new Date(checkout).toLocaleString('en-us',{ day: 'numeric', month:'short'})}</Text>
-                </View>
-            ):(
-                <>
-                    {home?.discount && isBetween ? (
-                        <View>
-                            <Text style={[tw('ml-4 text-gray-400 font-bold text-lg'), {textDecorationLine: 'line-through'}]}>£{home.price}</Text>
-                            <Text style={tw('ml-4 text-black font-bold text-lg')}>£{Math.round(home.price - (home?.discount?.discountRate * home.price / 100))} night</Text>
-                            <Text style={[tw('ml-4 text-gray-400 font-bold text-base') ]}> {home?.discount?.openDate && new Date(home?.discount?.openDate).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {home?.discount?.closeDate && new Date(home?.discount?.closeDate).toLocaleString('en-us',{ day: 'numeric', month:'short'})}</Text>
-                        </View>
-                    ) : (
-                        <Text style={tw('ml-4 text-black font-bold text-lg')}>£{home.price} night</Text>
-                    )}
-                </>
+            { home && (
+                <HostHomeDetailedCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} homeId={homeId}></HostHomeDetailedCalendar>
             )}
-            <Button onPress={navigateToBookingScreen}  title="Reserve" buttonStyle={tw('w-20 h-12 rounded-lg bg-zinc-700')} titleStyle={tw('text-white font-bold')} ></Button>
-        </View> */}
+        </ScrollView>
     </View>
   )
 }

@@ -17,14 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHomesByHomeIdAction, getHomesByHostAction } from '../../Store/Actions/HomeAction';
 import { ListRenderItem } from 'react-native';
 import { FlatList } from 'react-native';
-import HomeCardDots from '../../Component/HomeCardDots';
-import { TouchableOpacity } from 'react-native';
-import HomeDetailMap from '../../Component/HomeDetailMap';
 import { getReviewsByHomeAction, getReviewsByHostAction } from '../../Store/Actions/HomeReviewAction';
-import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
-import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 import { Button } from '@rneui/base';
-import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { getUserByIdAction } from '../../Store/Actions/UserAction';
 import UserProfileHomeCard from '../../Component/UserProfileHomeCard';
@@ -32,6 +26,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import HomeReviewUserProfile from '../../Component/HomeReviewUserProfile';
 import TenantReviewUserProfile from '../../Component/TenantReviewUserProfile';
 import { getTenantReviewsByTenant } from '../../Store/Actions/TenantReviewAction';
+import HostProfileHomeCard from '../../Component/HostProfileHomeCard';
 
 
 type UserProfileNavigationProp = CompositeNavigationProp<
@@ -97,7 +92,14 @@ const UserProfileScreen = () => {
     }, [userId, otherUser, dispatch])
 
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: HOME}) => (
-        <UserProfileHomeCard  home={item}></UserProfileHomeCard>
+        // <UserProfileHomeCard  home={item}></UserProfileHomeCard>
+        <>
+            {userId == authUser?.id ? (
+                <HostProfileHomeCard home={item}></HostProfileHomeCard>
+            ): (
+                <UserProfileHomeCard  home={item}></UserProfileHomeCard>
+            )}
+        </>
     )
     const showReviewsFromGuests = () => {
         setIsHosts(false);
