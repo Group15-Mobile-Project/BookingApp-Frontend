@@ -13,11 +13,6 @@ import { RootStackParamList } from '../Navigators/MainStack'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
 const statusText ={
     ACCECPTED_BOOKING: "your booking is accepted by",
     UNACCEPTED_BOOKING: "your booking is rejected by",
@@ -47,7 +42,7 @@ const NotificationCard = ({notify}: {notify: NOTIFICATION}) => {
   return (
     <Pressable onPress={navigateToNotification} style={[tw('border border-gray-300 rounded-lg my-2 px-2 w-full')]} key={notify?.id}>
         <View style={tw('flex-row items-center justify-start')}>
-            <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>      
+            <Image source={{uri: HOST_URL + "/api/images/image/" + notify?.host?.user?.imgUrls}} style={[tw('rounded-full mr-4'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>      
             <View style={tw(' items-start justify-start')}>
                 <Text style={tw(' text-lg text-gray-400 font-bold')}>{notify?.host?.user?.username}</Text>
                 <Text style={tw(' text-base text-gray-400 font-bold')}>{new Date(notify?.dateCreated).toLocaleString('en-us',{ month:'short', year:'numeric', day: 'numeric'})}</Text>

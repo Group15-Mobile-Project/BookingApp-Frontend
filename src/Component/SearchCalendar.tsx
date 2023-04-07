@@ -45,7 +45,7 @@ const SearchCalendar = ({checkIn, checkOut, setCheckIn, setCheckOut,showCalendar
     const addDaySelected = (day: DateData) => {
         console.log('selected day', day);
         if(!isStart || (isStart && isEnd)) {
-            setMarkedDays({[day.dateString]: {startingDay: true, color: "#FF5A5F"}})
+            setMarkedDays({[day.dateString]: {startingDay: true, color: "#03b1fc"}})
             setStartDate(day.dateString);
             if(!isStart) {
                 setIsStart(!isStart)
@@ -76,7 +76,7 @@ const SearchCalendar = ({checkIn, checkOut, setCheckIn, setCheckOut,showCalendar
         if(checkOutFormat.getDate() - checkInFormat.getDate() > 0) {
             const diffDay = checkOutFormat.getDate() - checkInFormat.getDate();
             addMiddleDays(checkInFormat, checkOutFormat, diffDay);
-            setMarkedDays({...markedDays, [checkIn]: {startingDay: true, color: "#FF5A5F"}});
+            setMarkedDays({...markedDays, [checkIn]: {startingDay: true, color: "#03b1fc"}});
             setCloseDate(checkOut);
             setIsEnd(true)
         }
@@ -93,12 +93,12 @@ const SearchCalendar = ({checkIn, checkOut, setCheckIn, setCheckOut,showCalendar
             if(i == diffDay) {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#03b1fc"}
                 i++;
             } else {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#03b1fc"}
                 i++;
             }
         }

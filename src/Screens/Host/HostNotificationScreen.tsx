@@ -18,6 +18,7 @@ import { NOTIFICATION } from '../../Model';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import HostNotificationCard from '../../Component/HostNotificationCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const HostNotificationScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +46,9 @@ const HostNotificationScreen = () => {
         loadNotifications().then(() => setIsLoading(false));
     }, [authUser, dispatch])
 
-
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <View style={tw('bg-white flex-1 px-2')}>

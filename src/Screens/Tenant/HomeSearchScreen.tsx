@@ -20,6 +20,7 @@ import { Button } from '@rneui/base';
 import { getHomesBySearchQueryAction } from '../../Store/Actions/HomeAction';
 import { Alert } from 'react-native';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type MainHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "HomeSearchScreen">,
@@ -88,6 +89,9 @@ const HomeSearchScreen = () => {
         }   
     }
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
   return (
     <KeyboardAvoidingView style={tw('flex-1')}>
     <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>
@@ -143,7 +147,7 @@ const HomeSearchScreen = () => {
       </View >
       <View style={[tw('flex-row absolute bottom-0 items-center justify-between w-full px-4 bg-white py-2'), {zIndex: 10}]}>
         <Button onPress={clearAllFunction}  title="clear All" buttonStyle={tw('w-20 h-12 rounded-lg bg-gray-400')} titleStyle={tw('text-white font-bold')}></Button>
-        <Button onPress={searchSubmit}  title="Search" buttonStyle={tw('w-20 h-12 rounded-lg bg-[#FF5A5F]')} titleStyle={tw('text-white font-bold')}></Button>
+        <Button onPress={searchSubmit}  title="Search" buttonStyle={tw('w-20 h-12 rounded-lg bg-[#03b1fc]')} titleStyle={tw('text-white font-bold')}></Button>
       </View>
     </SafeAreaView>
     </TouchableWithoutFeedback>

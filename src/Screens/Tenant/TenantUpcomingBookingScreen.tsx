@@ -20,6 +20,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { BookingsListNavigationProp } from './BookingsListScreen';
 import BookingCard from '../../Component/BookingCard';
 import { getUpcomingBookingByTenantAction } from '../../Store/Actions/BookingAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const TenantUpcomingBookingScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,6 +54,10 @@ const TenantUpcomingBookingScreen = () => {
                 <Text style={tw('text-2xl font-bold text-black')}>No Bookings</Text>
             </View>
           )
+    }
+
+    if(isLoading) {
+      return <LoadingComponent/>
     }
 
   return (

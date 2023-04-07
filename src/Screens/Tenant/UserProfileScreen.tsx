@@ -27,6 +27,7 @@ import HomeReviewUserProfile from '../../Component/HomeReviewUserProfile';
 import TenantReviewUserProfile from '../../Component/TenantReviewUserProfile';
 import { getTenantReviewsByTenant } from '../../Store/Actions/TenantReviewAction';
 import HostProfileHomeCard from '../../Component/HostProfileHomeCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 type UserProfileNavigationProp = CompositeNavigationProp<
@@ -34,11 +35,6 @@ NativeStackNavigationProp<RootStackParamList, "UserProfileScreen">,
 NativeStackNavigationProp<HomesStackParamList>>;
 type UserProfileProp = RouteProp<RootStackParamList, "UserProfileScreen">;
 
-const imageDefault = [
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
 
 const Tab = createMaterialTopTabNavigator();
 const UserProfileScreen = () => {
@@ -110,24 +106,28 @@ const UserProfileScreen = () => {
         setIsGuests(false);
     }
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
+
   return (
    
     <ScrollView style={tw('w-full bg-white')}>
       <View style={tw('w-full px-4 my-2')}>
-        <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw(' mb-2 rounded-full'), {width: 100, height: 100, resizeMode: 'cover'}]}></Image>  
+        <Image source={{uri: HOST_URL + "/api/images/image/" + otherUser?.imgUrls}} style={[tw(' mb-2 rounded-full'), {width: 100, height: 100, resizeMode: 'cover'}]}></Image>  
         <Text style={tw('text-2xl font-bold text-black mb-4')}>Hi, I'm {otherUser?.username}</Text>
         {otherUser?.hasHost && (
             <View style={tw('flex-row items-start justify-start w-full mb-2')}>
-                <Entypo name='medal' color="#FF5A5F" size={24}></Entypo>
+                <Entypo name='medal' color="#03b1fc" size={24}></Entypo>
                 <Text style={tw('text-lg text-black ml-4')}>SuperHost</Text>
             </View>
         )}
         <View style={tw('flex-row items-start justify-start w-full mb-2')}>
-            <Entypo name='star' color="#FF5A5F" size={24}></Entypo>
+            <Entypo name='star' color="#03b1fc" size={24}></Entypo>
             <Text style={tw('text-lg text-black ml-4')}>Identity verified</Text>
         </View>
         <View style={tw('flex-row items-start justify-start w-full mb-2')}>
-            <MaterialCommunityIcons name='shield-check' color="#FF5A5F" size={24}></MaterialCommunityIcons>
+            <MaterialCommunityIcons name='shield-check' color="#03b1fc" size={24}></MaterialCommunityIcons>
             <Text style={tw('text-lg text-black ml-4')}>{otherUser?.reviewNums} {otherUser?.reviewNums > 1 ? "Reviews": "Review"}</Text>
         </View>
         <View style={[tw('w-full bg-gray-300 mt-2'), {height: 2}]}></View>
@@ -135,11 +135,11 @@ const UserProfileScreen = () => {
       <View style={tw('w-full px-4 my-2')}> 
         <Text style={tw('text-2xl font-bold text-black mb-4')}>{otherUser?.username} confirmed</Text>
         <View style={tw('flex-row items-start justify-start w-full mb-2')}>
-            <Entypo name='check' color="#FF5A5F" size={24}></Entypo>
+            <Entypo name='check' color="#03b1fc" size={24}></Entypo>
             <Text style={tw('text-lg text-black ml-4')}>Identity </Text>
         </View>
         <View style={tw('flex-row items-start justify-start w-full mb-2')}>
-            <Entypo name='check' color="#FF5A5F" size={24}></Entypo>
+            <Entypo name='check' color="#03b1fc" size={24}></Entypo>
             <Text style={tw('text-lg text-black ml-4')}>Email address</Text>
         </View>
         <View style={[tw('w-full bg-gray-300 mt-2'), {height: 2}]}></View>

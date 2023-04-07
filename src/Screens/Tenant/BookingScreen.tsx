@@ -19,6 +19,7 @@ import BookingGuestModal from '../../Component/BookingGuestModal';
 import { Button } from '@rneui/base';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type BookingNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "BookingScreen">,
@@ -121,6 +122,11 @@ const BookingScreen = () => {
         }
     }
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
+
+
   return (
     <ScrollView style={tw('flex-1 relative')}>
         {home && <BookingHomeCard item={home} showPrice={true}></BookingHomeCard>}
@@ -165,11 +171,11 @@ const BookingScreen = () => {
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full flex-row items-center justify-center px-8 my-2')}>
-            <AntDesign name="calendar" size={24} color="#FF5A5F" />                 
+            <AntDesign name="calendar" size={24} color="#03b1fc" />                 
             <Text style={tw('text-lg font-bold text-black ml-6')}>Your reservation won't be confirmed until the host accepts your request within 48 hours</Text>  
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
-        <Button onPress={createBookingFunction}  title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+        <Button onPress={createBookingFunction}  title="Request to book" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
         {home && (
             <HomeDetailCalendar isVisble={isVisible} setIsVisible={setIsVisible} home={home} setCheckin={setCheckin} setCheckout={setCheckout} checkin={checkin} checkout={checkout} homeId={homeId}></HomeDetailCalendar>
         )}

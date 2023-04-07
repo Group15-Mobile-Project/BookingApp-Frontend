@@ -28,6 +28,7 @@ import { getReviewsByHomeAction } from '../../Store/Actions/HomeReviewAction';
 import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
 import HomeCardDots from '../../Component/HomeCardDots';
 import HostHomeDetailedCalendar from '../../Component/HostHomeDetailedCalendar';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type HostDetailedHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "HostDetailedHome">,
@@ -159,6 +160,10 @@ const HostDetailedHome = () => {
         if(checkin && checkout && capacity) {
             navigation.navigate("BookingScreen", {homeId: homeId, checkIn: checkin, checkOut: checkout, capacity: capacity});
         }
+    }
+
+    if(isLoading) {
+        return <LoadingComponent/>
     }
 
   return (

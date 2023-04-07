@@ -17,6 +17,7 @@ import NotificationCard from '../../Component/NotificationCard';
 import { NOTIFICATION } from '../../Model';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 const NotificationsScreen = () => {
@@ -44,6 +45,10 @@ const NotificationsScreen = () => {
         setIsLoading(true);
         loadNotifications().then(() => setIsLoading(false));
     }, [authUser, dispatch])
+
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <View style={tw('bg-white flex-1 px-2')}>

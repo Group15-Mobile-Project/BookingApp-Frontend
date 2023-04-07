@@ -14,6 +14,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { HostBottomTabProps } from '../../Navigators/HostStack';
 import { RootStackParamList } from '../../Navigators/MainStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 type BookingNavigationProp = CompositeNavigationProp<
@@ -54,12 +55,16 @@ const HostUpcomingBookingsScreen = () => {
           )
     }
 
+    if(isLoading) {
+      return <LoadingComponent/>
+    }
+
   return (
     <View style={tw('bg-white flex-1 px-2')}>
         <FlatList
             refreshing={isRefreshing}
             onRefresh={loadUpcomingBookingsByTenants}
-            data={upcomingbookings?.filter((bo: BOOKING) => bo.status == "ACCECPTED").sort((a: BOOKING, b: BOOKING) => (new Date(a.checkInDate).getTime()) - (new Date(b.checkInDate).getTime()))}
+            data={upcomingbookings?.filter((bo: BOOKING) => bo.status == "ACCECPTED" || bo.status == "PENDING").sort((a: BOOKING, b: BOOKING) => (new Date(a.checkInDate).getTime()) - (new Date(b.checkInDate).getTime()))}
             // data={upcomingbookings?.sort((a: BOOKING, b: BOOKING) => (new Date(a.checkInDate).getTime()) - (new Date(b.checkInDate).getTime()))}
             keyExtractor={(item: any) => item.id}
             renderItem={handleRenderItem}

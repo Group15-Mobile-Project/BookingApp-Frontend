@@ -19,6 +19,7 @@ import { useWindowDimensions } from 'react-native';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type MainHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<HomesStackParamList, "MainHomes">,
@@ -58,8 +59,8 @@ const MainHomes = () => {
 
     useEffect(() => {
         // setIsLoading(true)
-        // handleGetCategories().then(() => setIsLoading(false))
-        handleGetCategories();
+        // handleGetCategories().then(() => setIsLoading(false));
+        handleGetCategories()
     }, [dispatch])
     
     useEffect(() => {
@@ -74,11 +75,15 @@ const MainHomes = () => {
         <HomeCategoryCard categoryIndex={categoryIndex} setCategoryIndex={setCategoryIndex} item={item}></HomeCategoryCard>
     )
     const navigateToSearchScreen = () => {
-        navigation.navigate('HomeSearchScreen')
+        navigation.navigate('HomeSearchScreen');
     }
 
     const navigateToMapHome = () => {
-        navigation.navigate("MapHomes")
+        navigation.navigate("MapHomes");
+    }
+
+    if(isLoading) {
+        return <LoadingComponent/>
     }
 
   return (

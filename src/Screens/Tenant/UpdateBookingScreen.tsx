@@ -18,6 +18,7 @@ import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { clearBookdates, getBookdatesByHomeAndCurrentTimeAction } from '../../Store/Actions/BookDateAction';
 import { BOOKDATE } from '../../Model';
 import { CalendarList, DateData } from 'react-native-calendars';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type UpdateBookingScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "UpdateBookingScreen">,
@@ -89,10 +90,6 @@ const UpdateBookingScreen = () => {
                 markedDays[bo.date] = {disabled: true, disableTouchEvent: true}
             })
         }
-        // if(booking) {
-        //     setCheckin(booking?.checkInDate);
-        //     setCheckout(booking?.checkOutDate);
-        // }
     }, [bookdates, home, booking])
 
     useEffect(() => {
@@ -107,7 +104,7 @@ const UpdateBookingScreen = () => {
             if(checkin && checkout) {
                 deleteChosenDays(checkin, checkout);
             }
-            setMarkedDays({...markedDays ,[day.dateString]: {startingDay: true, color: "#FF5A5F"}})
+            setMarkedDays({...markedDays ,[day.dateString]: {startingDay: true, color: "#03b1fc"}})
             setCheckin(day.dateString);
             if(!isStart) {
                 setIsStart(!isStart)
@@ -134,12 +131,12 @@ const UpdateBookingScreen = () => {
             if(i == diffDay) {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#03b1fc"}
                 i++;
             } else {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#03b1fc"}
                 i++;
             }
         }
@@ -180,7 +177,10 @@ const UpdateBookingScreen = () => {
         }
      }
     
-
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
+    
   return (
     <View style={tw('flex-1')}>
       <View style={[tw('w-full bg-white relative'), {maxHeight: windownHeigh - 100, borderTopRightRadius: 20, borderTopLeftRadius: 20}]}>
@@ -227,7 +227,7 @@ const UpdateBookingScreen = () => {
                             <Text style={tw('font-bold text-lg')}>Total Price: </Text>
                             <Text style={tw('ml-4 text-black font-bold text-lg')}>£{Math.round(countDiscount?.priceAfterDiscount).toFixed(2)}</Text>
                         </View>
-                        <Button onPress={updateBookingFunction}  title="Update" buttonStyle={tw('w-full mx-auto h-12 rounded-lg bg-[#FF5A5F]')} titleStyle={tw('text-white font-bold')} containerStyle={tw('mx-auto w-2/3')} ></Button>
+                        <Button onPress={updateBookingFunction}  title="Update" buttonStyle={tw('w-full mx-auto h-12 rounded-lg bg-[#03b1fc]')} titleStyle={tw('text-white font-bold')} containerStyle={tw('mx-auto w-2/3')} ></Button>
                     </>
                 )}
                  

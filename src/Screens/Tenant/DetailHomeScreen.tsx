@@ -27,6 +27,7 @@ import { Button } from '@rneui/base';
 import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { addWishlistAction, deleteWishlistAction, getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 type MainHomeNavigationProp = CompositeNavigationProp<
@@ -35,11 +36,6 @@ NativeStackNavigationProp<HomesStackParamList>>;
 
 type DetailHomeProp = RouteProp<RootStackParamList, "DetailHomeScreen">;
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
 
 const DetailHomeScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -111,6 +107,9 @@ const DetailHomeScreen = () => {
     }, [home, dispatch, checkin, checkout])
     
     useEffect(() => {
+        if(home) {
+            setCapacity(home?.capacity);
+        }
         if(home?.discount) {
             const current = new Date();
             const startDiscount = new Date(home?.discount?.openDate);
@@ -194,6 +193,10 @@ const DetailHomeScreen = () => {
         }
     }
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
+
   return (
     <View style={tw('flex-1')}>
         <ScrollView style={tw('flex-1 relative')}>
@@ -201,7 +204,7 @@ const DetailHomeScreen = () => {
         <>
             <View style={tw('w-full items-center justify-center mb-2')}>
                 <FlatList
-                    data={ imageDefault}
+                    data={ home?.imgUrls}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     snapToAlignment='center'
@@ -215,7 +218,7 @@ const DetailHomeScreen = () => {
                     renderItem={handleRenderItem}
                     >
                 </FlatList>
-                <HomeCardDots arrayLength={imageDefault.length} activeIndex={activeIndex}></HomeCardDots>
+                <HomeCardDots arrayLength={home?.imgUrls?.length} activeIndex={activeIndex}></HomeCardDots>
             </View>
             <View style={tw('absolute top-2 w-full items-center justify-between px-4')}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={[tw('absolute top-2 left-8 bg-white p-2 rounded-full'), {zIndex: 10}]}>
@@ -248,7 +251,7 @@ const DetailHomeScreen = () => {
                 <View style={tw('flex-row items-center justify-between w-full mb-4')}>
                     <Text style={tw('text-2xl font-bold text-black flex-1 mr-2')}>The property hosted by {home?.owner?.user?.username}</Text>
                     <Pressable onPress={navigateToHostScreen}>
-                        <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full'), {width: 60, height: 60, resizeMode: 'cover'}]}></Image> 
+                        <Image source={{uri: HOST_URL + "/api/images/image/" + home?.owner?.user?.imgUrls}} style={[tw('rounded-full'), {width: 60, height: 60, resizeMode: 'cover'}]}></Image> 
                     </Pressable>
                 </View>
                 <View style={tw('flex-row items-center justify-start mb-2')}>

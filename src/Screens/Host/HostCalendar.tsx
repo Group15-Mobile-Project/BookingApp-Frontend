@@ -17,6 +17,7 @@ import { RootStackParamList } from '../../Navigators/MainStack';
 import { HostBottomTabProps } from '../../Navigators/HostStack';
 import { BOOKDATE } from '../../Model';
 import { clearBookdates, getBookdatesByAuthHostAction } from '../../Store/Actions/BookDateAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type HostCalendarNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<HostBottomTabProps, "HostCalendar">,
@@ -67,7 +68,7 @@ const HostCalendar = () => {
 
     useEffect(() => {      
         bookdates.forEach((bo : BOOKDATE) => {
-            markedDays[bo.date] = { color: "#FF5A5F", key: bo.bookingId};
+            markedDays[bo.date] = { color: "#03b1fc", key: bo.bookingId};
         });
     }, [bookdates, authUser])
 
@@ -88,6 +89,9 @@ const HostCalendar = () => {
         }
     }
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <SafeAreaView>

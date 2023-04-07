@@ -10,6 +10,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { BOOKING, NOTIFICATION } from '../../Model';
 import { getOldBookingByHostAction, getUpcomingBookingByHostAction, getUpcomingBookingByTenantAction } from '../../Store/Actions/BookingAction';
 import HostBookingCard from '../../Component/HostBookingCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const HostOldBookingsScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,6 +43,10 @@ const HostOldBookingsScreen = () => {
               <Text style={tw('text-2xl font-bold text-black')}>No Bookings</Text>
           </View>
         )
+  }
+
+  if(isLoading) {
+    return <LoadingComponent/>
   }
 
 return (

@@ -21,6 +21,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
 import WishlistCard from '../../Component/WishlistCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type WishlistNavigationProp = CompositeNavigationProp<
 BottomTabNavigationProp<TenantBottomTabProps, "WishListScreen">,
@@ -54,6 +55,10 @@ const WishListScreen = () => {
 
   const navigateToMapHome =() => {
     navigation.navigate('MapWishlists');
+  }
+
+  if(isLoading) {
+    return <LoadingComponent/>
   }
 
   return (

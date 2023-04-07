@@ -15,11 +15,6 @@ import { useNavigation, CompositeNavigationProp } from '@react-navigation/native
 import { useDispatch, useSelector } from 'react-redux';
 import { addWishlistAction, deleteWishlistAction } from '../Store/Actions/WishlistAction';
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-]
 type WishlistNavigationProp = CompositeNavigationProp<
 BottomTabNavigationProp<TenantBottomTabProps, "WishListScreen">,
 NativeStackNavigationProp<RootStackParamList>
@@ -70,7 +65,7 @@ const WishlistCard = ({item}: {item: WISHLIST}) => {
       )}
     </TouchableOpacity>
     <FlatList
-      data={imageDefault}
+      data={item?.homeResponse?.imgUrls}
       horizontal={true}
       pagingEnabled={true}
       showsHorizontalScrollIndicator={false}
@@ -86,7 +81,7 @@ const WishlistCard = ({item}: {item: WISHLIST}) => {
     //   style={{width: useWindowDimensions().width, height:'100%'}}
       >
     </FlatList>
-    <HomeCardDots arrayLength={imageDefault.length} activeIndex={activeIndex}></HomeCardDots>
+    <HomeCardDots arrayLength={item?.homeResponse?.imgUrls.length} activeIndex={activeIndex}></HomeCardDots>
     <View style={tw('w-full flex-row items-start justify-between mt-2')}>
       <View style={tw(' flex-1 items-start justify-start ml-2')}>
         <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.homeResponse.title}</Text>

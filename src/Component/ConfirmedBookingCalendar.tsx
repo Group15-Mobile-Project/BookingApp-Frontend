@@ -49,10 +49,10 @@ const ConfirmedBookingCalendar = ({bookingId, isVisble, setIsVisible, booking}: 
         checkoutDay.setDate(checkoutDay.getDate() - 1);
        
         bookdates.filter((bo: BOOKDATE) => bo.date != booking?.checkInDate || bo.date != checkoutDay.toLocaleDateString('en-CA')).forEach((bo : BOOKDATE) => {
-            markedDays[bo.date] = {disabled: true, disableTouchEvent: true, color: "#FF5A5F"}
+            markedDays[bo.date] = {disabled: true, disableTouchEvent: true, color: "#03b1fc"}
         });
-        markedDays[booking.checkInDate] = {disabled: true, disableTouchEvent: true, color: "#FF5A5F", startingDay: true}
-        markedDays[checkoutDay.toLocaleDateString('en-CA')] = {disabled: true, disableTouchEvent: true, color: "#FF5A5F", endingDay: true}
+        markedDays[booking.checkInDate] = {disabled: true, disableTouchEvent: true, color: "#03b1fc", startingDay: true}
+        markedDays[checkoutDay.toLocaleDateString('en-CA')] = {disabled: true, disableTouchEvent: true, color: "#03b1fc", endingDay: true}
     }, [bookdates, bookingId])
 
     
@@ -71,7 +71,6 @@ const ConfirmedBookingCalendar = ({bookingId, isVisble, setIsVisible, booking}: 
                 <TouchableOpacity onPress={() => setIsVisible(false)} style={tw('ml-4')}>
                     <Ionicons name="arrow-back" size={28} color="black" />
                 </TouchableOpacity>
-                <Button  title="Clear" buttonStyle={tw('w-20 h-12 rounded-lg bg-white')} titleStyle={tw('text-black font-bold')} containerStyle={tw('bg-white')}></Button>
             </View>
             <CalendarList
                 minDate={booking?.checkInDate}

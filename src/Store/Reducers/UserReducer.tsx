@@ -9,7 +9,9 @@ let initialState = {
     userError: false,
     userUpdateStatus: false,
     userUpdated: {},
-    message: null
+    message: null,
+    authSuccess: false,
+    authError: false
 }
 
 export default (state: declaredStateUser = initialState, action: ACTION) => {
@@ -18,16 +20,22 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
             return {
                 ...state,
                 authUser: action.payload,
-                userSuccess: true
+                authSuccess: true
             }
         case "REGISTER":
             return {
                 ...state,
                 authUser: action.payload,
-                userSuccess: true
+                authSuccess: true
             }
       
         case "update_to_host":
+            return {
+                ...state,
+                authUser: action.payload,
+                userSuccess: true
+            }
+        case "update_profile":
             return {
                 ...state,
                 authUser: action.payload,
@@ -51,6 +59,12 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
                 message: action.payload,
                 userError: true
             }
+        case "AUTH_ERROR":
+            return {
+                ...state,
+                message: action.payload,
+                authError: true
+            }
         case "USER_RESET": 
             return {
                 ...state,
@@ -58,7 +72,9 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
                 userError: false,
                 userUpdateStatus: false,
                 userUpdated: {},
-                message: null
+                message: null,
+                authSuccess: false,
+                authError: false
             }
         case "get_user_by_id": 
             return {

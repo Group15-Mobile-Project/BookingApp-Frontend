@@ -36,16 +36,16 @@ export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
 export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
         console.log("sign up")
-      const res = await axios.post(HOST_URL + "/api/users/register", registerForm);
-      const data = await res.data
-      console.log(data)
-      const token : string =  res.headers.authorization?? ""
-      console.log(token)
-      await AsyncStorage.setItem("token", token)
-      dispatch({
-          type: "REGISTER",
-          payload: data
-      })
+        const res = await axios.post(HOST_URL + "/api/users/register", registerForm);
+        const data = await res.data
+        console.log(data)
+        const token : string =  res.headers.authorization?? ""
+        console.log(token)
+        await AsyncStorage.setItem("token", token)
+        dispatch({
+            type: "REGISTER",
+            payload: data
+        })
      } catch (err) {
       dispatch({
           type: "USER_ERROR",
@@ -57,68 +57,100 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
  
   export const ChangePasswordAction = (form: CHANGEPASSWORD) => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
-     const token : string | null = await AsyncStorage.getItem("token");  
-      const res = await axios.put(HOST_URL + "/api/users/changePassword", form, {
-          headers: {
-              "Authorization": token ?? ""
-          }
-      })
-      const data = await res.data
-      console.log(res.headers.authorization?? "no token")
-      await AsyncStorage.setItem("token", res.headers.authorization?? "")
-      dispatch({
-          type: "Change_Password",
-          payload: data
-      })
-     } catch (err) {
-      dispatch({
-          type: "USER_ERROR",
-          payload: err
-      })
-     }  
+        const token : string | null = await AsyncStorage.getItem("token");  
+        const res = await axios.put(HOST_URL + "/api/users/changePassword", form, {
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        const data = await res.data
+        console.log(res.headers.authorization?? "no token")
+        await AsyncStorage.setItem("token", res.headers.authorization?? "")
+        dispatch({
+            type: "Change_Password",
+            payload: data
+        })
+    } catch (err) {
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
+    }  
   }
+
+  export const updateProfileAction = (username?: string, email?: string, imageurl?: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token : string | null = await AsyncStorage.getItem("token");  
+        let queryString = "";
+        if(username && username.length > 0) {
+            queryString += "username=" + username + "&";
+        }
+        if(email && email.length > 0) {
+            queryString += "email=" + email + "&"; 
+        }
+        if(imageurl && imageurl.length > 0) {
+            queryString += "imageurl=" + imageurl  + "&";
+        }
+        const res = await axios.put(HOST_URL + "/api/users/updateUserProfile?" + queryString, {}, {
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        const data = await res.data;
+        console.log(data);
+        dispatch({
+            type: "update_profile",
+            payload: data
+        })
+    } catch (err) {
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
+    }  
+ }
 
   export const updateToHostAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
-    const token : string | null = await AsyncStorage.getItem("token");  
-     const res = await axios.put(HOST_URL + "/api/users/updateToHost", {
-         headers: {
-             "Authorization": token ?? ""
-         }
-     })
-     const data = await res.data
-     dispatch({
-         type: "update_to_host",
-         payload: data
-     })
+        const token : string | null = await AsyncStorage.getItem("token");  
+        const res = await axios.put(HOST_URL + "/api/users/updateToHost", {
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type: "update_to_host",
+            payload: data
+        })
     } catch (err) {
-     dispatch({
-         type: "USER_ERROR",
-         payload: err
-     })
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
     }  
  }
 
   export const LogOut = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
-     const token : string | null = await AsyncStorage.getItem("token");
-       await fetch(HOST_URL + "/logout", {
-          method: "GET",
-          headers: {
-              "Authorization": token ?? ""
-          }
-      })
-      
-      await AsyncStorage.setItem("token", "")
-      
-      dispatch({
-          type: "LOG_OUT"
-      })
+        const token : string | null = await AsyncStorage.getItem("token");
+        await fetch(HOST_URL + "/logout", {
+            method: "GET",
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        
+        await AsyncStorage.setItem("token", "")
+        
+        dispatch({
+            type: "LOG_OUT"
+        })
      } catch (err) {
-      dispatch({
-          type: "USER_ERROR",
-          payload: err
-      })
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
      }
   
   }
@@ -152,21 +184,21 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
   export const getUserBySearchKeyword= (keyword: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
      
-      const res = await fetch(HOST_URL + `/api/users/searchByActiveName/${keyword}`)
-      const data = await res.json()
-      console.log("get_active_users_by_search_keyword")
-      console.log(data)
-      const dataFilter = data.filter((user: USER) => user.roles.includes("USER"))
-     
-      dispatch({
-          type: "get_active_users_by_search_keyword",
-          payload: dataFilter
-      })
+        const res = await fetch(HOST_URL + `/api/users/searchByActiveName/${keyword}`)
+        const data = await res.json()
+        console.log("get_active_users_by_search_keyword")
+        console.log(data)
+        const dataFilter = data.filter((user: USER) => user.roles.includes("USER"))
+        
+        dispatch({
+            type: "get_active_users_by_search_keyword",
+            payload: dataFilter
+        })
      } catch (err) {
-      dispatch({
-          type: "USER_ERROR",
-          payload: err
-      })
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
      }
   
   }

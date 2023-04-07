@@ -10,11 +10,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../Navigators/MainStack';
 import { useNavigation } from '@react-navigation/native';
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-  ]
 
 const BookingHomeCard = ({item, showPrice, onPress}: {item: HOME, showPrice?: boolean, onPress?: () => void}) => {
     const [activeIndex, setActiveIndex] = useState<number>(0)
@@ -31,10 +26,10 @@ const BookingHomeCard = ({item, showPrice, onPress}: {item: HOME, showPrice?: bo
       <View style={tw('w-full flex-row py-2 px-4 items-start justify-start my-4')}>
         {onPress ? (
           <TouchableOpacity onPress={onPress}>
-            <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-lg mb-2'), {width: 140, height: 130, resizeMode: 'cover'}]}></Image>   
+            <Image source={{uri: HOST_URL + "/api/images/image/" + item?.imgUrls[0]}} style={[tw('rounded-lg mb-2'), {width: 140, height: 130, resizeMode: 'cover'}]}></Image>   
           </TouchableOpacity> 
           ): (
-          <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-lg mb-2'), {width: 140, height: 130, resizeMode: 'cover'}]}></Image>   
+          <Image source={{uri: HOST_URL + "/api/images/image/" + item?.imgUrls[0]}} style={[tw('rounded-lg mb-2'), {width: 140, height: 130, resizeMode: 'cover'}]}></Image>   
         )}
         <View style={tw('flex-1 items-start justify-start pl-4')}>
             <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item?.title}</Text>

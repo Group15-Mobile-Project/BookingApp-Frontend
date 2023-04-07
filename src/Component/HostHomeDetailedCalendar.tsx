@@ -46,7 +46,7 @@ const HostHomeDetailedCalendar = ({isVisble, setIsVisible, home, homeId}: HostHo
 
     useEffect(() => {      
         bookdates.forEach((bo : BOOKDATE) => {
-            markedDays[bo.date] = { color: "#FF5A5F", key: bo.bookingId};
+            markedDays[bo.date] = { color: "#03b1fc", key: bo.bookingId};
         });
     }, [bookdates, authUser])
 

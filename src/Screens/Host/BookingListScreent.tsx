@@ -15,6 +15,7 @@ import HostOldBookingsScreen from './HostOldBookingsScreen';
 import HostUpcomingBookingsScreen from './HostUpcomingBookingsScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getHostByAuthUser } from '../../Store/Actions/HostAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 type RoleScreenNavigationProp = CompositeNavigationProp<
@@ -46,11 +47,14 @@ const BookingListScreent = () => {
         await dispatch(getHostByAuthUser() as any)
     }, [authUser, dispatch])
     
-      useEffect(() => {
-          setIsLoading(true)
-          loadHost().then(() => setIsLoading(false))
-      }, [dispatch, authUser])
+    useEffect(() => {
+        setIsLoading(true)
+        loadHost().then(() => setIsLoading(false))
+    }, [dispatch, authUser])
 
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <View style={tw('bg-white flex-1')}>
@@ -59,14 +63,12 @@ const BookingListScreent = () => {
             tabBarActiveTintColor: "gray",
             tabBarLabelStyle: {fontSize: 14, color: "gray", fontWeight: 'bold'},
             tabBarStyle: {marginTop: 0, paddingTop: 0}
-
             }}
             tabBarPosition='top'
             style={tw('flex-1')}
         >
             <Tab.Screen name="HostUpcomingBookingsScreen" children={() => <HostUpcomingBookingsScreen ></HostUpcomingBookingsScreen>} options={{tabBarLabel: "Upcoming"}}/>
             <Tab.Screen name="HostOldBookingsScreen" children={() => <HostOldBookingsScreen ></HostOldBookingsScreen>} options={{tabBarLabel: "Checked out"}}/>
-            
         </Tab.Navigator>
     </View>
   )

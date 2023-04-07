@@ -2,14 +2,15 @@ import { Alert, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, useWi
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { BOOKING } from '../Model';
-import { Image } from '@rneui/base';
+import { Badge, Image } from '@rneui/base';
 import { HOST_URL } from '../Store/store';
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
+
+const bookingStatus = {
+    PENDING: "PENDING",
+    ACCECPTED: "ACCECPTED",
+    UNACCEPTED: "UNACCEPTED"
+};
 
 const HostBookingCard = ({booking, onPress, upcoming}: {booking: BOOKING, onPress?: () => void, upcoming: boolean}) => {
     
@@ -31,7 +32,14 @@ const HostBookingCard = ({booking, onPress, upcoming}: {booking: BOOKING, onPres
     }, [booking])
 
     return (
-        <View style={[tw(' rounded-lg my-2 py-2 border border-gray-300 mb-4'), {borderWidth: 2}]}>
+        <View style={[tw('relative rounded-lg my-2 py-2 border border-gray-300 mb-4'), {borderWidth: 2}]}>
+            {booking?.status == bookingStatus.ACCECPTED ? (
+                 <Badge badgeStyle={tw('items-center justify-center  h-8')} containerStyle={tw('absolute top-2 right-4 ')} value="ACCPETED" status="success" />
+             ) : booking?.status == bookingStatus.PENDING ? (
+                <Badge badgeStyle={tw('items-center justify-center  h-8')} containerStyle={tw('absolute top-2 right-4')} value="PENDING" status="primary" />
+             ): (
+                <></>
+             )}
             <TouchableOpacity onPress={onPress}>
                 <View style={tw('ml-4 mb-4')}>
                     {upcoming ? (
@@ -46,7 +54,7 @@ const HostBookingCard = ({booking, onPress, upcoming}: {booking: BOOKING, onPres
                         <Text style={tw('text-2xl font-bold text-black mb-2')}>{booking?.tenant?.username}</Text>
                         <Text style={tw('text-lg font-bold text-gray-400')}>{booking?.checkInDate && new Date(booking?.checkInDate ).toLocaleString('en-us',{ day: 'numeric', month:'short'})} - {booking?.checkOutDate && new Date(booking?.checkOutDate).toLocaleString('en-us',{ day: 'numeric', month:'short', year: 'numeric'})} </Text>
                     </View>
-                    <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 70, height: 70, resizeMode: 'cover'}]}></Image> 
+                    <Image source={{uri: HOST_URL + "/api/images/image/" + booking?.tenant?.imgUrls}} style={[tw('rounded-full mr-4'), {width: 70, height: 70, resizeMode: 'cover'}]}></Image> 
                 </View>
             </TouchableOpacity>
             <View style={[tw('w-full bg-gray-300'), {height: 1}]}></View>

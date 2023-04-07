@@ -23,18 +23,13 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { addTenantReview, getTenantReviewByHostAndTenant } from '../../Store/Actions/TenantReviewAction';
 import ConfirmBookingTenantReviewCard from '../../Component/ConfirmBookingTenantReviewCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type BookingNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "HostDetailBookingScreen">,
 NativeStackNavigationProp<HomesStackParamList>>;
 
 type DetailHomeProp = RouteProp<RootStackParamList, "HostDetailBookingScreen">;
-
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-  ]
 
 
 const HostDetailBookingScreen = () => {
@@ -162,6 +157,10 @@ const HostDetailBookingScreen = () => {
             await dispatch(unacceptBookingAction(booking?.id) as any);
         }
     }
+
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
    
   return (
     <ScrollView style={tw('flex-1 relative')}>
@@ -183,7 +182,7 @@ const HostDetailBookingScreen = () => {
         )}   
         <View style={tw('w-full px-4 my-2 flex-row items-center justify-start')}>
             <TouchableOpacity onPress={navigateToUserProfileScreen} >
-                <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw(' mb-2 rounded-full'), {width: 80, height: 80, resizeMode: 'cover'}]}></Image>
+                <Image source={{uri: HOST_URL + "/api/images/image/" + booking?.tenant?.imgUrls}} style={[tw(' mb-2 rounded-full'), {width: 80, height: 80, resizeMode: 'cover'}]}></Image>
             </TouchableOpacity>    
             <Text style={tw('text-lg font-bold text-black mb-4 ml-4')}>Booking is made by {booking?.tenant?.username}</Text>
         </View>
@@ -236,42 +235,46 @@ const HostDetailBookingScreen = () => {
                 </View>                     
              </>
         )}
-        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
-        <View style={tw('w-full py-2 px-4')}>
+        <View>
             {review && review?.home?.id == booking?.home?.id && (
-                <>
-                    <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Tenant</Text>
-                    <HomeDetailReviewCard item={review}></HomeDetailReviewCard>
-                </>
- 
-            )}
-            {(!review  ||  review?.home?.id != booking?.home?.id) && booking?.tenant?.id == authUser?.id &&(
                 <View>
-                    <Button onPress={() => setAddingReview(!addingReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
-                    {addingReview && (
-                    <TouchableWithoutFeedback>
-                    <View style={tw('w-full my-2')}>
-                        <TextInput style={tw('w-full mb-2 rounded-full bg-gray-200 border-2 border border-gray-400 px-4 py-2')}  onChangeText={(text) => setReviewDescription(text)} placeholder='Your review...' value={reviewDescription ?? ""}></TextInput>
-                        <View style={tw('bg-gray-200 mb-2 w-full rounded-full')}>
-                            <Picker
-                            selectedValue={rating}
-                            onValueChange={(itemValue: number) => {
-                                setRating(itemValue)
-                            }}
-                            dropdownIconColor="white"
-                            mode={Picker.MODE_DROPDOWN}
-                            style={tw('text-center font-bold text-lg')}
-                            >
-                            {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
-                            </Picker>
-                        </View>
-                         <Button onPress={addReviewToServer} title="Add Review for Home"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
-                    
+                    <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+                    <View style={tw('w-full py-2 px-4')}>
+                        <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Tenant</Text>
+                        <HomeDetailReviewCard item={review}></HomeDetailReviewCard>
                     </View>
-                    </TouchableWithoutFeedback>
-                )}
                 </View>
             )}
+            {/* {(!review  ||  review?.home?.id != booking?.home?.id) && booking?.tenant?.id == authUser?.id &&(
+                <>
+                    <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+                    <View style={tw('w-full py-2 px-4')}>
+                        <Button onPress={() => setAddingReview(!addingReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-[#03b1fc]')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                        {addingReview && (
+                        <TouchableWithoutFeedback>
+                        <View style={tw('w-full my-2')}>
+                            <TextInput style={tw('w-full mb-2 rounded-full bg-gray-200 border-2 border border-gray-400 px-4 py-2')}  onChangeText={(text) => setReviewDescription(text)} placeholder='Your review...' value={reviewDescription ?? ""}></TextInput>
+                            <View style={tw('bg-gray-200 mb-2 w-full rounded-full')}>
+                                <Picker
+                                selectedValue={rating}
+                                onValueChange={(itemValue: number) => {
+                                    setRating(itemValue)
+                                }}
+                                dropdownIconColor="white"
+                                mode={Picker.MODE_DROPDOWN}
+                                style={tw('text-center font-bold text-lg')}
+                                >
+                                {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
+                                </Picker>
+                            </View>
+                            <Button onPress={addReviewToServer} title="Add Review for Home"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                        
+                        </View>
+                        </TouchableWithoutFeedback>
+                    )}
+                    </View>           
+                </>
+            )} */}
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View> 
         <View style={tw('w-full py-2 px-4')}>
@@ -283,7 +286,7 @@ const HostDetailBookingScreen = () => {
             )}
             {(!tenantReview  ||  tenantReview?.home?.id != booking?.home?.id) && booking?.home?.owner?.id == authUser?.hostId &&(
                 <View>
-                    <Button onPress={() => setAddingTenantReview(!addingTenantReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                    <Button onPress={() => setAddingTenantReview(!addingTenantReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-[#03b1fc]')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
                     {addingTenantReview && (
                     <TouchableWithoutFeedback>
                         <View style={tw('w-full my-2')}>
@@ -301,7 +304,7 @@ const HostDetailBookingScreen = () => {
                                 {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
                                 </Picker>
                             </View>
-                            <Button onPress={addTenantReviewToServer} title="Add Review for Tenant"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                            <Button onPress={addTenantReviewToServer} title="Add Review for Tenant"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
                         
                         </View>
                     </TouchableWithoutFeedback>

@@ -19,6 +19,7 @@ import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { getChatsByAuthUserAction } from '../../Store/Actions/ChatAction';
 import ChatCard from '../../Component/ChatCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type MesssagesScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<TenantBottomTabProps, "InBoxScreen">,
@@ -52,6 +53,10 @@ const MesssagesScreen = () => {
       setIsLoading(true);
       loadChats().then(() => setIsLoading(false));
   }, [authUser, dispatch])
+
+  if(isLoading) {
+    return <LoadingComponent/>
+}
 
 return (
   <View style={tw('bg-white flex-1 px-2')}>

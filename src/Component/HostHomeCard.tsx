@@ -47,7 +47,7 @@ const HostHomeCard = ({item}: {item: HOME}) => {
   
     return (
         <Pressable onPress={() => navigation.navigate('HostDetailedHome', {homeId: item.id})} style={[tw('relative w-full my-2 py-2 px-4 items-center justify-center flex-row bg-white'), styles.shadow]}>
-            <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-lg mb-2 mr-2'), {width: 100, height: 100, resizeMode: 'cover'}]}/>
+            <Image source={{uri: HOST_URL + "/api/images/image/" + item?.imgUrls[0]}} style={[tw('rounded-lg mb-2 mr-2'), {width: 100, height: 100, resizeMode: 'cover'}]}/>
             <View style={tw(' flex-1 items-start justify-start')}>
                 <View style={tw(' flex-1 items-start justify-start ml-2')}>
                     <Text style={tw('text-lg font-bold text-zinc-700')}>{item.title}</Text>

@@ -16,6 +16,7 @@ import { getHomesByHomeIdAction } from '../../Store/Actions/HomeAction';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import DiscountFormCalendar from '../../Component/DiscountFormCalendar';
 import { createDiscountAction, updateDiscountAction } from '../../Store/Actions/DiscountAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type DiscountFormNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "DiscountForm">,
@@ -73,10 +74,22 @@ const DiscountForm = () => {
         }
     }
 
-   useEffect(() => {
-    setIsloading(true)
-    loadHome().then(() => setIsloading(false));
-   }, [homeId, discountId])
+    useEffect(() => {
+        if(home && home?.id == homeId) {
+            setOpenDiscount(home?.discount?.openDate);
+            setCloseDiscount(home?.discount?.closeDate);
+            setRate(home?.discount?.discountRate);
+        }
+    }, [home])
+
+    useEffect(() => {
+        setIsloading(true)
+        loadHome().then(() => setIsloading(false));
+    }, [homeId, discountId])
+
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <KeyboardAvoidingView style={tw('flex-1')}>
@@ -91,7 +104,7 @@ const DiscountForm = () => {
                     <View style={tw('flex-row items-center mb-2')}>
                         <Text style={tw('text-black font-bold text-2xl mr-4')}>Open Date</Text>
                         <TouchableOpacity onPress={() => setOpenVisible(!openVisible)}>
-                            <AntDesign name="calendar" size={28} color="#FF5A5F" /> 
+                            <AntDesign name="calendar" size={28} color="#03b1fc" /> 
                         </TouchableOpacity>   
                     </View>                 
                     <View style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-2')}>
@@ -102,14 +115,14 @@ const DiscountForm = () => {
                     <View style={tw('flex-row items-center mb-2')}>
                         <Text style={tw('text-black font-bold text-2xl mr-4')}>Close Date</Text>
                         <TouchableOpacity onPress={() => setCloseVisible(!closeVisible)}>
-                            <AntDesign name="calendar" size={28} color="#FF5A5F" /> 
+                            <AntDesign name="calendar" size={28} color="#03b1fc" /> 
                         </TouchableOpacity>   
                     </View>                 
                     <View style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-2')}>
                         <Text style={tw('text-lg')}>{closeDiscount ? closeDiscount : closeDate}</Text>
                     </View>
                 </View>
-                <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Add Discount' onPress={submitFunction}></Button>
+                <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Add Discount' onPress={submitFunction}></Button>
                 {home && openVisible && (
                     <DiscountFormCalendar isVisble={openVisible} setIsVisible={setOpenVisible} chosenDay={openDiscount} setChosenDay={setOpenDiscount} closeHome={home?.closeBooking} openHome={home?.openBooking}></DiscountFormCalendar>
                 )}      

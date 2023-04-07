@@ -15,12 +15,6 @@ import { addWishlistAction, deleteWishlistAction } from '../Store/Actions/Wishli
 
 
 
-const imageDefault =[
-  "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-  "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-  "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-]
-
 type MainHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<HomesStackParamList, "MainHomes">,
 NativeStackNavigationProp<RootStackParamList>
@@ -85,7 +79,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
         )}
       </TouchableOpacity>
       <FlatList
-        data={ imageDefault}
+        data={item?.imgUrls}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         snapToAlignment='center'
@@ -99,7 +93,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
         renderItem={handleRenderItem}
         >
       </FlatList>
-      <HomeCardDots arrayLength={imageDefault.length} activeIndex={activeIndex}></HomeCardDots>
+      <HomeCardDots arrayLength={item?.imgUrls.length} activeIndex={activeIndex}></HomeCardDots>
       <View style={tw('w-full flex-row items-start justify-between mt-2')}>
         <View style={tw(' flex-1 items-start justify-start ml-2')}>
           <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.title}</Text>

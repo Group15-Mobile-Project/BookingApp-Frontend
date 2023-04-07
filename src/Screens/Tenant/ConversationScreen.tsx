@@ -27,6 +27,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { Keyboard } from 'react-native';
 import { TextInput } from 'react-native';
 import { Image } from 'react-native';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -127,8 +128,11 @@ const ConversationScreen = () => {
         };
         await dispatch(addChatMessageAction(messageForm) as any);
         setMessageInput("");
-      }
-  
+    }
+    
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
   return (
     <View style={tw('bg-white flex-1 px-2')}>
         <FlatList

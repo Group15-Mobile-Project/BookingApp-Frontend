@@ -25,6 +25,7 @@ import UpdateHomeScreen from '../Screens/Host/UpdateHomeScreen';
 import CreateHomeScreen from '../Screens/Host/CreateHomeScreen';
 import DiscountForm from '../Screens/Host/DiscountForm';
 import UpdateBookingScreen from '../Screens/Tenant/UpdateBookingScreen';
+import UpdateProfileScreen from '../Screens/Tenant/UpdateProfileScreen';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -76,7 +77,8 @@ export type RootStackParamList = {
     UpdateBookingScreen: {
       bookingId: number,
       homeId: number
-    }
+    },
+    UpdateProfileScreen: undefined
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -105,6 +107,7 @@ const MainStack = () => {
         <stack.Screen component={CreateHomeScreen} options={{title: "New Home"}} name="CreateHomeScreen"></stack.Screen>
         <stack.Screen component={DiscountForm} options={{title: "Discount Form"}} name="DiscountForm"></stack.Screen>
         <stack.Screen component={UpdateBookingScreen} options={{title: "Update booking"}} name="UpdateBookingScreen"></stack.Screen>
+        <stack.Screen component={UpdateProfileScreen} options={{title: "Update profile"}} name="UpdateProfileScreen"></stack.Screen>
     </stack.Navigator>
   )
 }

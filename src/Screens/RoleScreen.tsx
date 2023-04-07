@@ -39,8 +39,8 @@ const RoleScreen = () => {
 
   return (
     <SafeAreaView style={tw('flex-1 items-center justify-center px-4')}>
-        <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Tenant' onPress={tenantNavigation}></   Button>
-        <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mt-6')} size='lg' title='Host' onPress={hostNavigation}></Button>
+        <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Tenant' onPress={tenantNavigation}></   Button>
+        <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mt-6')} size='lg' title={authUser && authUser?.roles?.includes("HOST") ? "Host" : "Become Host"} onPress={hostNavigation}></Button>
     </SafeAreaView>
   )
 }

@@ -17,40 +17,38 @@ const LoginScreen = () => {
     const [password, setPassword] = useState<string>("")
     const tw = useTailwind()
     const text: string = "hello"
-    const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
+    const {users, authUser, authError, authSuccess} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
     useEffect(() => {
-        if(userSuccess && authUser?.roles?.includes("USER") ) {
-            console.log(authUser?.roles)
-            dispatch(ResetUser() as any)
+        if(authSuccess && authUser?.roles?.includes("USER") ) {
+            console.log("auth role: " + authUser?.roles);
+            Alert.alert("sign in successfully");
+            navigation.navigate('RoleScreen');
+            dispatch(ResetUser() as any);
         }
-        if(userError ) {
+        if(authError ) {
             Alert.alert("login failed")       
             dispatch(ResetUser() as any)
         }
+
+        if(authUser && authUser?.roles?.includes("ADMIN")) {
+            // navigation.navigate("AdminHome")
+        }
         
-    }, [userSuccess, userError, message, dispatch, authUser])
+    }, [authSuccess, authError, dispatch, authUser])
 
     
 
     const submitFunction = async () => {
         console.log("login")
         if(username && username.length > 0 && password && password.length > 0) {
-           await  dispatch(login({username, password}) as any)
+            await  dispatch(login({username, password}) as any)
             console.log(username + " : " + password)
-           setUsername("")
-           setPassword("")
-           if(authUser && authUser.role == "ADMIN") {
-            // navigation.navigate("AdminHome")
-           }
-           if(authUser && authUser?.roles?.includes("USER") ) {
+            setUsername("")
+            setPassword("")
            
-            navigation.navigate('RoleScreen')
-            dispatch(ResetUser() as any)
-        }
-          
         } else {
             Alert.alert("please fill all required information")
         }
@@ -68,7 +66,7 @@ const LoginScreen = () => {
             <SafeAreaView style={tw('flex-1 items-center justify-center px-4')}>                 
                 <TextInput value={username} placeholder="username" onChangeText={(text: string) => setUsername(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')}></TextInput>
                 <TextInput secureTextEntry={true} value={password}  placeholder="Password" onChangeText={(text: string) => setPassword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
-                <Button  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Log In' onPress={submitFunction}></Button>
+                <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Log In' onPress={submitFunction}></Button>
                 <View style={tw('flex flex-row')}>
                     <Text style={tw('text-base text-gray-400 mr-4')}>Don't have an account?</Text>
                     <TouchableOpacity activeOpacity={0.2} onPress={navigateToSignUp}>

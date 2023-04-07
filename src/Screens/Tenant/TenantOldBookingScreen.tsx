@@ -20,9 +20,10 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { BookingsListNavigationProp } from './BookingsListScreen';
 import BookingCard from '../../Component/BookingCard';
 import { getOldBookingByTenantAction, getUpcomingBookingByTenantAction } from '../../Store/Actions/BookingAction';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const TenantOldBookingScreen = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
     const tw = useTailwind();
     const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS);
@@ -53,7 +54,11 @@ const TenantOldBookingScreen = () => {
           <Text style={tw('text-2xl font-bold text-black')}>No Bookings</Text>
         </View>
       )
-  }
+    } 
+
+    if(isLoading) {
+      return <LoadingComponent/>
+    }
 
   return (
     <View style={tw('bg-white flex-1 px-2')}>

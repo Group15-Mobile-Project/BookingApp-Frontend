@@ -74,7 +74,7 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
             if(checkin && checkout) {
                 deleteChosenDays(checkin, checkout);
             }
-            setMarkedDays({...markedDays ,[day.dateString]: {startingDay: true, color: "#FF5A5F"}})
+            setMarkedDays({...markedDays ,[day.dateString]: {startingDay: true, color: "#03b1fc"}})
             setCheckin(day.dateString);
             if(!isStart) {
                 setIsStart(!isStart)
@@ -101,12 +101,12 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
             if(i == diffDay) {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {endingDay: true,color: "#03b1fc"}
                 i++;
             } else {
                 middleDay.setDate(middleDay.getDate() + 1);
                 console.log(middleDay.toLocaleDateString('en-CA'));
-                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#FF5A5F"}
+                markedDays[middleDay.toLocaleDateString('en-CA')] = {color: "#03b1fc"}
                 i++;
             }
         }

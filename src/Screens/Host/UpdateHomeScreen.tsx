@@ -36,6 +36,7 @@ import axios from 'axios';
 import { getCategoriesAction } from '../../Store/Actions/CategoryAction';
 import { getCountriesAction } from '../../Store/Actions/CountryAction';
 import { Picker } from '@react-native-picker/picker';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type UpdateHomeScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "UpdateHomeScreen">,
@@ -158,6 +159,10 @@ const UpdateHomeScreen = () => {
     }
 
 
+    if(isLoading) {
+      return <LoadingComponent/>
+    }
+
   return (
     <KeyboardAvoidingView style={tw('flex-1')}>
         <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>
@@ -192,7 +197,7 @@ const UpdateHomeScreen = () => {
                     <View style={tw('flex-row items-center mb-2')}>
                         <Text style={tw('text-black font-bold text-lg mr-4')}>Close Date</Text>
                         <TouchableOpacity onPress={() => setCloseVisible(!closeVisible)}>
-                            <AntDesign name="calendar" size={28} color="#FF5A5F" /> 
+                            <AntDesign name="calendar" size={28} color="#03b1fc" /> 
                         </TouchableOpacity>   
                     </View>                 
                     <View style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-2')}>
@@ -200,10 +205,10 @@ const UpdateHomeScreen = () => {
                     </View>
                 </View>
                 <Text>(Max images is 5)</Text>
-                <TouchableOpacity  style={[tw('w-full rounded-lg mb-6 py-2 font-bold px-6'), {backgroundColor: "#FF5A5F"}]}  onPress={uploadImageFunction}>
+                <TouchableOpacity  style={[tw('w-full rounded-lg mb-6 py-2 font-bold px-6'), {backgroundColor: "#03b1fc"}]}  onPress={uploadImageFunction}>
                   <Text style={tw('text-base text-white')}>Home images</Text>
                 </TouchableOpacity>
-                <Button onPress={submitFunction}  color="#FF5A5F" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Update Home' ></Button>    
+                <Button onPress={submitFunction}  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Update Home' ></Button>    
                 {home && closeVisible && (
                     <CreateHomeCalendar isVisble={closeVisible} setIsVisible={setCloseVisible} chosenDay={closeDate} setChosenDay={setCloseDate}  openDate={home?.openBooking}></CreateHomeCalendar>
                 )}            

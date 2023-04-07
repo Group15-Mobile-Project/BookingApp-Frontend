@@ -23,6 +23,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { addTenantReview, getTenantReviewByHostAndTenant } from '../../Store/Actions/TenantReviewAction';
 import ConfirmBookingTenantReviewCard from '../../Component/ConfirmBookingTenantReviewCard';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 type BookingNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "ConfirmedBookingScreen">,
@@ -154,7 +155,11 @@ const ConfirmedBookingScreen = () => {
         await dispatch(cancelBookingAction(booking?.id) as any);
         navigation.goBack();
     }
-   
+
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
+    
   return (
     <ScrollView style={tw('flex-1 relative')}>
         {booking && <BookingHomeCard item={booking?.home}showPrice={false} onPress={() => navigation.navigate("DetailHomeScreen", {homeId: booking?.home?.id})}></BookingHomeCard>}
@@ -178,7 +183,7 @@ const ConfirmedBookingScreen = () => {
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full px-4 my-2 flex-row items-center justify-start')}>
             <TouchableOpacity onPress={navigateToUserProfileScreen} >
-                <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw(' mb-2 rounded-full'), {width: 80, height: 80, resizeMode: 'cover'}]}></Image>
+                <Image source={{uri: HOST_URL + "/api/images/image/" + booking?.tenant?.imgUrls}} style={[tw(' mb-2 rounded-full'), {width: 80, height: 80, resizeMode: 'cover'}]}></Image>
             </TouchableOpacity>    
             <Text style={tw('text-lg font-bold text-black mb-4 ml-4')}>Booking is made by {booking?.tenant?.username}</Text>
         </View>
@@ -232,58 +237,66 @@ const ConfirmedBookingScreen = () => {
             <>
                 <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
                 {timeLeft > 14 ? (
-                    <Button onPress={cancelBookingFunction}  title="Cancel Booking" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
+                    <Button onPress={cancelBookingFunction}  title="Cancel Booking" buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-6 py-4')}></Button>
                 ): (
                     <Text style={tw('text-lg px-4 my-4 font-bold text-black')}>Cannot cancel your booking after 14 days when your booking starts</Text>  
                 )}    
             </>
         )}
-        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
-        <View style={tw('w-full py-2 px-4')}>
+        <View>
             {review && review?.home?.id == booking?.home?.id && (
-                <>
-                    <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Tenant</Text>
-                    <HomeDetailReviewCard item={review}></HomeDetailReviewCard>
-                </>
+                <View>
+                    <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+                    <View style={tw('w-full py-2 px-4')}>
+                        <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Tenant</Text>
+                        <HomeDetailReviewCard item={review}></HomeDetailReviewCard>
+                    </View>
+                </View>
  
             )}
             {(!review  ||  review?.home?.id != booking?.home?.id) && booking?.tenant?.id == authUser?.id &&(
-                <View>
-                    <Button onPress={() => setAddingReview(!addingReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
-                    {addingReview && (
-                    <TouchableWithoutFeedback>
-                    <View style={tw('w-full my-2')}>
-                        <TextInput style={tw('w-full mb-2 rounded-full bg-gray-200 border-2 border border-gray-400 px-4 py-2')}  onChangeText={(text) => setReviewDescription(text)} placeholder='Your review...' value={reviewDescription ?? ""}></TextInput>
-                        <View style={tw('bg-gray-200 mb-2 w-full rounded-full')}>
-                            <Picker
-                            selectedValue={rating}
-                            onValueChange={(itemValue: number) => {
-                                setRating(itemValue)
-                            }}
-                            dropdownIconColor="white"
-                            mode={Picker.MODE_DROPDOWN}
-                            style={tw('text-center font-bold text-lg')}
-                            >
-                            {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
-                            </Picker>
-                        </View>
-                         <Button onPress={addReviewToServer} title="Add Review for Home"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
-                    
-                    </View>
-                    </TouchableWithoutFeedback>
-                )}
-                </View>
-            )}
-        </View>
-        <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View> 
-        <View style={tw('w-full py-2 px-4')}>
-            {tenantReview && tenantReview?.home?.id == booking?.home?.id && (
                 <>
-                    <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Host</Text>  
-                    <ConfirmBookingTenantReviewCard item={tenantReview}></ConfirmBookingTenantReviewCard>   
+                    <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
+                    <View style={tw('w-full py-2 px-4')}>
+                        <Button onPress={() => setAddingReview(!addingReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                        {addingReview && (
+                        <TouchableWithoutFeedback>
+                        <View style={tw('w-full my-2')}>
+                            <TextInput style={tw('w-full mb-2 rounded-full bg-gray-200 border-2 border border-gray-400 px-4 py-2')}  onChangeText={(text) => setReviewDescription(text)} placeholder='Your review...' value={reviewDescription ?? ""}></TextInput>
+                            <View style={tw('bg-gray-200 mb-2 w-full rounded-full')}>
+                                <Picker
+                                selectedValue={rating}
+                                onValueChange={(itemValue: number) => {
+                                    setRating(itemValue)
+                                }}
+                                dropdownIconColor="white"
+                                mode={Picker.MODE_DROPDOWN}
+                                style={tw('text-center font-bold text-lg')}
+                                >
+                                {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
+                                </Picker>
+                            </View>
+                            <Button onPress={addReviewToServer} title="Add Review for Home"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                        
+                        </View>
+                        </TouchableWithoutFeedback>
+                        )}
+                    </View>
                 </>
             )}
-            {(!tenantReview  ||  tenantReview?.home?.id != booking?.home?.id) && booking?.home?.owner?.id == authUser?.hostId &&(
+        </View>
+        
+        <View>
+            {tenantReview && tenantReview?.home?.id == booking?.home?.id && (
+                <>
+                    <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View> 
+                    <View style={tw('w-full py-2 px-4')}>
+                        <Text style={tw('text-2xl font-bold text-black my-2 mb-4')}>Review from Host</Text>  
+                        <ConfirmBookingTenantReviewCard item={tenantReview}></ConfirmBookingTenantReviewCard>   
+                    </View>
+                </>
+            )}
+            {/* {(!tenantReview  ||  tenantReview?.home?.id != booking?.home?.id) && booking?.home?.owner?.id == authUser?.hostId &&(
                 <View>
                     <Button onPress={() => setAddingTenantReview(!addingTenantReview)}  title="Leave your review" buttonStyle={[tw('w-full h-12 rounded-lg bg-green-600')]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
                     {addingTenantReview && (
@@ -303,13 +316,13 @@ const ConfirmedBookingScreen = () => {
                                 {[1, 2, 3, 4, 5].map(rate => <Picker.Item key={rate} label={rate.toString()} value={rate}></Picker.Item>)}
                                 </Picker>
                             </View>
-                            <Button onPress={addTenantReviewToServer} title="Add Review for Tenant"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#FF5A5F" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
+                            <Button onPress={addTenantReviewToServer} title="Add Review for Tenant"  buttonStyle={[tw('w-full h-12 rounded-lg bg-white'), {backgroundColor: "#03b1fc" }]} titleStyle={tw('text-white font-bold')} containerStyle={tw('px-2 py-4')}></Button>
                         
                         </View>
                     </TouchableWithoutFeedback>
                     )}
                 </View>
-            )}
+            )} */}
         </View>
         {booking && (
             <ConfirmedBookingCalendar isVisble={isVisible} setIsVisible={setIsVisible}  bookingId={bookingId} booking={booking}></ConfirmedBookingCalendar>

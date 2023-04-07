@@ -21,6 +21,7 @@ import { Button, Image } from '@rneui/base';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 const imageDefault = [
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -51,12 +52,16 @@ const ProfileScreen = () => {
       navigation.navigate('ChangePassword');
     }
 
+    if(isLoading) {
+      return <LoadingComponent/>
+  }
+
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
       <Text style={tw('text-3xl font-bold text-black mt-6 ml-4 mb-4')}>Profile</Text>
       <View style={tw('px-4')}>
         <View style={tw('flex-row items-center justify-start pb-4 border-b-2 border-gray-200')}>
-            <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 60, height: 60, resizeMode: 'cover'}]}></Image>      
+            <Image source={{uri: HOST_URL + "/api/images/image/" + authUser?.imgUrls}} style={[tw('rounded-full mr-4'), {width: 60, height: 60, resizeMode: 'cover'}]}></Image>      
             <View style={tw(' items-start justify-start flex-1')}>
                 <Text style={tw(' text-lg text-black font-bold')}>{authUser.username}</Text>
                 <Text style={tw(' text-base')}>show Profile</Text>
@@ -70,8 +75,8 @@ const ProfileScreen = () => {
       <View style={tw('w-full px-4  my-2')}>
         <View style={tw('flex-row items-center justify-start pb-4 border-b-2 border-gray-200')}>
             <Ionicons name="person-circle-outline" size={32} color="black" />
-            <Text style={tw('text-lg text-black ml-2 flex-1')}>Personal Information</Text>
-            <TouchableOpacity style={tw('')}>
+            <Text style={tw('text-lg text-black ml-2 flex-1')}>Update Information</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("UpdateProfileScreen")} style={tw('')}>
                 <AntDesign name="right" size={28} color="black" /> 
             </TouchableOpacity>
         </View>

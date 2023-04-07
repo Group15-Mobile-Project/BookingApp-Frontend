@@ -36,7 +36,7 @@ const DiscountFormCalendar = ({isVisble, setIsVisible, chosenDay, setChosenDay, 
     const addDaySelected = (day: DateData) => {
         console.log(day);
       setMarkedDays({});
-      setMarkedDays({[day.dateString] : {color: "#FF5A5F"}});
+      setMarkedDays({[day.dateString] : {color: "#03b1fc"}});
       setDaySelected(day.dateString);
     }  
 

@@ -72,7 +72,7 @@ const BookingsListScreen = () => {
             style={tw('flex-1')}
         >
             <Tab.Screen name="TenantUpcomingBooking" children={() => <TenantUpcomingBookingScreen ></TenantUpcomingBookingScreen>} options={{tabBarLabel: "Upcoming"}}/>
-            <Tab.Screen name="TenantOldBooking" children={() => <TenantOldBookingScreen ></TenantOldBookingScreen>} options={{tabBarLabel: "Past"}}/>
+            <Tab.Screen name="TenantOldBooking" children={() => <TenantOldBookingScreen ></TenantOldBookingScreen>} options={{tabBarLabel: "Checked Out"}}/>
         </Tab.Navigator>
     </View>
   )

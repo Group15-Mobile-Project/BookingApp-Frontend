@@ -31,7 +31,7 @@ const TenantStack = () => {
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarInactiveTintColor: '#c7c9c9',
-                tabBarActiveTintColor: '#FF5A5F'
+                tabBarActiveTintColor: '#03b1fc'
             }}
             initialRouteName='HomesStack'
         >

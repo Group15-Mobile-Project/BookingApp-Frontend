@@ -19,7 +19,9 @@ export interface declaredStateUser  {
     userError: boolean,
     userUpdateStatus: boolean,
     userUpdated: USER | {},
-    message: string | null
+    message: string | null,
+    authSuccess: boolean,
+    authError: boolean
 }
 
 export interface ACTION {

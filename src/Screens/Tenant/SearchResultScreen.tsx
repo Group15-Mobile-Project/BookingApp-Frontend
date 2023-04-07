@@ -12,6 +12,7 @@ import HomeCardMain from '../../Component/HomeCardMain';
 import { HOME } from '../../Model';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { HomesStackParamList } from '../../Navigators/HomesStack';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 
 type SearchResultNavigationProp = CompositeNavigationProp<
@@ -47,6 +48,10 @@ const SearchResultScreen = () => {
     )
     const navigateToMapHome = () => {
         navigation.navigate('MapHomes')
+    }
+
+    if(isLoading) {
+        return <LoadingComponent/>
     }
   return (
     <SafeAreaView style={tw('flex-1 bg-white relative')}>

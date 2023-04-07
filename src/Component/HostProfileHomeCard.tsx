@@ -12,11 +12,6 @@ import CustomeMapMarker from '../Component/CustomeMapMarker';
 import { HOME } from '../Model';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
 
 const HostProfileHomeCard = ({home}: {home: HOME}) => {
     const windownWith = useWindowDimensions().width
@@ -28,7 +23,7 @@ const HostProfileHomeCard = ({home}: {home: HOME}) => {
       }
   return (
     <Pressable onPress={goToPostPage}  style={[tw('flex items-start justify-start rounded-lg bg-white mx-2'), {width: windownWith - 100}]}>
-        <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-lg w-full'), { height: 200, resizeMode: 'cover'}]}></Image>
+        <Image source={{uri: HOST_URL + "/api/images/image/" + home?.imgUrls[0]}} style={[tw('rounded-lg w-full'), { height: 200, resizeMode: 'cover'}]}></Image>
         <View style={tw(' flex-1 items-start justify-start my-2 px-2')}>
             {home?.rating && (
                     <View style={tw('flex-row items-center justify-center mr-2')}>

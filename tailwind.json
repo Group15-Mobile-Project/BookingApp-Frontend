@@ -64,6 +64,11 @@
 			"top": 8
 		}
 	},
+	"right-4": {
+		"style": {
+			"right": 16
+		}
+	},
 	"mx-2": {
 		"style": {
 			"marginLeft": 8,
@@ -451,6 +456,12 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(63 63 70 / var(--tw-bg-opacity))"
+		}
+	},
+	"bg-[#03b1fc]": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(3 177 252 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-2": {

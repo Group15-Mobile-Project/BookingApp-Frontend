@@ -50,7 +50,7 @@ const HomeDetailMap = ({home}: {home: HOME}) => {
                 provider={PROVIDER_GOOGLE}  
             >
             <Marker coordinate={{latitude: Number(home.latitude), longitude: Number(home.longtitude)}} >            
-                <View style={tw('bg-[#FF5A5F] p-2 rounded-full')}>
+                <View style={tw('bg-[#03b1fc] p-2 rounded-full')}>
                     <AntDesign name="home" size={24} color="white" />
                 </View>
             </Marker>

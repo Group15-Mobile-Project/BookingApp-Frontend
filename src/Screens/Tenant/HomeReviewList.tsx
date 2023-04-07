@@ -13,6 +13,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { HOMEREVIEW } from '../../Model'
 import { HomesStackParamList } from '../../Navigators/HomesStack'
+import LoadingComponent from '../../Component/LoadingComponent'
 
 const imageDefault =[
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -82,7 +83,9 @@ const HomeReviewList = () => {
         getHomeReviewByQuery().then(() => setIsLoading(false));
     }, [dispatch, query, homeId])
 
-
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
   return (
     <KeyboardAvoidingView style={tw('flex-1')}>
         <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>

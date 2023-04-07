@@ -23,6 +23,7 @@ import { getHomesByHostAction } from '../../Store/Actions/HomeAction';
 import { ListRenderItem } from 'react-native';
 import HostHomeCard from '../../Component/HostHomeCard';
 import { FlatList } from 'react-native';
+import LoadingComponent from '../../Component/LoadingComponent';
 
 export type HostHomeListingNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<HostBottomTabProps, "HostHomeListingScreen">,
@@ -65,6 +66,10 @@ const HostHomeListingScreen = () => {
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: HOME}) => (
        <HostHomeCard item={item}></HostHomeCard>
     )
+
+    if(isLoading) {
+        return <LoadingComponent/>
+    }
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white  relative')}> 
