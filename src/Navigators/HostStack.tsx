@@ -10,12 +10,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MainHomes from '../Screens/Tenant/MainHomes';
 import HomesStack from './HomesStack';
 import BookingListScreent from '../Screens/Host/BookingListScreent';
 import HostCalendar from '../Screens/Host/HostCalendar';
 import HostInboxScreen from '../Screens/Host/HostInboxScreen';
 import HostHomeListingScreen from '../Screens/Host/HostHomeListingScreen';
+import InsightsScreen from '../Screens/Host/InsightsScreen';
 
 
 
@@ -23,7 +25,8 @@ export type HostBottomTabProps = {
     BookingListScreent: undefined,
     HostCalendar: undefined,
     HostInboxScreen: undefined,
-    HostHomeListingScreen: undefined
+    HostHomeListingScreen: undefined,
+    InsightsScreen: undefined
 }
 
 const tab = createBottomTabNavigator<HostBottomTabProps>();
@@ -75,6 +78,15 @@ const HostStack = () => {
                 }} 
                 name="HostHomeListingScreen" 
                 component={HostHomeListingScreen}
+            ></tab.Screen>
+            <tab.Screen 
+                options={{
+                    tabBarIcon: ({color}) => (
+                        <Ionicons name="md-stats-chart-outline" size={28} color={color} />
+                    )
+                }} 
+                name="InsightsScreen" 
+                component={InsightsScreen}
             ></tab.Screen>
         </tab.Navigator>
   )

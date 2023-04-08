@@ -43,7 +43,7 @@ const MessageItem = ({message}: {message: CHATMESSAGE}) => {
                     <TouchableOpacity onPress={() => setIsDelete(!isDelete )} style={tw('p-2 rounded-lg bg-gray-300')}>
                         <Text style={tw('text-base text-black')}>{message?.content}</Text>
                     </TouchableOpacity>
-                    <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full ml-2 mr-2'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>  
+                    <Image source={{uri: HOST_URL + "/api/images/image/" + message?.participant?.user?.imgUrls}} style={[tw('rounded-full ml-2 mr-2'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>  
                 </View>
                 {isDelete && (
                     <View style={[tw('w-2/3 my-2 mr-10 px-4 flex flex-row items-center justify-end'), {alignSelf: 'flex-end'}]}>
@@ -54,7 +54,7 @@ const MessageItem = ({message}: {message: CHATMESSAGE}) => {
         ) : (
             <View style={tw('w-full')}>
                 <View style={[tw('w-2/3 my-2 flex flex-row items-center justify-start'), {alignSelf: 'flex-start'}]}>
-                    <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full ml-2 mr-2'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>  
+                    <Image source={{uri: HOST_URL + "/api/images/image/" + message?.participant?.user?.imgUrls}} style={[tw('rounded-full ml-2 mr-2'), {width: 40, height: 40, resizeMode: 'cover'}]}></Image>  
                     <TouchableOpacity onPress={() => setIsDelete(!isDelete )} style={tw('p-2 rounded-lg bg-gray-300')}>
                         <Text style={tw('text-base text-black')}>{message?.content}</Text>
                     </TouchableOpacity>

@@ -29,6 +29,8 @@ const currentDay = new Date().toLocaleDateString('en-CA');
 const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, setCheckin, setCheckout, homeId}: HomeDetailCalendarProp) => {
     const [isStart, setIsStart] = useState<boolean>(false);
     const [isEnd, setIsEnd] = useState<boolean>(false);
+    const [startDay, setStarDay] = useState<string | null>(null);
+    const [endDay, setEndDay] = useState<string | null>(null);
     const [isBetween, setIsBetween] = useState<boolean>(false);
     const windownHeigh = useWindowDimensions().height;
     const tw = useTailwind();
@@ -46,7 +48,9 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
         setMarkedDays({});
         dispatch(clearBookdates() as any);
         loadBookdatesByHome();
-    }, [homeId])
+        setStarDay(checkin);
+        setEndDay(checkout);
+    }, [homeId, checkin, checkout])
 
     useEffect(() => {
         bookdates.forEach((bo : BOOKDATE) => {
@@ -71,17 +75,17 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
     const addDaySelected = (day: DateData) => {
         console.log('selected day', day);
         if(!isStart || (isStart && isEnd)) {
-            if(checkin && checkout) {
-                deleteChosenDays(checkin, checkout);
+            if(startDay && endDay) {
+                deleteChosenDays(startDay, endDay);
             }
             setMarkedDays({...markedDays ,[day.dateString]: {startingDay: true, color: "#03b1fc"}})
-            setCheckin(day.dateString);
+            setStarDay(day.dateString);
             if(!isStart) {
                 setIsStart(!isStart)
             }  
             setIsEnd(false)    
         } else if(isStart && !isEnd) {
-            let checkInFormat = new Date(checkin ?? "");
+            let checkInFormat = new Date(startDay ?? "");
             let checkOutFormat = new Date(day.dateString);
             console.log("checkin: " + checkInFormat)
             console.log("checkout: " + checkOutFormat)
@@ -89,7 +93,7 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
             if(checkOutFormat.getDate() - checkInFormat.getDate() > 0) {
                 const diffDay = checkOutFormat.getDate() - checkInFormat.getDate();
                 addMiddleDays(checkInFormat, checkOutFormat, diffDay);
-                setCheckout(day.dateString);
+                setEndDay(day.dateString);
                 setIsEnd(!isEnd)
             }
         }
@@ -135,6 +139,8 @@ const HomeDetailCalendar = ({isVisble, setIsVisible, home, checkin, checkout, se
      const saveDate = () => {
         console.log("checkin: " + checkin);
         console.log("checkout: " + checkout);
+        setCheckin(startDay);
+        setCheckout(endDay)
         setIsVisible(false);
      }
     

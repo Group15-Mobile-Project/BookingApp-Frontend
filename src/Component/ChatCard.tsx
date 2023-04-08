@@ -51,7 +51,7 @@ const ChatCard = ({authUser, chat}: {authUser: USER, chat: CHAT}) => {
 
 return (
   <TouchableOpacity onPress={navigateToConversationScreen} activeOpacity={0.3} style={tw('w-full border-b border-gray-300 flex-row items-center justify-between px-6 py-2')}>
-    <Image source={{uri: HOST_URL + "/api/images/image/" + imageDefault[0]}} style={[tw('rounded-full mr-4'), {width: 70, height: 70, resizeMode: 'cover'}]}></Image>   
+    <Image source={{uri: HOST_URL + "/api/images/image/" + receiver?.user?.imgUrls}} style={[tw('rounded-full mr-4'), {width: 70, height: 70, resizeMode: 'cover'}]}></Image>   
     {chat?.lastMessage && (
       <View style={tw('flex-1 items-start justify-start')}>
         <Text style={tw('text-lg font-bold')}>{receiver?.user?.username}</Text>

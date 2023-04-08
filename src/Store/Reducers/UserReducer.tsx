@@ -51,6 +51,8 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
             return {
                 ...state,
                 authUser: {},
+                users: [],
+                otherUser: {},
                 userSuccess: true
             }
         case "USER_ERROR":

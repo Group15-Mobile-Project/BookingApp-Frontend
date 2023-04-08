@@ -4,6 +4,7 @@ import { ACTION, declaredStateHost,   } from "../../Model"
 
 let initialState = {
     authHost: {},
+    stas: {},
     host: {},
     hosts: [],
     hostSuccess: false,
@@ -31,6 +32,19 @@ export default (state: declaredStateHost = initialState, action: ACTION) => {
                 hosts: action.payload,
                 hostSuccess: true
             } 
+        case "get_host_stas":
+            return {
+                ...state,
+                stas: action.payload,
+                hostSuccess: true
+            } 
+        case "logout_host":
+            return {
+                ...state,
+                stas: {},
+                authHost: {},
+                hostSuccess: true
+            } 
         case "get_all_hosts_by_name":
             return {
                 ...state,
@@ -41,7 +55,7 @@ export default (state: declaredStateHost = initialState, action: ACTION) => {
             return {
                 ...state,
                 message: action.payload,
-               hostError: true
+                hostError: true
             }
         case "host_reset": 
             return {

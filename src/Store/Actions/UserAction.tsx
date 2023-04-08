@@ -131,20 +131,33 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
     }  
  }
 
-  export const LogOut = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+  export const LogOutAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
         const token : string | null = await AsyncStorage.getItem("token");
-        await fetch(HOST_URL + "/logout", {
-            method: "GET",
+        await axios.get(HOST_URL + "/logout", {
             headers: {
                 "Authorization": token ?? ""
             }
         })
-        
         await AsyncStorage.setItem("token", "")
-        
+
+
+
+        console.log("logout");
         dispatch({
             type: "LOG_OUT"
+        })
+        dispatch({
+            type: "clear_chats"
+        })
+        dispatch({
+            type: "clear_messages"
+        })
+        dispatch({
+            type: "logout_booking"
+        })
+        dispatch({
+            type: "logout_host"
         })
      } catch (err) {
         dispatch({

@@ -201,6 +201,7 @@ export interface HOST {
 export interface declaredStateHost {
     authHost: HOST | {},
     host: HOST | {},
+    stas: HostStas |{},
     hosts: HOST[] | [],
     hostSuccess: boolean,
     hostError: boolean,
@@ -403,4 +404,13 @@ interface declaredStateChatMessage {
     chatMessageSuccess: boolean,
     chatMessageError: boolean,
     message: string | null
+}
+
+interface HostStas {
+    host: HOST,
+    earnings: number,
+    bookings: number,
+    rating?: number,
+    homes: number,
+    reviews: number
 }

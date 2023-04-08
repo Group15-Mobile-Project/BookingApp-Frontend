@@ -98,7 +98,14 @@ const HomeCardMain = ({item}: {item: HOME}) => {
         <View style={tw(' flex-1 items-start justify-start ml-2')}>
           <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.title}</Text>
           <Text style={tw('text-lg text-zinc-500 mb-2')}>{item.address}, {item.zipcode} {item.city.name}, {item.country.name}</Text>
-          <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>£{item.price} night</Text>
+          {item?.discount ? (
+            <>
+              <Text style={[tw('text-lg font-bold text-gray-300 mb-2'), {textDecorationLine: 'line-through'}]}>£{item.price} night</Text>
+              <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>£{Math.round(item.price * (100 - item?.discount?.discountRate) / 100).toFixed(2)} night</Text>
+            </>
+          ): (
+            <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>£{Math.round(item?.price).toFixed(2)} night</Text>
+          )}
         </View>
         <View style={tw('flex-row items-center justify-start ml-2')}>
           <Entypo name="star" size={20} color="black" />

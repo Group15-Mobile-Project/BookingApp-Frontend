@@ -4,6 +4,10 @@ import { useTailwind } from 'tailwind-rn/dist'
 import { BOOKING } from '../Model';
 import { Badge, Image } from '@rneui/base';
 import { HOST_URL } from '../Store/store';
+import { HostBottomTabProps } from '../Navigators/HostStack';
+import { RootStackParamList } from '../Navigators/MainStack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 
 
 const bookingStatus = {
@@ -12,12 +16,17 @@ const bookingStatus = {
     UNACCEPTED: "UNACCEPTED"
 };
 
+type BookingNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<HostBottomTabProps, "BookingListScreent">,
+NativeStackNavigationProp<RootStackParamList>>;
+
 const HostBookingCard = ({booking, onPress, upcoming}: {booking: BOOKING, onPress?: () => void, upcoming: boolean}) => {
     
     const [duration, setDuration] = useState<number>(0);
     const [isUpcoming, setIsUpcoming] = useState<boolean>(true);
     const tw = useTailwind();
     const currentDay = new Date();
+    const navigation = useNavigation<BookingNavigationProp>();
 
     useEffect(() => {
         if(booking) {
@@ -58,7 +67,7 @@ const HostBookingCard = ({booking, onPress, upcoming}: {booking: BOOKING, onPres
                 </View>
             </TouchableOpacity>
             <View style={[tw('w-full bg-gray-300'), {height: 1}]}></View>
-            <TouchableOpacity style={tw('flex items-center justify-center w-full py-2')}>
+            <TouchableOpacity onPress={() => navigation.navigate("ConversationScreen", {receiverId: booking?.tenant?.id})} style={tw('flex items-center justify-center w-full py-2')}>
                 <Text style={tw('text-2xl font-bold text-black')}>Message</Text>
             </TouchableOpacity>
         </View>

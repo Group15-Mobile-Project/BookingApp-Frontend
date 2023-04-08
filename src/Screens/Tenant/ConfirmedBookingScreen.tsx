@@ -31,12 +31,6 @@ NativeStackNavigationProp<HomesStackParamList>>;
 
 type DetailHomeProp = RouteProp<RootStackParamList, "ConfirmedBookingScreen">;
 
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
-
 const ConfirmedBookingScreen = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -124,7 +118,7 @@ const ConfirmedBookingScreen = () => {
                 bookingId: booking?.id,
                 userId: authUser?.id
             };
-            // await dispatch(addHomeReviewAction(obj) as any);
+            await dispatch(addHomeReviewAction(obj) as any);
             console.log(obj);
             setReviewDescription(null);
             setRating(5);

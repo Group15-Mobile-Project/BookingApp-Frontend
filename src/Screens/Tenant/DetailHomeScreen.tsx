@@ -28,6 +28,7 @@ import IncreaseDecreaseNumber from '../../Component/IncreaseDecreaseNumber';
 import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { addWishlistAction, deleteWishlistAction, getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
 import LoadingComponent from '../../Component/LoadingComponent';
+import { getChatByAuthUserAndReceiverAction } from '../../Store/Actions/ChatAction';
 
 
 type MainHomeNavigationProp = CompositeNavigationProp<
@@ -193,6 +194,14 @@ const DetailHomeScreen = () => {
         }
     }
 
+    const contactHostFunction = async () => {
+        // home?.owner?.user?.username
+        if(home && home?.owner) {
+            await dispatch(getChatByAuthUserAndReceiverAction(home?.owner?.user?.id) as any);
+            navigation.navigate("ConversationScreen", {receiverId :home?.owner?.user?.id});
+        }
+    }
+
     if(isLoading) {
         return <LoadingComponent/>
     }
@@ -255,10 +264,11 @@ const DetailHomeScreen = () => {
                     </Pressable>
                 </View>
                 <View style={tw('flex-row items-center justify-start mb-2')}>
-                <Text style={tw('text-lg ml-2')}>{home?.capacity} guest -</Text>
-                <Text style={tw('text-lg ml-2')}>{home?.bedrooms} {home?.bedrooms > 1 ? "bedrooms" : "bedroom"} -</Text>
-                <Text style={tw('text-lg ml-2')}>{home?.beds} {home?.beds > 1 ? "beds" : "bed"} </Text>
+                    <Text style={tw('text-lg ml-2')}>{home?.capacity} guest -</Text>
+                    <Text style={tw('text-lg ml-2')}>{home?.bedrooms} {home?.bedrooms > 1 ? "bedrooms" : "bedroom"} -</Text>
+                    <Text style={tw('text-lg ml-2')}>{home?.beds} {home?.beds > 1 ? "beds" : "bed"} </Text>
                 </View>
+                <Button onPress={contactHostFunction} color="#03b1fc" containerStyle={tw('w-full mx-auto rounded-lg my-4')} size='lg' title='Contact Host' ></Button>
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
             <View style={tw('w-full my-2 pl-4 pr-4')}>

@@ -75,7 +75,9 @@ const DiscountForm = () => {
     }
 
     useEffect(() => {
-        if(home && home?.id == homeId) {
+        if(home && home?.id == homeId && home?.discount) {
+            console.log("discount");
+            console.log(home?.discount);
             setOpenDiscount(home?.discount?.openDate);
             setCloseDiscount(home?.discount?.closeDate);
             setRate(home?.discount?.discountRate);
@@ -86,6 +88,11 @@ const DiscountForm = () => {
         setIsloading(true)
         loadHome().then(() => setIsloading(false));
     }, [homeId, discountId])
+
+    const addRate = (text: string) => {
+        setRate(+text)
+        console.log(text);
+    }
 
     if(isLoading) {
         return <LoadingComponent/>
@@ -98,7 +105,7 @@ const DiscountForm = () => {
                 <View style={tw('items-start justify-start w-full')}>
                     <Text style={tw('text-black font-bold text-2xl mb-2')}>Discount</Text>  
                     <Text>(Max discount rate is 100%)</Text>                 
-                    <TextInput keyboardType='numeric' value={rate + ""} onChangeText={text => setRate(+text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-2')}></TextInput>
+                    <TextInput keyboardType='numeric' value={"" + rate} onChangeText={text => addRate(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-2')}></TextInput>
                 </View>
                 <View style={tw('items-start justify-start w-full')}>
                     <View style={tw('flex-row items-center mb-2')}>

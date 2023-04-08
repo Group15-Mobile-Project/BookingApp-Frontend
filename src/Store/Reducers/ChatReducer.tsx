@@ -35,6 +35,13 @@ export default (state: declaredStateChat = initialState, action: ACTION) => {
                 chats: state.chats.map((ch: CHAT) => ch.id == action.payload.id ? action.payload : ch),
                 chatSuccess: true
             }   
+        case "clear_chats":
+            return {
+                ...state,
+                chats: [],
+                chat: {},
+                chatSuccess: true
+            } 
         case "chat_error":
             return {
                 ...state,

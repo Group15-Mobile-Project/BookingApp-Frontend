@@ -52,6 +52,34 @@ export const getHostByAuthUser = () => async (dispatch: Dispatch<ACTION>, getSta
         });
     }
 }
+export const getHostStatisticsByAuthUser = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "host_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/hosts/statistic/authUser", {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_host_stas",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "host_error",
+            payload: err
+        });
+    }
+}
 export const getAllHosts = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");

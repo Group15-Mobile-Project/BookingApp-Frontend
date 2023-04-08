@@ -35,6 +35,10 @@ const HomeDetailMap = ({home}: {home: HOME}) => {
         } 
     }, [home])
 
+    if(!home) {
+        return <></>;
+    }
+
   return (
     <View style={[tw('w-full my-2'),]}>
         <Text style={[tw('ml-4 text-black text-2xl font-bold my-2 ')]}>Where you will be</Text>

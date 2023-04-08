@@ -33,6 +33,35 @@ export const getAllMessagesByChatIdAction= (chatId: number) => async (dispatch: 
         });
     }
 }
+export const getAllMessagesByAuthAndReceiverAction= (receiverId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "chatMessage_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/messages/receiver/" + receiverId, {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data;
+        console.log("get messages of chat");
+        console.log(data);
+        dispatch({
+            type:  "get_all_chatMessages_by_auth_and_receiver",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "chatMessage_error",
+            payload: err
+        });
+    }
+}
 export const addChatMessageAction = (form: MESSAGEFORM) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token: string | null = await AsyncStorage.getItem("token");

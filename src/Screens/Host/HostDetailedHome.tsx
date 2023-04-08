@@ -29,18 +29,13 @@ import HomeDetailReviewCard from '../../Component/HomeDetailReviewCard';
 import HomeCardDots from '../../Component/HomeCardDots';
 import HostHomeDetailedCalendar from '../../Component/HostHomeDetailedCalendar';
 import LoadingComponent from '../../Component/LoadingComponent';
+import HomeDetailMap from '../../Component/HomeDetailMap';
 
 export type HostDetailedHomeNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "HostDetailedHome">,
 NativeStackNavigationProp<HostBottomTabProps>>;
 
 type HostDetailHomeProp = RouteProp<RootStackParamList, "HostDetailedHome">;
-
-const imageDefault =[
-    "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
-    "Cabin-in-the-city-Best-Airbnbs-in-Ontario-819x1024.jpeg_89abc5d3-cd57-4fae-92ed-96bb77daf640",
-    "dormir-dans-une-ferme-en-suède-best-airbnb-in-south-sweden-main.jpg_c83de24f-f4d0-4367-96ef-96d261a99e94"
-];
 
 const HostDetailedHome = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -173,7 +168,7 @@ const HostDetailedHome = () => {
         <>
             <View style={tw('w-full items-center justify-center mb-2')}>
                 <FlatList
-                    data={ imageDefault}
+                    data={home?.imgUrls}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     snapToAlignment='center'
@@ -187,7 +182,7 @@ const HostDetailedHome = () => {
                     renderItem={handleRenderItem}
                     >
                 </FlatList>
-                <HomeCardDots arrayLength={imageDefault.length} activeIndex={activeIndex}></HomeCardDots>
+                <HomeCardDots arrayLength={home?.imgUrls?.length} activeIndex={activeIndex}></HomeCardDots>
             </View>
             <View style={tw('absolute top-2 w-full items-center justify-between px-4')}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={[tw('absolute top-2 left-8 bg-white p-2 rounded-full'), {zIndex: 10}]}>
@@ -223,7 +218,7 @@ const HostDetailedHome = () => {
                 </View>
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
-            {/* {home && <HomeDetailMap home={home}></HomeDetailMap>} */}
+            {home && <HomeDetailMap home={home}></HomeDetailMap>}
             {home?.reviewNums > 0 && home?.rating  && reviews && reviews.length > 0 && (
                 <View style={tw('w-full my-2 pl-4 pr-4')}>
                     <View style={tw('flex-row items-start justify-start w-full mb-4')}>

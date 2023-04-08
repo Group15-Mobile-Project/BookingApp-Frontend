@@ -22,6 +22,7 @@ import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { TenantBottomTabProps } from '../../Navigators/TenantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import LoadingComponent from '../../Component/LoadingComponent';
+import { LogOutAction } from '../../Store/Actions/UserAction';
 
 const imageDefault = [
     "wallpaper.jpg_a776d37b-97c9-4bd6-b4ca-1f342de06161",
@@ -52,9 +53,14 @@ const ProfileScreen = () => {
       navigation.navigate('ChangePassword');
     }
 
+    const logout = async () => {
+      await dispatch(LogOutAction() as any);
+      navigation.navigate("Login");
+  }
+
     if(isLoading) {
       return <LoadingComponent/>
-  }
+    }
 
   return (
     <SafeAreaView style={tw('flex-1 bg-white')}>
@@ -98,6 +104,15 @@ const ProfileScreen = () => {
                 <AntDesign name="right" size={28} color="black" /> 
             </TouchableOpacity>
         </View>
+      </View>
+      <View style={tw('w-full px-4  my-2')}>
+        <TouchableOpacity onPress={logout} style={tw('flex-row items-center justify-start pb-4 border-b-2 border-gray-200')}>
+            <Entypo name="log-out" size={32} color="black" /> 
+            <Text style={tw('text-lg text-black ml-2 flex-1')}>Log Out</Text>
+            <View style={tw('')}>
+                <AntDesign name="right" size={28} color="black" /> 
+            </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

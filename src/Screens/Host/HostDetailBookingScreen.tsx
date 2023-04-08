@@ -137,7 +137,7 @@ const HostDetailBookingScreen = () => {
                 bookingId: booking?.id,
                 tenantId: booking?.tenant?.id
             };
-            // await dispatch(addTenantReview(obj) as any);
+            await dispatch(addTenantReview(obj) as any);
             console.log(obj);
             setTenantReviewDescription(null);
             setTenantRating(5);
@@ -188,7 +188,7 @@ const HostDetailBookingScreen = () => {
         </View>
         <View style={[tw('w-full bg-gray-300'), {height: 8}]}></View>
         <View style={tw('w-full py-2 px-4')}>
-            <Text style={tw('text-2xl font-bold text-black my-2')}>Your Booking</Text>
+            <Text style={tw('text-2xl font-bold text-black my-2')}>The Booking</Text>
             <Text style={tw('text-base font-bold text-gray-400 my-2')}>{booking?.bookingCode}</Text>
             <View style={tw('flex-row items-center justify-between px-2 my-2')}>
                 <View>

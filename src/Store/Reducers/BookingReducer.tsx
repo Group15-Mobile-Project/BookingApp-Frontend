@@ -112,6 +112,14 @@ export default (state: declaredStateBooking = initialState, action: ACTION) => {
                 booking: {},
                 bookingSuccess: true
             }
+        case "logout_booking":
+            return {
+                ...state,
+                booking: {},
+                oldbookings: [],
+                upcomingbookings: [],
+                bookingSuccess: true
+            }
         case "booking_error":
             return {
                 ...state,

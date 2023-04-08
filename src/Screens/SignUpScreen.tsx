@@ -1,4 +1,4 @@
-import { Alert,  Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert,  Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTailwind } from 'tailwind-rn/dist'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,6 +14,7 @@ import { RootStackParamList } from '../Navigators/MainStack';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import { ImageData } from '../Model';
+import { Image } from '@rneui/base';
 
 const SignUpScreen = () => {
     const [username, setUsername] = useState<string>("");
@@ -91,22 +92,27 @@ const SignUpScreen = () => {
   return (
    <KeyboardAvoidingView style={tw('flex-1')}>
         <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>
-            <SafeAreaView style={tw('flex-1 items-center justify-center px-4')}>    
+            <ScrollView style={tw('flex-1 mt-10 px-4')}>    
                 <TextInput value={username} placeholder="username" onChangeText={(text: string) => setUsername(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')}></TextInput>
                 <TextInput value={email} placeholder="email" onChangeText={(text: string) => setEmail(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')}></TextInput>
                 <TextInput secureTextEntry={true} value={password}  placeholder="Password" onChangeText={(text: string) => setPassword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
                 <TextInput secureTextEntry={true} value={confirmPassword}  placeholder="confirm your Password" onChangeText={(text: string) => setConfirmPassword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
-                <TouchableOpacity  style={[tw('w-full rounded-lg mb-6 py-2 font-bold px-6'), {backgroundColor: "#03b1fc"}]}  onPress={uploadImageFunction}>
-                    <Text style={tw('text-base text-white')}>Your Avartar</Text>
+                <TouchableOpacity  style={[tw('w-full rounded-lg my-2 py-2 font-bold px-6'), {backgroundColor: "#03b1fc"}]}  onPress={uploadImageFunction}>
+                    <Text style={tw('text-base text-white')}>Add Avartar</Text>
                 </TouchableOpacity>
+                {imageurl && (
+                    <View style={tw('my-2 w-full items-center justify-center')}>
+                        <Image source={{uri: HOST_URL + "/api/images/image/" + imageurl}} style={[tw('rounded-full'), {width: 120, height: 120, resizeMode: 'cover'}]}></Image>
+                    </View>
+                )}
                 <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Sign Up' onPress={submitFunction}></Button>
-                <View style={tw('flex flex-row')}>
+                <View style={tw('flex flex-row mx-auto')}>
                     <Text style={tw('text-base text-gray-400 mr-4')}> have an account?</Text>
                     <TouchableOpacity activeOpacity={0.2} onPress={navigateToLogin}>
                         <Text style={tw('text-base text-zinc-700 mr-4')}>Login</Text>
                     </TouchableOpacity>
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         </TouchableWithoutFeedback>
    </KeyboardAvoidingView>
   )

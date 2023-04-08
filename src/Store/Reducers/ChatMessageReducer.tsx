@@ -16,6 +16,12 @@ export default (state: declaredStateChatMessage = initialState, action: ACTION) 
                 chatMessages: action.payload,
                 chatMessageSuccess: true
             } 
+        case "get_all_chatMessages_by_auth_and_receiver":
+            return {
+                ...state,
+                chatMessages: action.payload,
+                chatMessageSuccess: true
+            } 
         case "add_chatMessage_to_chat":
             return {
                 ...state,
