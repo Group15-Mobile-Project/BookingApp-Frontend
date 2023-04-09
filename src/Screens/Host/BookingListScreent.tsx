@@ -18,9 +18,9 @@ import { getHostByAuthUser } from '../../Store/Actions/HostAction';
 import LoadingComponent from '../../Component/LoadingComponent';
 
 
-type RoleScreenNavigationProp = CompositeNavigationProp<
-NativeStackNavigationProp<RootStackParamList, "RoleScreen">,
-BottomTabNavigationProp<HostBottomTabProps>>;
+type BookingListScreentNavigationProp = CompositeNavigationProp<
+BottomTabNavigationProp<HostBottomTabProps, "BookingListScreent">,
+NativeStackNavigationProp<RootStackParamList>>;
 const Tab = createMaterialTopTabNavigator();
 
 const BookingListScreent = () => {
@@ -28,7 +28,7 @@ const BookingListScreent = () => {
     const tw = useTailwind()
     const {users, authUser, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
-    const navigation = useNavigation<RoleScreenNavigationProp>()
+    const navigation = useNavigation<BookingListScreentNavigationProp>()
 
     useLayoutEffect(() => {
         navigation.setOptions({

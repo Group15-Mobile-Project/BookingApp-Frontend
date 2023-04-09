@@ -34,7 +34,7 @@ const LoginScreen = () => {
         }
 
         if(authUser && authUser?.roles?.includes("ADMIN")) {
-            // navigation.navigate("AdminHome")
+            navigation.navigate("AdminStack");
         }
         
     }, [authSuccess, authError, dispatch, authUser])

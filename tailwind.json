@@ -93,6 +93,12 @@
 			"marginBottom": 16
 		}
 	},
+	"my-6": {
+		"style": {
+			"marginTop": 24,
+			"marginBottom": 24
+		}
+	},
 	"mb-2": {
 		"style": {
 			"marginBottom": 8
@@ -131,6 +137,11 @@
 	"ml-6": {
 		"style": {
 			"marginLeft": 24
+		}
+	},
+	"ml-8": {
+		"style": {
+			"marginLeft": 32
 		}
 	},
 	"mr-10": {
@@ -231,6 +242,11 @@
 	"w-1/2": {
 		"style": {
 			"width": "50%"
+		}
+	},
+	"w-1/3": {
+		"style": {
+			"width": "33.333333%"
 		}
 	},
 	"w-10": {
@@ -586,6 +602,12 @@
 		"style": {
 			"fontSize": 18,
 			"lineHeight": 28
+		}
+	},
+	"text-sm": {
+		"style": {
+			"fontSize": 14,
+			"lineHeight": 20
 		}
 	},
 	"font-bold": {

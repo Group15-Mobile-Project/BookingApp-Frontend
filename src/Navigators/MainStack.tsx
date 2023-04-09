@@ -26,6 +26,12 @@ import CreateHomeScreen from '../Screens/Host/CreateHomeScreen';
 import DiscountForm from '../Screens/Host/DiscountForm';
 import UpdateBookingScreen from '../Screens/Tenant/UpdateBookingScreen';
 import UpdateProfileScreen from '../Screens/Tenant/UpdateProfileScreen';
+import AdminStack from './AdminStack';
+import { useSelector } from 'react-redux';
+import { RootState } from '../Store/store';
+import AdminDetailedHome from '../Screens/Admin/AdminDetailedHome';
+import AdminHomeSearchScreen from '../Screens/Admin/AdminHomeSearchScreen';
+import UserProfileScreenAdmin from '../Screens/Admin/UserProfileScreenAdmin';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -78,11 +84,25 @@ export type RootStackParamList = {
       bookingId: number,
       homeId: number
     },
-    UpdateProfileScreen: undefined
+    UpdateProfileScreen: undefined,
+    AdminStack: undefined,
+    AdminDetailedHome: {
+      homeId: number
+    },
+    AdminHomeSearchScreen: {
+      categoryId?: number,
+      city?: string
+    },
+    UserProfileScreenAdmin: {
+      userId: number
+    }
    };
 const stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
+
+  const {users, authUser, userSuccess, userError, message} = useSelector((state: RootState) => state.USERS)
+
   return (
     <stack.Navigator >
         <stack.Screen component={LoginScreen} options={{headerShown: false}} name="Login"></stack.Screen>
@@ -108,6 +128,14 @@ const MainStack = () => {
         <stack.Screen component={DiscountForm} options={{title: "Discount Form"}} name="DiscountForm"></stack.Screen>
         <stack.Screen component={UpdateBookingScreen} options={{title: "Update booking"}} name="UpdateBookingScreen"></stack.Screen>
         <stack.Screen component={UpdateProfileScreen} options={{title: "Update profile"}} name="UpdateProfileScreen"></stack.Screen>
+       {authUser && authUser?.roles?.includes("ADMIN") && (
+        <>
+         <stack.Screen component={AdminStack} options={{headerShown: false}} name="AdminStack"></stack.Screen>
+         <stack.Screen component={AdminDetailedHome} options={{headerShown: false}} name="AdminDetailedHome"></stack.Screen>
+         <stack.Screen component={AdminHomeSearchScreen} options={{headerShown: false}} name="AdminHomeSearchScreen"></stack.Screen>
+         <stack.Screen component={UserProfileScreenAdmin} options={{headerShown: false}} name="UserProfileScreenAdmin"></stack.Screen>
+        </>
+       )}
     </stack.Navigator>
   )
 }

@@ -51,8 +51,9 @@ const HomeSearchScreen = () => {
     }, [query])
 
     useEffect(() => {
-        setIsLoading(true);
-        loadCitiesByQuery().then(() => setIsLoading(false));
+        // setIsLoading(true);
+        // loadCitiesByQuery().then(() => setIsLoading(false));
+        loadCitiesByQuery();
     }, [query, dispatch])
 
     const chooseCityFunction = (item: CITY) => {
@@ -141,14 +142,18 @@ const HomeSearchScreen = () => {
                 </View>
             )}
         </TouchableOpacity>
-        {showCalendar && (
-            <SearchCalendar  checkIn={checkIn} checkOut={checkOut} setCheckIn={setCheckIn} setCheckOut={setCheckOut} showCalendar={showCalendar} setShowCalendar={setShowCalendar}></SearchCalendar>
-        )}
+        <View style={{zIndex: 15}}>
+            {showCalendar && (
+                <SearchCalendar  checkIn={checkIn} checkOut={checkOut} setCheckIn={setCheckIn} setCheckOut={setCheckOut} showCalendar={showCalendar} setShowCalendar={setShowCalendar}></SearchCalendar>
+            )}
+        </View>
       </View >
-      <View style={[tw('flex-row absolute bottom-0 items-center justify-between w-full px-4 bg-white py-2'), {zIndex: 10}]}>
-        <Button onPress={clearAllFunction}  title="clear All" buttonStyle={tw('w-20 h-12 rounded-lg bg-gray-400')} titleStyle={tw('text-white font-bold')}></Button>
-        <Button onPress={searchSubmit}  title="Search" buttonStyle={tw('w-20 h-12 rounded-lg bg-[#03b1fc]')} titleStyle={tw('text-white font-bold')}></Button>
-      </View>
+      {!showCalendar && (
+        <View style={[tw('flex-row absolute bottom-0 items-center justify-between w-full px-4 bg-white py-2'), {zIndex: 5}]}>
+            <Button onPress={clearAllFunction}  title="clear All" buttonStyle={tw('w-20 h-12 rounded-lg bg-gray-400')} titleStyle={tw('text-white font-bold')}></Button>
+            <Button onPress={searchSubmit}  title="Search" buttonStyle={tw('w-20 h-12 rounded-lg bg-[#03b1fc]')} titleStyle={tw('text-white font-bold')}></Button>
+        </View>
+      )}
     </SafeAreaView>
     </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

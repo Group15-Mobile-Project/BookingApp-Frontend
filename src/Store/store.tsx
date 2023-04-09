@@ -19,7 +19,7 @@ import TenantReviewReducer from './Reducers/TenantReviewReducer';
 import UserReducer from './Reducers/UserReducer';
 import WishlistReducer from './Reducers/WishlistReducer';
 
-export const HOST_URL= "http://192.168.0.104:8080";
+export const HOST_URL= "http://192.168.0.103:8080";
 // export const HOST_URL= "http://10.0.2.2:8080";
 const initialState= {};
 
