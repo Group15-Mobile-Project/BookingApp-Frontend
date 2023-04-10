@@ -23,9 +23,11 @@ import LoadingComponent from '../../Component/LoadingComponent';
 import { AdminBottomTabProps } from '../../Navigators/AdminStack';
 import { getCitiesAction } from '../../Store/Actions/CityAction';
 import { getCountriesAction } from '../../Store/Actions/CountryAction';
-import { CATEGORY, CITY, COUNTRY } from '../../Model';
-import { getCategoriesAction } from '../../Store/Actions/CategoryAction';
+import { CATEGORY, CITY, COUNTRY, CategoryPost, ImageData } from '../../Model';
+import { getCategoriesAction, saveCategoryAction } from '../../Store/Actions/CategoryAction';
 import HomeCategoryCard from '../../Component/HomeCategoryCard';
+import { launchImageLibrary } from 'react-native-image-picker';
+import axios from 'axios';
 
 type CategoryScreenNavigationProp = CompositeNavigationProp<
 BottomTabNavigationProp<AdminBottomTabProps, "CategoryScreen">,
@@ -34,6 +36,9 @@ NativeStackNavigationProp<RootStackParamList>>;
 const CategoryScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [categoryName, setCategoryName] = useState<string>("");
+  const [imageurl, setImageurl] = useState<string | null>(null);
   const tw = useTailwind()
   const dispatch = useDispatch()
   const navigation = useNavigation<CategoryScreenNavigationProp>()
@@ -58,6 +63,53 @@ const CategoryScreen = () => {
     </TouchableOpacity>
   )
 
+  const uploadImageFunction = async () => {
+    const images: any = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 1
+    })
+    console.log(images)
+    const formdata = new FormData();
+    if(!images.canceled) {
+            console.log(images.assets[0])
+            const split = images.assets[0].uri.split('/')
+            const fileNameDot = split[split.length - 1].split(".")
+            const fileName = fileNameDot[0]
+            const imageFile = {
+                uri: images.assets[0].uri,
+                type: images.assets[0].type,
+                name: fileName
+            }
+            console.log(imageFile)
+           formdata.append("file",  JSON.parse(JSON.stringify(imageFile)))         
+    }
+    console.log(formdata)
+    const res = await axios.post(HOST_URL + "/api/images/singleImage", formdata, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    const data: ImageData = await res.data;
+    console.log(res.data)
+    setImageurl(data.image)
+}
+
+  const submitFunction = async () => {
+    if(categoryName && categoryName.length > 0 && imageurl) {
+      const obj : CategoryPost = {
+        name: categoryName,
+        imageUrl: imageurl
+      };
+      console.log(obj);
+      await  dispatch(saveCategoryAction(obj) as any);
+      setImageurl(null);
+      setCategoryName("");
+      setIsAdding(false);
+    } else {
+        Alert.alert("please fill all required information")
+    }
+  }
+
   if(isLoading) {
     return <LoadingComponent/>
   }
@@ -66,10 +118,28 @@ const CategoryScreen = () => {
     <SafeAreaView style={tw('flex-1 items-start justify-center bg-white')}>
         <View style={[tw('w-full my-6 flex-row justify-between items-start')]}>
             <Text style={[tw('text-black text-2xl font-bold ml-4')]}>Home Category</Text>
-            <TouchableOpacity  style={tw('mr-4 items-center justify-center')} >
-                <Entypo name="add-to-list" size={28} color="#03b1fc"></Entypo>        
+            <TouchableOpacity onPress={() => setIsAdding(!isAdding)} style={tw('mr-4 items-center justify-center')} >    
+              {isAdding ? (
+                <AntDesign name="minuscircleo" size={28} color="#03b1fc"></AntDesign> 
+              ): (
+                <Entypo name="add-to-list" size={28} color="#03b1fc"></Entypo>  
+              )}         
             </TouchableOpacity> 
         </View>
+        {isAdding && (
+            <View style={tw('my-2 w-full px-8')}>
+                 <TextInput value={categoryName}  placeholder="Category name" onChangeText={(text: string) => setCategoryName(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
+                 <TouchableOpacity  style={[tw('w-full rounded-lg my-2 py-2 font-bold px-6'), {backgroundColor: "#03b1fc"}]}  onPress={uploadImageFunction}>
+                    <Text style={tw('text-base text-white')}>Add Image</Text>
+                </TouchableOpacity>
+                {imageurl && (
+                    <View style={tw('my-2 w-full items-center justify-center')}>
+                        <Image source={{uri: HOST_URL + "/api/images/image/" + imageurl}} style={[tw('rounded-full'), {width: 120, height: 120, resizeMode: 'cover'}]}></Image>
+                    </View>
+                )}
+                <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Add Category' onPress={submitFunction}></Button>
+            </View>
+        )}
         <FlatList
             refreshing={isRefreshing}
             onRefresh={handleGetCategories}

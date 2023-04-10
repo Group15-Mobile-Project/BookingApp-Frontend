@@ -141,18 +141,22 @@ const UserProfileScreenAdmin = () => {
         <View style={tw('w-full my-2 px-4')}>
             <View style={tw('w-full flex-row mb-2 items-center justify-between ')}>
                 <View style={tw('items-start justify-start w-full flex-1')}> 
-                    <Text style={tw('text-2xl font-bold text-black')}>Bookings</Text>
+                    <Text style={tw('text-2xl font-bold text-black')}>Bookings of User</Text>
                 </View>
-                <TouchableOpacity  style={tw('')}>
+                <TouchableOpacity onPress={() => navigation.navigate("AdminBookingList", {userId: otherUser?.id})}  style={tw('')}>
                     <AntDesign name="right" size={28} color="black" /> 
                 </TouchableOpacity>
             </View>
             <View style={[tw('w-full bg-gray-300 mb-2 mt-2'), {height: 2}]}></View>
         </View>
-            {otherUser?.hasHost && (    
-                <Text style={tw('text-2xl font-bold text-black mb-4 ml-4')}>Property's listing</Text>          
-            )}
-            {homes && otherUser && otherUser?.hasHost && (
+        {otherUser?.hasHost && (    
+            <View style={tw('w-full my-2 px-4')}>
+                <Text style={tw('text-2xl font-bold text-black mb-4')}>Property's listing</Text>
+                <View style={[tw('w-full bg-gray-300 mb-4 mt-4'), {height: 2}]}></View> 
+            </View>               
+        )}
+        {homes && otherUser && otherUser?.hasHost && (
+            <View>
                 <FlatList
                     data={homes}
                     renderItem={handleRenderItem}
@@ -162,9 +166,12 @@ const UserProfileScreenAdmin = () => {
                     snapToAlignment={"center"}
                     decelerationRate={"fast"}
                 />
-            )}
+                <View style={tw('w-full my-2 px-4')}>
+                    <View style={[tw('w-full bg-gray-300 mb-4 mt-4'), {height: 2}]}></View> 
+                </View>             
+            </View>
+        )}
         <View style={tw('w-full px-4 my-2')}>
-            <View style={[tw('w-full bg-gray-300 mb-4 mt-4'), {height: 2}]}></View> 
             <Text style={tw('text-2xl font-bold text-black')}>{otherUser?.reviewNums} {otherUser?.reviewNums > 1 ? "Reviews": "Review"}</Text>
         </View>
             <View style={tw('flex-row w-full my-4')}>

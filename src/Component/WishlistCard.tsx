@@ -14,6 +14,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addWishlistAction, deleteWishlistAction } from '../Store/Actions/WishlistAction';
+import PagerView from 'react-native-pager-view';
 
 type WishlistNavigationProp = CompositeNavigationProp<
 BottomTabNavigationProp<TenantBottomTabProps, "WishListScreen">,
@@ -56,44 +57,56 @@ const WishlistCard = ({item}: {item: WISHLIST}) => {
 
   return (
     <View>
-    <Pressable onPress={navigateToHomeDetail} style={tw('relative w-full my-2 px-4 items-center justify-center')}>
-    <TouchableOpacity onPress={likeHome} style={[tw('absolute top-2 right-8'), {zIndex: 10}]}>
-      {!like ? (
-        <Entypo name="heart-outlined" size={28} color="white" />
-      ): (
-        <Entypo name="heart" size={28} color="red" />
-      )}
-    </TouchableOpacity>
-    <FlatList
-      data={item?.homeResponse?.imgUrls}
-      horizontal={true}
-      pagingEnabled={true}
-      showsHorizontalScrollIndicator={false}
-      snapToAlignment='center'
-      decelerationRate='fast'
-      snapToInterval={windownWith}
-      viewabilityConfig={{
-        viewAreaCoveragePercentThreshold: 50,
-      }}
-      onViewableItemsChanged={onViewableItemsChanged.current}
-      keyExtractor={(item: string) => item}
-      renderItem={item => handleRenderItem(item)}
-    //   style={{width: useWindowDimensions().width, height:'100%'}}
-      >
-    </FlatList>
-    <HomeCardDots arrayLength={item?.homeResponse?.imgUrls.length} activeIndex={activeIndex}></HomeCardDots>
-    <View style={tw('w-full flex-row items-start justify-between mt-2')}>
-      <View style={tw(' flex-1 items-start justify-start ml-2')}>
-        <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.homeResponse.title}</Text>
-        <Text style={tw('text-lg text-zinc-500 mb-2')}>{item.homeResponse.address}, {item.homeResponse.zipcode} {item.homeResponse.city.name}, {item.homeResponse.country.name}</Text>
+      <View  style={tw('relative w-full my-2 px-4 items-center justify-center')}>
+        <TouchableOpacity onPress={likeHome} style={[tw('absolute top-2 right-8'), {zIndex: 10}]}>
+          {!like ? (
+            <Entypo name="heart-outlined" size={28} color="white" />
+          ): (
+            <Entypo name="heart" size={28} color="red" />
+          )}
+        </TouchableOpacity>
+        {/* <FlatList
+          data={item?.homeResponse?.imgUrls}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          snapToAlignment='center'
+          decelerationRate='fast'
+          snapToInterval={windownWith}
+          viewabilityConfig={{
+            viewAreaCoveragePercentThreshold: 50,
+          }}
+          onViewableItemsChanged={onViewableItemsChanged.current}
+          keyExtractor={(item: string) => item}
+          renderItem={item => handleRenderItem(item)}
+          //   style={{width: useWindowDimensions().width, height:'100%'}}
+          >
+        </FlatList> */}
+        <PagerView 
+            style={[tw(' my-2'), { width: windownWith, height: 320}]} 
+            initialPage={0}
+            onPageSelected={(e) => {
+              console.log(e.nativeEvent);
+              setActiveIndex(e.nativeEvent.position);
+            }}
+          >
+            {item?.homeResponse?.imgUrls?.map((item: string, index: number ) => (
+                <Image key={index} source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>  
+            ))}
+        </PagerView>
+        <HomeCardDots arrayLength={item?.homeResponse?.imgUrls.length} activeIndex={activeIndex}></HomeCardDots>
+        <Pressable onPress={navigateToHomeDetail} style={tw('w-full flex-row items-start justify-between mt-2')}>
+          <View style={tw(' flex-1 items-start justify-start ml-2')}>
+            <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.homeResponse.title}</Text>
+            <Text style={tw('text-lg text-zinc-500 mb-2')}>{item.homeResponse.address}, {item.homeResponse.zipcode} {item.homeResponse.city.name}, {item.homeResponse.country.name}</Text>
+          </View>
+          <View style={tw('flex-row items-center justify-start ml-2')}>
+            <Entypo name="star" size={20} color="black" />
+            <Text style={tw(' text-lg ml-2 text-black')}>4.83</Text>
+            {/* {item.rating && <Text>{item.rating}</Text>} */}
+          </View>
+        </Pressable>
       </View>
-      <View style={tw('flex-row items-center justify-start ml-2')}>
-        <Entypo name="star" size={20} color="black" />
-        <Text style={tw(' text-lg ml-2 text-black')}>4.83</Text>
-        {/* {item.rating && <Text>{item.rating}</Text>} */}
-      </View>
-    </View>
-    </Pressable>
   </View>
   )
 }

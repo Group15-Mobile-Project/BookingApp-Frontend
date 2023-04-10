@@ -65,7 +65,7 @@ export const saveCountryAction = (name: string) => async (dispatch: Dispatch<ACT
                 payload: "token not found"
             });
         }
-        const res = await axios.post(HOST_URL + "/api/countries/country/name/" + name,{
+        const res = await axios.post(HOST_URL + "/api/countries/country/name/" + name, {},{
             headers: {
                 Authorization: token 
             }

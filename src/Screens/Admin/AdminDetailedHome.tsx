@@ -292,6 +292,17 @@ const AdminDetailedHome = () => {
                 )}
                 <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
             </View>
+            <View style={tw('w-full mb-2 px-4')}>
+                <View style={tw('w-full flex-row mb-2 items-center justify-between ')}>
+                    <View style={tw('items-start justify-start w-full flex-1')}> 
+                        <Text style={tw('text-2xl font-bold text-black')}>Bookings of Home</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate("AdminBookingList", {homeId: home?.id})}  style={tw('')}>
+                        <AntDesign name="right" size={28} color="black" /> 
+                    </TouchableOpacity>
+                </View>
+                <View style={[tw('w-full my-4 bg-gray-400'), {height: 1}]}></View>
+            </View>
             <View style={tw('w-full my-2 px-4')}>   
                 <Text style={tw('text-2xl font-bold text-black')}>House Rules</Text>
                 <Text style={tw('text-lg mt-4')}> check in after 12:00</Text>

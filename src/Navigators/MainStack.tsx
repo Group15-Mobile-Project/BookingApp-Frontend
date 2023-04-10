@@ -32,6 +32,10 @@ import { RootState } from '../Store/store';
 import AdminDetailedHome from '../Screens/Admin/AdminDetailedHome';
 import AdminHomeSearchScreen from '../Screens/Admin/AdminHomeSearchScreen';
 import UserProfileScreenAdmin from '../Screens/Admin/UserProfileScreenAdmin';
+import AdminBookingList from '../Screens/Admin/AdminBookingList';
+import AdminOldBookingScreen from '../Screens/Admin/AdminOldBookingScreen';
+import AdminUpcomingBookingScreen from '../Screens/Admin/AdminUpcomingBookingScreen';
+import DetailBookingScreenAdmin from '../Screens/Admin/DetailBookingScreenAdmin';
 
 export type RootStackParamList = {
     Login: undefined,
@@ -95,8 +99,15 @@ export type RootStackParamList = {
     },
     UserProfileScreenAdmin: {
       userId: number
-    }
-   };
+    },
+    AdminBookingList: {
+      homeId?: number,
+      userId?: number
+    },
+    DetailBookingScreenAdmin: {
+      bookingId: number
+    },
+};
 const stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
@@ -128,14 +139,16 @@ const MainStack = () => {
         <stack.Screen component={DiscountForm} options={{title: "Discount Form"}} name="DiscountForm"></stack.Screen>
         <stack.Screen component={UpdateBookingScreen} options={{title: "Update booking"}} name="UpdateBookingScreen"></stack.Screen>
         <stack.Screen component={UpdateProfileScreen} options={{title: "Update profile"}} name="UpdateProfileScreen"></stack.Screen>
-       {authUser && authUser?.roles?.includes("ADMIN") && (
-        <>
-         <stack.Screen component={AdminStack} options={{headerShown: false}} name="AdminStack"></stack.Screen>
-         <stack.Screen component={AdminDetailedHome} options={{headerShown: false}} name="AdminDetailedHome"></stack.Screen>
-         <stack.Screen component={AdminHomeSearchScreen} options={{headerShown: false}} name="AdminHomeSearchScreen"></stack.Screen>
-         <stack.Screen component={UserProfileScreenAdmin} options={{headerShown: false}} name="UserProfileScreenAdmin"></stack.Screen>
-        </>
-       )}
+        {authUser && authUser?.roles?.includes("ADMIN") && (
+            <>
+              <stack.Screen component={AdminStack} options={{headerShown: false}} name="AdminStack"></stack.Screen>
+              <stack.Screen component={AdminDetailedHome} options={{headerShown: false}} name="AdminDetailedHome"></stack.Screen>
+              <stack.Screen component={AdminHomeSearchScreen} options={{headerShown: false}} name="AdminHomeSearchScreen"></stack.Screen>
+              <stack.Screen component={UserProfileScreenAdmin} options={{headerShown: false}} name="UserProfileScreenAdmin"></stack.Screen>
+              <stack.Screen component={AdminBookingList} options={{title: "Bookings"}} name="AdminBookingList"></stack.Screen>
+              <stack.Screen component={DetailBookingScreenAdmin} name="DetailBookingScreenAdmin"></stack.Screen>
+            </>
+        )}
     </stack.Navigator>
   )
 }

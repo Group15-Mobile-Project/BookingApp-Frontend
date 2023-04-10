@@ -22,7 +22,7 @@ import { getHostByAuthUser } from '../../Store/Actions/HostAction';
 import LoadingComponent from '../../Component/LoadingComponent';
 import { AdminBottomTabProps } from '../../Navigators/AdminStack';
 import { getCitiesAction } from '../../Store/Actions/CityAction';
-import { getCountriesAction } from '../../Store/Actions/CountryAction';
+import { getCountriesAction, saveCountryAction } from '../../Store/Actions/CountryAction';
 import { CITY, COUNTRY } from '../../Model';
 
 type CountryScreenNavigationProp = CompositeNavigationProp<
@@ -32,6 +32,8 @@ NativeStackNavigationProp<RootStackParamList>>;
 const CountryScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isRefreshing, setIsFreshing] = useState<boolean>(false);
+    const [isAdding, setIsAdding] = useState<boolean>(false);
+    const [countryName, setCountryName] = useState<string>("");
     const tw = useTailwind()
     const dispatch = useDispatch()
     const navigation = useNavigation<CountryScreenNavigationProp>()
@@ -79,6 +81,18 @@ const CountryScreen = () => {
         </View>
     )
 
+    const submitFunction = async () => {
+        if(countryName && countryName.length > 0) {
+            await dispatch(saveCountryAction(countryName.toLowerCase()) as any);
+            console.log(countryName);
+            setCountryName("");
+            setIsAdding(false);
+            Alert.alert("adding the country successfully");
+        } else {
+            Alert.alert("please add name of the country");
+        }
+    }
+
     if(isLoading) {
         return <LoadingComponent/>
     }
@@ -87,11 +101,23 @@ const CountryScreen = () => {
     <SafeAreaView style={tw('flex-1 items-start justify-center bg-white')}>
         <View style={[tw('w-full my-6 flex-row justify-between items-start')]}>
             <Text style={[tw('text-black text-2xl font-bold ml-4')]}>Countries</Text>
-            <TouchableOpacity  style={tw('w-1/3 mr-4 items-center justify-center')} >
-                <Entypo name="add-to-list" size={28} color="#03b1fc"></Entypo>
-                <Text style={[tw('text-gray-400 text-sm mt-2'), {fontSize: 20}]}>Add country</Text>          
+            <TouchableOpacity onPress={() => setIsAdding(!isAdding)} style={tw('w-1/3 mr-4 items-center justify-center')} >
+                {isAdding ? (
+                    <AntDesign name="minuscircleo" size={28} color="#03b1fc"></AntDesign>  
+                ): (
+                    <>
+                        <Entypo name="add-to-list" size={28} color="#03b1fc"></Entypo>
+                        <Text style={[tw('text-gray-400 mt-2'), {fontSize: 16}]}>Add country</Text>  
+                    </>
+                )}        
             </TouchableOpacity> 
         </View>
+        {isAdding && (
+            <View style={tw('my-2 w-full px-8')}>
+                 <TextInput value={countryName}  placeholder="Country name" onChangeText={(text: string) => setCountryName(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
+                <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Add country' onPress={submitFunction}></Button>
+            </View>
+        )}
         <FlatList
             refreshing={isRefreshing}
             onRefresh={loadCountries}

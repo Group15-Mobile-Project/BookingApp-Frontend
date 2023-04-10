@@ -325,6 +325,11 @@
   background-color: rgb(3 177 252 / var(--tw-bg-opacity))
 }
 
+.bg-\[\#FF5A5F\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 90 95 / var(--tw-bg-opacity))
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity))
@@ -456,11 +461,6 @@
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem
 }
 
 .font-bold {

@@ -440,6 +440,12 @@
 			"backgroundColor": "rgb(3 177 252 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-[#FF5A5F]": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(255 90 95 / var(--tw-bg-opacity))"
+		}
+	},
 	"bg-black": {
 		"style": {
 			"--tw-bg-opacity": 1,
@@ -602,12 +608,6 @@
 		"style": {
 			"fontSize": 18,
 			"lineHeight": 28
-		}
-	},
-	"text-sm": {
-		"style": {
-			"fontSize": 14,
-			"lineHeight": 20
 		}
 	},
 	"font-bold": {

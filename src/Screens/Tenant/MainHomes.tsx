@@ -115,6 +115,7 @@ const MainHomes = () => {
                 keyExtractor={(item: any) => item.id}
                 renderItem={handleRenderItem}
                 showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
                 >
             </FlatList>
             <TouchableOpacity onPress={navigateToMapHome}  style={[tw('mx-2 absolute bottom-4 bg-white p-2 rounded-full'), {zIndex: 10, left: windownWith/2 - 30}]}>

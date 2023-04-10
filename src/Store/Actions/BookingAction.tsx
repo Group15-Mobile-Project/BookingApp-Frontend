@@ -327,6 +327,62 @@ export const getOldBookingByHostAction= (hostId: number) => async (dispatch: Dis
         });
     }
 }
+export const getUpcomingBookingByHomeAction= (homeId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/upcomingBookings/home/" + homeId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type: "get_upcoming_bookings_by_home",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
+export const getOldBookingByHomeAction= (homeId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token: string | null = await AsyncStorage.getItem("token");
+        if(!token) {
+            dispatch({
+                type: "booking_error",
+                payload: "token not found"
+            });
+        }
+        const res = await axios.get(HOST_URL + "/api/bookings/oldBookings/home/" + homeId,  {
+            headers: {
+                Authorization: token 
+            }
+        });
+        const data = await res.data
+        console.log(data)
+        dispatch({
+            type:  "get_old_bookings_by_home",
+            payload: data
+        })
+    } catch (err) {
+        console.log(err);
+        dispatch({
+            type: "booking_error",
+            payload: err
+        });
+    }
+}
 
 export const clearBooking= () =>(dispatch: Dispatch<ACTION>, getState: any) => {
     try {

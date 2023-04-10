@@ -12,6 +12,7 @@ import { useNavigation, CompositeNavigationProp } from '@react-navigation/native
 import { HomesStackParamList } from '../Navigators/HomesStack';
 import { useDispatch, useSelector } from 'react-redux';
 import { addWishlistAction, deleteWishlistAction } from '../Store/Actions/WishlistAction';
+import PagerView from 'react-native-pager-view';
 
 
 
@@ -70,7 +71,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
   }
 
   return (
-    <Pressable onPress={() => navigation.navigate('DetailHomeScreen', {homeId: item.id})} style={tw('relative w-full my-2 px-4 items-center justify-center')}>
+    <View  style={tw('relative w-full my-2 px-4 items-center justify-center')}>
       <TouchableOpacity onPress={likeHome} style={[tw('absolute top-2 right-8'), {zIndex: 10}]}>
         {!like ? (
           <Entypo name="heart-outlined" size={28} color="white" />
@@ -78,7 +79,7 @@ const HomeCardMain = ({item}: {item: HOME}) => {
           <Entypo name="heart" size={28} color="red" />
         )}
       </TouchableOpacity>
-      <FlatList
+      {/* <FlatList
         data={item?.imgUrls}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
@@ -92,9 +93,21 @@ const HomeCardMain = ({item}: {item: HOME}) => {
         keyExtractor={(item: string) => item}
         renderItem={handleRenderItem}
         >
-      </FlatList>
+      </FlatList> */}
+      <PagerView 
+        style={[tw(' my-2'), { width: windownWith, height: 320}]} 
+        initialPage={0}
+        onPageSelected={(e) => {
+          console.log(e.nativeEvent);
+          setActiveIndex(e.nativeEvent.position);
+        }}
+      >
+        {item?.imgUrls?.map((item: string, index: number ) => (
+            <Image key={index} source={{uri: HOST_URL + "/api/images/image/" + item}} style={[tw('rounded-lg mb-2 mr-2'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>  
+        ))}
+      </PagerView>
       <HomeCardDots arrayLength={item?.imgUrls.length} activeIndex={activeIndex}></HomeCardDots>
-      <View style={tw('w-full flex-row items-start justify-between mt-2')}>
+      <Pressable onPress={() => navigation.navigate('DetailHomeScreen', {homeId: item.id})} style={tw('w-full flex-row items-start justify-between mt-2')}>
         <View style={tw(' flex-1 items-start justify-start ml-2')}>
           <Text style={tw('text-lg font-bold text-zinc-700 mb-2')}>{item.title}</Text>
           <Text style={tw('text-lg text-zinc-500 mb-2')}>{item.address}, {item.zipcode} {item.city.name}, {item.country.name}</Text>
@@ -112,8 +125,8 @@ const HomeCardMain = ({item}: {item: HOME}) => {
           <Text style={tw(' text-lg ml-2 text-black')}>4.83</Text>
           {/* {item.rating && <Text>{item.rating}</Text>} */}
         </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   )
 }
 

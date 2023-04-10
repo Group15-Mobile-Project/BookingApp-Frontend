@@ -12,6 +12,10 @@ import { RootStackParamList } from '../Navigators/MainStack';
 import { HomesStackParamList } from '../Navigators/HomesStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TenantBottomTabProps } from '../Navigators/TenantStack';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type RoleScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "RoleScreen">,
@@ -44,9 +48,15 @@ const RoleScreen = () => {
 
   return (
     <SafeAreaView style={tw('flex-1 items-center justify-center px-4')}>
-        <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Tenant' onPress={tenantNavigation}></   Button>
-        <Button  color="#03b1fc" containerStyle={tw('w-full rounded-lg mt-6 mb-6')} size='lg' title={authUser && authUser?.roles?.includes("HOST") ? "Host" : "Become Host"} onPress={hostNavigation}></Button>
-        <Button onPress={logout} color="#03b1fc" containerStyle={tw('w-full rounded-lg mt-6')} size='lg' title="Log out" ></Button>
+        <TouchableOpacity onPress={tenantNavigation} style={[tw('w-1/3 rounded-2xl mb-6 bg-[#03b1fc] items-center justify-center text-lg font-bold text-white'), {height: 100}]}>
+            <Text style={tw(' text-lg font-bold text-white')}>Tenant</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={hostNavigation} style={[tw('w-1/3 rounded-2xl mb-6 bg-[#03b1fc] items-center justify-center text-lg font-bold text-white'), {height: 100}]}>
+            <Text style={tw(' text-lg font-bold text-white')}>Host</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={logout} style={tw('px-4 py-4 mt-4 rounded-full bg-[#FF5A5F] justify-center items-center')}>
+            <AntDesign name='logout' color="white" size={30}></AntDesign>
+        </TouchableOpacity>
     </SafeAreaView>
   )
 }

@@ -29,6 +29,7 @@ import { HomesStackParamList } from '../../Navigators/HomesStack';
 import { addWishlistAction, deleteWishlistAction, getWishlistByAuthUserAction } from '../../Store/Actions/WishlistAction';
 import LoadingComponent from '../../Component/LoadingComponent';
 import { getChatByAuthUserAndReceiverAction } from '../../Store/Actions/ChatAction';
+import PagerView from 'react-native-pager-view';
 
 
 type MainHomeNavigationProp = CompositeNavigationProp<
