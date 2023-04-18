@@ -36,10 +36,12 @@ import AdminBookingList from '../Screens/Admin/AdminBookingList';
 import AdminOldBookingScreen from '../Screens/Admin/AdminOldBookingScreen';
 import AdminUpcomingBookingScreen from '../Screens/Admin/AdminUpcomingBookingScreen';
 import DetailBookingScreenAdmin from '../Screens/Admin/DetailBookingScreenAdmin';
+import ForgotPassword from '../Screens/ForgotPassword';
 
 export type RootStackParamList = {
     Login: undefined,
     SignUp: undefined,
+    ForgotPassword: undefined,
     ChangePassword: undefined,
     RoleScreen: undefined,
     HomeSearchScreen: undefined,
@@ -117,6 +119,7 @@ const MainStack = () => {
   return (
     <stack.Navigator >
         <stack.Screen component={LoginScreen} options={{headerShown: false}} name="Login"></stack.Screen>
+        <stack.Screen component={ForgotPassword} options={{headerShown: false}} name="ForgotPassword"></stack.Screen>
         <stack.Screen component={SignUpScreen} options={{headerShown: false}} name="SignUp"></stack.Screen>
         <stack.Screen component={ChangePassword} options={{title: "back"}} name="ChangePassword"></stack.Screen>
         <stack.Screen component={RoleScreen} options={{headerShown: false}} name="RoleScreen"></stack.Screen>
