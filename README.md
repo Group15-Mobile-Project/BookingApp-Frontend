@@ -1,10 +1,10 @@
 # BookingApp-Frontend
 
-## -Description
+## Description
 
 This mobile app for booking homes gets inspired by AirBnb app.
 
-## -Technologies
+## Technologies
 
 Frontend: React-native, Typescript, and TailwindCSS.
 
@@ -20,7 +20,7 @@ Link: https://www.youtube.com/watch?v=-QfxdD94YeI
 
 Link: https://github.com/Group15-Mobile-Project/BookingApp-Backend
 
-## -Available features:
+## Available features:
 
 User can update profile or change password
 
