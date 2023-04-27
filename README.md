@@ -1,15 +1,18 @@
 # BookingApp-Frontend
 
--Description
+**-Description**
 
 This home booking mobile app gets inspired by AirBnb app.
 
--Technologies
+**-Technologies**
+
 Frontend: React-native, Typescript, and TailwindCSS.
+
 Backend: Java SpringBoot.
+
 Database: PostgreSQL
 
--Available features:
+**-Available features:**
 
 User can update profile or change password
 Send user's new password to the email if the password is forgotten
@@ -24,7 +27,10 @@ Notifications about booking
 admin can manage homes, users, bookings
 admin can add countries and home categories
 
-Video for the app demo
+**Video for the app demo**
+
 Link: https://www.youtube.com/watch?v=-QfxdD94YeI
 
-Backend repos: https://github.com/Group15-Mobile-Project/BookingApp-Backend
+**Backend** 
+
+repos: https://github.com/Group15-Mobile-Project/BookingApp-Backend
